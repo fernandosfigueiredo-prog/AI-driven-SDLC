@@ -21,8 +21,7 @@ Um modelo de ciclo de desenvolvimento de software conduzido por IA, com execuç�
 
 O projeto é um **Multi-model Agentic Software Development Harness**: uma camada de processo e controle em torno dos agentes de desenvolvimento.
 
-## 1. Fluxo de ponta a ponta
-
+## 1. Workflow 
 O ciclo é executado por incrementos: primeiro um MVP ou uma feature, depois os próximos recortes. Um bug pode começar pelo diagnóstico, sem repetir todo o discovery.
 
 | Etapa | Resultado principal | Ponto de controle |
