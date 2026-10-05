@@ -4,7 +4,26 @@ Um modelo de ciclo de desenvolvimento de software conduzido por IA, com execuç�
 
 **Da ideia ao software validado:** estruturar o problema, especificar comportamentos, analisar impactos, decompor o trabalho, coordenar agentes e preservar contexto entre Claude Code e Codex.
 
-**Estado atual: proposta de arquitetura e fluxo.** Este README define o funcionamento desejado. Ainda não há orquestrador, integrações, hooks ou automação implementados neste repositório. Os prompts abaixo ilustram o uso futuro e podem orientar uma operação manual inicial.
+**Estado atual: V0 de instruções operacionais em Markdown.** Claude Code e Codex podem seguir entradas, workflows, políticas, papéis e templates em operação manual. Ainda não há controlador automático, hooks bloqueantes, medição automática de orçamento ou detecção de quota. A integração nativa com Spec Kit também não está instalada.
+
+## Entradas operacionais do harness
+
+Comece por [docs/USAGE.md](docs/USAGE.md). A política comum fica em [AGENTS.md](AGENTS.md); [CLAUDE.md](CLAUDE.md) encaminha Claude Code à mesma fonte. Arquivos referenciados devem ser lidos pelo agente conforme a atividade.
+
+| Arquivo | Função |
+| --- | --- |
+| [START](harness/START.md) | Identificar intenção e selecionar o workflow |
+| [Bootstrap](harness/workflows/bootstrap.md) | Configurar política e mapa de artefatos do produto |
+| [Planning](harness/workflows/planning.md) | Discovery, perguntas, RF/RNF, impacto e tarefas |
+| [Execution](harness/workflows/execution.md) | Issues, dispatch, estado e execução limitada |
+| [Handoff](harness/workflows/handoff.md) | Retomar com contexto e orçamento preservados |
+| [Maintenance](harness/workflows/maintenance.md) | Bug, refactor e spike proporcionais |
+| [Budgets](harness/policies/budgets.md) | Tentativas, medição e escalada humana |
+| [Verification](harness/policies/verification.md) | Evidências, review e Definition of Done |
+| [Roles](harness/roles/README.md) | Responsabilidades e limites de cada papel |
+| [Métodos](harness/integrations/methods.md) | O que reaproveitamos de Spec Kit e TaskForge |
+| [Política do produto](templates/operations/project-policy.md) | Modelo de configuração e autorizações |
+| [Checkpoint](templates/operations/checkpoint.md) | Modelo de contexto, posse e ledger |
 
 ## O que faz e como faz
 
@@ -223,7 +242,7 @@ O humano avalia experiência e valor, não apenas correção técnica. O agente 
 
 ### Situação atual
 
-Hoje este repositório documenta o modelo. Ainda não fornece instalador, comandos próprios ou execução automática. O uso inicial é **manual, com os agentes seguindo o fluxo e os artefatos no Git**. Os prompts abaixo são instruções de uso; não são comandos implementados.
+Este repositório fornece instruções operacionais e templates. Ainda não fornece instalador, comandos próprios ou execução automática. O uso inicial é **manual, com os agentes seguindo os arquivos do harness e os artefatos no Git**. Veja [o guia operacional](docs/USAGE.md). Os prompts abaixo são instruções de uso; não são comandos implementados.
 
 ### Passo 1 — Preparar o repositório do produto
 
@@ -473,7 +492,7 @@ harness/adapters/          # Claude Code, Codex e GitHub
 
 Esta estrutura é ilustrativa. A integração com Spec Kit deve reaproveitar os caminhos e templates da versão adotada, evitando duas cópias concorrentes da mesma especificação.
 
-**V0:** templates de ideia/spec/tarefa, política comum, Issues vinculadas, mapa simples de dependências/impactos, execução sequencial, handoff manual, controle de tentativas e verificação/review antes de Done. Primeiro validar esse processo em uma feature pequena.
+**V0 entregue em instruções:** entradas comuns e por runtime, workflows, papéis, políticas e templates operacionais. Issues, execução sequencial, orçamento, handoff e review são conduzidos manualmente; ainda precisam ser validados em uma feature pequena. Os adaptadores atuais são documentos operacionais, não integrações executáveis.
 
 Depois, automatizar dispatch, reconciliação de estado, gates e transferências. Detecção automática de quota e paralelismo dependem das capacidades dos runtimes e entram somente após validar continuidade e isolamento.
 
