@@ -24,20 +24,24 @@ O projeto é um **Multi-model Agentic Software Development Harness**: uma camada
 ## 1. Workflow 
 O ciclo é executado por incrementos: primeiro um MVP ou uma feature, depois os próximos recortes. Um bug pode começar pelo diagnóstico, sem repetir todo o discovery.
 
-| Etapa | Resultado principal | Ponto de controle |
-| --- | --- | --- |
-| 0. Preparar o projeto | Instruções comuns, autonomia e verificações definidas | Humano define limites e autorizações |
-| 1. Capturar a ideia | Brief do problema, público e objetivo | Conferir entendimento |
-| 2. Explorar e delimitar | Alternativas, hipóteses e proposta de MVP | Humano escolhe a direção |
-| 3. Validar perguntas | Respostas suficientes e bloqueios identificados | Humano resolve decisões materiais |
-| 4. Especificar requisitos | RFs, RNFs e critérios de aceite | Validar o contrato do incremento |
-| 5. Planejar a solução e impactos | Arquitetura, decisões, riscos e regressões | Revisar decisões relevantes |
-| 6. Decompor e revisar o plano | Tarefas, grafo e cobertura dos requisitos | Humano aprova execução e orçamento |
-| 7. Registrar e despachar | Issues, responsável e pacote de contexto | Executar somente tarefas prontas |
-| 8. Implementar com limites | Código e evidências do worker | Uma tentativa e até uma escalada |
-| 9. Verificar e revisar | Checks e aceite demonstrados; review | Bloquear conclusão sem evidências |
-| 10. Integrar e entregar | PR integrado e incremento utilizável | Conforme autorização de merge/deploy |
-| 11. Validar e aprender | Feedback, decisões e próximo recorte | Humano avalia valor e experiência |
+| Etapa | Inputs / entradas | Outputs / saídas | Artefatos sugeridos | Papéis participantes | Condição de passagem |
+| --- | --- | --- | --- | --- | --- |
+| 0. Preparar o projeto | [Repositório, instruções existentes, ferramentas e autorizações](templates/workflow/00-preparacao.md#entrada) | [Contrato operacional e baseline](templates/workflow/00-preparacao.md#saída) | `docs/project-policy.md`; `docs/baseline.md` | Stakeholder/Responsável pelo projeto; Engenharia/Tech Lead; Orquestrador | Aprovar autonomia, orçamento e ações externas |
+| 1. Capturar a ideia | [Descrição livre e contexto do usuário](templates/workflow/01-brief.md#entrada) | [Brief do problema](templates/workflow/01-brief.md#saída) | `docs/brief.md` | Stakeholder/Patrocinador; Produto/Product-shaper | Conferir entendimento |
+| 2. Explorar e delimitar | [Brief, hipóteses e evidências](templates/workflow/02-discovery.md#entrada) | [MVP escolhido e alternativas](templates/workflow/02-discovery.md#saída) | `docs/discovery.md`; `docs/mvp.md` | Stakeholder; Produto/Product-shaper; Engenharia/Arquiteto de SW quando necessário | Humano escolhe direção e MVP |
+| 3. Validar perguntas | [Dúvidas, hipóteses e decisões existentes](templates/workflow/03-perguntas.md#entrada) | [Respostas validadas e bloqueios](templates/workflow/03-perguntas.md#saída) | `docs/questions.md`; `docs/decisions/DEC-xxx.md` | Stakeholder; Produto; Engenharia/Arquiteto de SW; especialista do domínio quando necessário | Resolver perguntas bloqueantes da parte afetada |
+| 4. Especificar requisitos | [MVP, respostas e hipóteses autorizadas](templates/workflow/04-requisitos.md#entrada) | [Spec com RFs, RNFs e aceite](templates/workflow/04-requisitos.md#saída) | `specs/BANK-001/spec.md` | Produto; Stakeholder; Engenharia/Arquiteto de SW; QA | Validar contrato do incremento |
+| 5. Planejar solução e impactos | [Spec e baseline do repositório](templates/workflow/05-solucao-impactos.md#entrada) | [Plano técnico e mapa de riscos](templates/workflow/05-solucao-impactos.md#saída) | `specs/BANK-001/plan.md`; `specs/BANK-001/impacts.md`; `docs/decisions/DEC-xxx.md` | Engenharia/Arquiteto de SW; Tech Lead; Impact-analyzer; QA | Revisar decisões e riscos relevantes |
+| 6. Decompor e revisar plano | [Spec, solução e impactos](templates/workflow/06-plano-tarefas.md#entrada) | [Tarefas, grafo e matriz de cobertura](templates/workflow/06-plano-tarefas.md#saída) | `specs/BANK-001/tasks.md`; `specs/BANK-001/traceability.md` | Engenharia/Planner; Arquiteto de SW; Produto; QA; Stakeholder | Humano aprova plano e orçamento |
+| 7. Registrar e despachar | [Plano aprovado e tarefa pronta](templates/workflow/07-dispatch.md#entrada) | [Issue e pacote de execução](templates/workflow/07-dispatch.md#saída) | `GitHub Epic/Issue`; `.task-state/BANK-T02/dispatch.md` | Orquestrador; Engenharia/Implementer | Dependências satisfeitas e posse exclusiva |
+| 8. Implementar com limites | [Issue, contexto e orçamento](templates/workflow/08-execucao.md#entrada) | [Mudanças, relatório e checkpoint](templates/workflow/08-execucao.md#saída) | `Código/commits`; `.task-state/BANK-T02/checkpoint.md` | Engenharia/Implementer; Orquestrador; especialista na escalada | Respeitar escopo e tentativas |
+| 9. Verificar e revisar | [Diff, spec, aceite e relatório](templates/workflow/09-verificacao-review.md#entrada) | [Evidências e veredito](templates/workflow/09-verificacao-review.md#saída) | `specs/BANK-001/verification.md`; `PR/review` | QA; Reviewer/Engenharia; Orquestrador | Aceite, checks e review obrigatórios |
+| 10. Integrar e entregar | [Mudança validada e autorizações](templates/workflow/10-entrega.md#entrada) | [PR integrado e incremento disponível](templates/workflow/10-entrega.md#saída) | `PR`; `docs/releases/BANK-001.md` | Engenharia; Orquestrador; responsável por release/Operações; Stakeholder quando exigido | Merge/deploy conforme política |
+| 11. Validar e aprender | [Incremento e cenários de sucesso](templates/workflow/11-validacao-produto.md#entrada) | [Feedback e próximo recorte](templates/workflow/11-validacao-produto.md#saída) | `docs/validation/BANK-001.md`; `backlog/Issues` | Stakeholder/usuário avaliador; Produto; QA; Engenharia quando necessário | Humano avalia valor e experiência |
+
+Os links de **inputs e outputs** apontam para as seções correspondentes de um template por etapa. Cada template contém campos de entrada/saída, artefatos sugeridos, participantes, condição de passagem e um exemplo curto. Os caminhos na coluna de artefatos representam instâncias sugeridas no repositório do produto; não são arquivos já preenchidos neste harness. Veja o [catálogo de templates](templates/workflow/README.md).
+
+**Papéis representam responsabilidades.** Stakeholder/Patrocinador decide objetivos e prioridades; Produto organiza necessidades e valida valor; Engenharia/Arquiteto de SW define a solução; QA verifica comportamentos; Reviewer revisa de forma separada; Orquestrador controla estado e execução. Papéis técnicos e de Produto podem ser exercidos por agentes, pessoas ou ambos conforme a política. Uma pessoa pode acumular papéis, mas a revisão deve permanecer separada da implementação. A participação na etapa não significa que todos precisam aprovar cada ação; a coluna de passagem e a política de autonomia definem os momentos de decisão humana.
 
 Perguntas podem reaparecer em qualquer etapa. Quota esgotada gera pausa e handoff dentro da tentativa vigente. Falha técnica pode gerar a única escalada disponível; seu esgotamento leva ao humano.
 
