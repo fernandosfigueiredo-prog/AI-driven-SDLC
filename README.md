@@ -21,106 +21,308 @@ Um modelo de ciclo de desenvolvimento de software conduzido por IA, com execuç�
 
 O projeto é um **Multi-model Agentic Software Development Harness**: uma camada de processo e controle em torno dos agentes de desenvolvimento.
 
-## Tenho uma ideia. Como uso esse modelo?
+## 1. Fluxo de ponta a ponta
 
-### 1. Apresentar a ideia e definir a autonomia
+O ciclo é executado por incrementos: primeiro um MVP ou uma feature, depois os próximos recortes. Um bug pode começar pelo diagnóstico, sem repetir todo o discovery.
 
-O usuário descreve o problema, o público, o resultado esperado e as restrições conhecidas. Não precisa chegar com uma especificação pronta.
-
-Exemplo:
-
-```text
-Quero um protótipo de banco com advisor em uma interface semelhante ao WhatsApp.
-Operações bancárias serão mockadas. Quero simular movimentações e testar recomendações.
-Primeiro estruture a ideia, explore opções e proponha um MVP.
-Registre hipóteses e pergunte sobre decisões que mudem produto, custo ou risco.
-```
-
-O modelo também registra a política de autonomia: quais decisões técnicas pode tomar, quais ações externas estão autorizadas e quais exigem aprovação. Uma autorização já concedida não deve ser solicitada novamente sem mudança relevante de contexto.
-
-### 2. Estruturar e explorar
-
-O papel de **product-shaper** organiza problema, usuários, jornadas, objetivos, não objetivos, restrições, hipóteses, alternativas e critérios de sucesso. Pesquisa ou spikes curtos ajudam a resolver incertezas antes de comprometer a implementação.
-
-O humano decide sobre a direção do produto e o MVP. Hipóteses não viram fatos silenciosamente; perguntas são agrupadas para evitar interrupções a cada detalhe.
-
-Saída: visão do projeto e um primeiro recorte aprovado para construir.
-
-### 3. Especificar o comportamento
-
-O agente transforma o recorte em requisitos observáveis, exemplos, casos de erro, invariantes e critérios de aceite. O Spec Kit é a base proposta para os artefatos de especificação, planejamento e tarefas.
-
-O fluxo de avaliação de ideias do Spec Kit é uma extensão opcional. Sua saída pode alimentar a especificação; não é uma etapa obrigatória de todo trabalho.
-
-Saída: uma especificação versionada. Ambiguidades materiais precisam de decisão antes de executar a parte afetada.
-
-### 4. Inspecionar o projeto, desenhar a solução e mapear impactos
-
-Antes de planejar mudanças, o agente lê o repositório: arquitetura, interfaces, modelos, padrões, testes e comandos reais de verificação. Em um projeto novo, identifica o que ainda precisa ser criado e quais decisões continuam abertas.
-
-Os papéis de **architect** e **impact-analyzer** propõem a solução, registram alternativas e identificam dependências, riscos e comportamentos existentes que precisam continuar funcionando.
-
-| Relação | Significado | Exemplo |
+| Etapa | Resultado principal | Ponto de controle |
 | --- | --- | --- |
-| `depends_on` | Uma tarefa exige a conclusão de outra | Advisor depende do contrato de eventos |
-| `impacts` | Uma mudança pode afetar um comportamento existente | Alterar eventos pode quebrar a classificação de gastos |
-| `conflicts_with` | Execuções simultâneas podem disputar arquivos ou contratos | Duas tarefas alteram o mesmo schema |
+| 0. Preparar o projeto | Instruções comuns, autonomia e verificações definidas | Humano define limites e autorizações |
+| 1. Capturar a ideia | Brief do problema, público e objetivo | Conferir entendimento |
+| 2. Explorar e delimitar | Alternativas, hipóteses e proposta de MVP | Humano escolhe a direção |
+| 3. Validar perguntas | Respostas suficientes e bloqueios identificados | Humano resolve decisões materiais |
+| 4. Especificar requisitos | RFs, RNFs e critérios de aceite | Validar o contrato do incremento |
+| 5. Planejar a solução e impactos | Arquitetura, decisões, riscos e regressões | Revisar decisões relevantes |
+| 6. Decompor e revisar o plano | Tarefas, grafo e cobertura dos requisitos | Humano aprova execução e orçamento |
+| 7. Registrar e despachar | Issues, responsável e pacote de contexto | Executar somente tarefas prontas |
+| 8. Implementar com limites | Código e evidências do worker | Uma tentativa e até uma escalada |
+| 9. Verificar e revisar | Checks e aceite demonstrados; review | Bloquear conclusão sem evidências |
+| 10. Integrar e entregar | PR integrado e incremento utilizável | Conforme autorização de merge/deploy |
+| 11. Validar e aprender | Feedback, decisões e próximo recorte | Humano avalia valor e experiência |
 
-Dependências formam um grafo sem ciclos para ordenar a execução. Relações de impacto podem ser cíclicas e precisam indicar evidência, grau de confiança e verificações propostas. A IA não consegue garantir que descobriu todos os impactos; o mapa é atualizado com novas evidências.
-
-### 5. Decompor, classificar e publicar o plano
-
-O **planner** cria unidades coerentes, pequenas o suficiente para um worker e grandes o suficiente para produzir um resultado verificável. Abrir arquivo e rodar formatter são passos internos, não tarefas independentes.
-
-Cada tarefa registra:
-
-- Tipo: feature, bug, refactor, infra, test, spike, doc ou tech-debt.
-- Complexidade: XS, S, M, L ou XL; risco: baixo, médio, alto ou crítico.
-- Escopo: local, módulo, múltiplos módulos ou sistema; incerteza: baixa, média ou alta.
-- Objetivo, limites, invariantes, aceite, dependências, impactos e conflitos.
-- Perfil de execução, justificativa, orçamento, reviewer e verificações.
-
-Trabalho grande demais é decomposto; incerteza alta pode exigir um spike. Paralelismo só é permitido quando dependências, arquivos e contratos permitem integração segura.
-
-**O humano revisa o plano antes da primeira execução.** O plano aprovado vira épicos e tarefas no GitHub Issues, com referências às especificações versionadas. Novos recortes relevantes voltam ao planejamento.
-
-### 6. Executar tarefas prontas
-
-O **orquestrador** seleciona uma tarefa sem bloqueios, registra o responsável e despacha um worker com objetivo, contexto mínimo, aceite e orçamento. O entregável vem antes dos passos de verificação no prompt.
-
-O worker implementa somente o escopo recebido, verifica o resultado e reporta evidências. Não delega recursivamente nem encerra sua própria tarefa.
-
-O orquestrador evita duas sessões escrevendo na mesma tarefa: usa posse exclusiva de execução, branches/worktrees quando necessário e integração controlada. Trocar de runtime exige interromper ou confirmar o término do executor anterior.
-
-### 7. Verificar, revisar e integrar
-
-O orquestrador executa as verificações exigidas sobre a revisão entregue, sem confiar apenas no relato do worker. Um reviewer separado confronta o diff com a especificação, os invariantes e os critérios de aceite.
-
-**Done exige aceite demonstrado + verificações obrigatórias aprovadas + review exigido pela política.** Testes verdes, isoladamente, não comprovam que o comportamento pedido foi entregue.
-
-O resultado segue para PR, integração e fechamento da Issue conforme a política de aprovação. Merge, publicação e deploy obedecem às autorizações registradas. Um novo commit invalida evidências que precisem ser repetidas.
-
-### 8. Validar o resultado e escolher o próximo recorte
-
-O humano avalia o comportamento do produto, especialmente experiência e utilidade. O modelo registra aprendizados, atualiza decisões e impactos e propõe o próximo incremento. Feedback que muda requisitos retorna à especificação e ao plano.
+Perguntas podem reaparecer em qualquer etapa. Quota esgotada gera pausa e handoff dentro da tentativa vigente. Falha técnica pode gerar a única escalada disponível; seu esgotamento leva ao humano.
 
 ```mermaid
 flowchart TD
-    I["Ideia e restrições"] --> D["Discovery e MVP"]
-    D --> H1["Humano: direção"]
-    H1 --> S["Spec, arquitetura e impactos"]
-    S --> P["Tarefas e dependências"]
-    P --> H2["Humano: plano"]
-    H2 --> E["Execução limitada"]
-    E --> V{"Aceite, checks e review?"}
-    V -->|Sim| R["PR e integração autorizada"]
-    R --> F["Validação do produto"]
-    F --> D
-    V -->|Não| B{"Escalada disponível?"}
-    B -->|Sim| X["Diagnóstico e uma escalada"]
-    X --> V
-    B -->|Não| STOP["Parar e escalar ao humano"]
+    A["0–2 · Preparação, ideia e MVP"] --> B["3–4 · Perguntas e requisitos"]
+    B --> C["5–6 · Solução, impactos e tarefas"]
+    C --> H["Humano: aprovar o plano"]
+    H --> D["7–8 · Issues e execução limitada"]
+    D --> Q{"Quota indisponível?"}
+    Q -->|Sim| HAND["Checkpoint e troca de runtime"]
+    HAND --> D
+    Q -->|Não| E["9 · Verificação e review"]
+    E --> G{"Aceite e gates aprovados?"}
+    G -->|Sim| F["10–11 · Entrega e validação"]
+    F --> NEXT["Próximo recorte"]
+    NEXT --> B
+    G -->|Não| R{"Escalada disponível?"}
+    R -->|Sim| ESC["Diagnóstico e uma escalada"]
+    ESC --> E
+    R -->|Não| STOP["Parar: decisão humana"]
+    STOP --> REPLAN["Replanejar ou autorizar novo orçamento"]
+    REPLAN --> C
 ```
+
+## 2. O que cada etapa faz
+
+### 0. Preparar o projeto
+
+**Entrada:** repositório novo ou existente e runtimes disponíveis.
+
+O orquestrador identifica instruções existentes, estrutura, ferramentas e permissões. Define uma política comum para Claude Code e Codex: autonomia, escopo, tentativas, gates e condições de intervenção humana. Preserva configurações existentes; não sobrescreve instruções ou hooks sem análise.
+
+Em projeto existente, descobre e executa os checks aplicáveis para estabelecer a baseline. Em projeto novo, registra o que não existe; a configuração de build e testes entra como trabalho explícito quando necessária.
+
+**Saída:** contrato operacional do projeto e baseline conhecida. Nenhum check ausente é tratado como aprovado.
+
+### 1. Capturar a ideia
+
+**Entrada:** descrição livre do usuário.
+
+O product-shaper organiza problema, público, motivação, resultado esperado, restrições, exemplos e não objetivos. Separa fatos fornecidos, hipóteses e dúvidas. Confirma o entendimento sem exigir uma solução técnica pronta.
+
+**Saída:** brief persistido que explica o que queremos alcançar e por quê.
+
+### 2. Explorar e delimitar o MVP
+
+**Entrada:** brief e contexto disponível.
+
+O agente compara opções de produto e implementação inicial, riscos, esforço e o aprendizado esperado. Pesquisa ou propõe um spike quando a decisão depende de evidência ainda inexistente. Define um recorte que possa ser demonstrado e validado.
+
+**Saída:** MVP proposto, alternativas descartadas com motivo, hipóteses e critérios de sucesso. O humano escolhe a direção e as prioridades.
+
+### 3. Levantar e validar perguntas
+
+**Entrada:** brief, MVP e incertezas encontradas.
+
+Primeiro o agente investiga dúvidas respondíveis pelo repositório ou documentação. Depois agrupa perguntas que exigem decisão humana. Cada pergunta tem ID, motivo, opções quando úteis, recomendação, responsável, status e itens afetados.
+
+| Classificação | Tratamento |
+| --- | --- |
+| Bloqueante | Impede especificar ou executar a parte que depende da resposta |
+| Não bloqueante | Pode seguir com hipótese explícita, reversível e autorizada |
+| Técnica investigável | Inspeção, pesquisa ou spike com orçamento |
+| Já respondida | Reutilizar a decisão registrada; não perguntar novamente sem motivo |
+
+Validar a resposta significa conferir se ela resolve a dúvida, possui exemplos suficientes e não contradiz outra decisão. Uma resposta vaga pode exigir refinamento. Perguntas novas não obrigam reiniciar todo o processo.
+
+**Saída:** registro de perguntas, respostas, decisões e hipóteses. Trabalho afetado por pergunta bloqueante não avança; trabalho independente pode seguir.
+
+### 4. Especificar requisitos funcionais e não funcionais
+
+**Entrada:** MVP escolhido, respostas e hipóteses autorizadas.
+
+O agente descreve comportamentos, regras de negócio, casos de erro, invariantes e atributos de qualidade. Requisitos recebem IDs estáveis e critérios verificáveis.
+
+| Tipo | O que descreve | Exemplo ilustrativo |
+| --- | --- | --- |
+| RF — funcional | Comportamento que o sistema oferece | RF-01: registrar e consultar uma operação bancária mockada |
+| RNF — não funcional | Qualidade ou restrição da solução | RNF-01: reenvio do mesmo evento não duplica efeitos |
+| Restrição | Limite obrigatório | Operações do protótipo não movimentam dinheiro real |
+
+Performance, segurança, confiabilidade, privacidade, acessibilidade e observabilidade são avaliadas quando pertinentes. O agente não inventa SLA, volume ou exigências: propõe critérios e explicita o que precisa de decisão. “Rápido” e “seguro” precisam ser traduzidos em condições testáveis.
+
+**Saída:** spec versionada e critérios de aceite. Mudança relevante no contrato aprovado exige análise de impacto e nova decisão.
+
+### 5. Planejar a solução e analisar impactos
+
+**Entrada:** requisitos e código existente.
+
+Architect e impact-analyzer inspecionam arquitetura, contratos, dados, padrões e testes. Propõem uma solução proporcional, registram alternativas e decisões e identificam consumidores e comportamentos em risco. Em projeto novo, deixam claras as escolhas ainda não demonstradas.
+
+| Relação | Significado |
+| --- | --- |
+| `depends_on` | Uma tarefa precisa de outra concluída |
+| `impacts` | Uma mudança pode afetar comportamento ou requisito existente |
+| `conflicts_with` | Execuções concorrentes podem disputar arquivos ou contratos |
+
+Dependências formam um grafo sem ciclos para ordenar execução. Impactos podem ser cíclicos e registram evidência, confiança e regressões a verificar. O mapa é parcial e evolui conforme novas evidências surgem.
+
+**Saída:** plano técnico, decisões, mapa de impactos e estratégia de verificação.
+
+### 6. Decompor e validar a cobertura do plano
+
+**Entrada:** spec e plano técnico.
+
+O planner cria tarefas coerentes, limitadas e verificáveis. Não transforma cada edição ou comando em uma Issue. Trabalho grande é dividido; alta incerteza pode virar spike.
+
+Cada tarefa contém objetivo, escopo, RFs/RNFs atendidos, critérios de aceite, dependências, impactos, conflitos, invariantes, perfil, orçamento e verificações. A classificação usa tipo, complexidade, risco, escopo e incerteza.
+
+Uma matriz mantém a rastreabilidade:
+
+| Requisito ilustrativo | Tarefas | Verificação |
+| --- | --- | --- |
+| RF-01: registrar operação | T-01 contrato; T-02 API/persistência | Registrar e consultar operação |
+| RF-02: emitir recomendação | T-03 regras; T-04 interface | Simulação produz recomendação prevista |
+| RNF-01: evitar duplicação | T-02 API; T-03 consumo | Reenviar evento mantém um único efeito |
+
+Um requisito pode gerar várias tarefas; uma tarefa pode atender vários requisitos. RNFs podem ser critérios transversais. Tarefas técnicas devem justificar sua relação com requisitos, riscos ou infraestrutura necessária.
+
+Antes da execução, revisar:
+- Todo requisito incluído no recorte tem tarefa e evidência previstas.
+- Não há tarefa sem justificativa nem requisito omitido silenciosamente.
+- Perguntas bloqueantes da execução estão resolvidas.
+- Dependências, conflitos, impactos e verificações são coerentes.
+- A divisão cabe no orçamento e as ações estão autorizadas.
+
+**Saída:** plano aprovado pelo humano, grafo de execução e matriz de cobertura. O review não exige decidir cada detalhe local.
+
+### 7. Registrar no GitHub e despachar
+
+**Entrada:** plano aprovado.
+
+O orquestrador cria ou atualiza épicos e Issues, vincula IDs às specs e registra dependências. Só despacha tarefas prontas, com dependências concluídas, contexto disponível e ausência de bloqueios.
+
+O pacote de execução inclui instruções comuns, objetivo, artefatos relevantes, escopo, aceite, orçamento e verificações. O entregável vem antes dos checks no prompt. O router escolhe runtime/modelo por capacidade, risco e disponibilidade; não impõe um fornecedor fixo para cada papel.
+
+**Saída:** tarefa em execução, responsável exclusivo e estado reconciliado. Worktrees/branches e controle de posse evitam edições concorrentes inseguras.
+
+### 8. Implementar dentro do orçamento
+
+**Entrada:** tarefa e pacote de execução.
+
+O worker implementa somente o escopo atribuído, roda verificações pertinentes e registra mudanças, decisões, resultados e dificuldades. Não delega recursivamente, altera controles ou fecha a própria tarefa.
+
+Uma falha recebe no máximo uma escalada diagnóstica. Uma interrupção por quota transfere o estado e o orçamento restante para outro runtime. Checkpoints são persistidos durante o trabalho.
+
+**Saída:** mudanças e relatório honesto, inclusive quando parcial. Ao esgotar tentativas, a tarefa vai para `needs_human`, com diagnóstico e dependentes bloqueados.
+
+### 9. Verificar e revisar
+
+**Entrada:** revisão entregue pelo worker, critérios e evidências.
+
+O orquestrador executa os checks obrigatórios sobre a revisão correta. QA valida comportamento e regressões. O reviewer separado compara requisitos, diff, invariantes e evidências, inclusive a integridade dos testes.
+
+Checks ausentes, falhando ou com timeout bloqueiam Done. Testes verdes não substituem aceite. Correções de review permanecem sujeitas ao orçamento da tarefa; não abrem um loop novo ilimitado.
+
+**Saída:** aceite demonstrado e review aprovado, ou diagnóstico para correção/escalada.
+
+### 10. Integrar e entregar
+
+**Entrada:** mudança validada e autorizações registradas.
+
+O orquestrador prepara PR com problema, comportamento entregue, requisitos atendidos, validação e riscos materiais. Confere a revisão que será integrada, resolve conflitos dentro do escopo e repete os checks necessários quando o código muda.
+
+Merge e deploy seguem a política do projeto. Aprovação de plano não implica autorização automática para publicar produção.
+
+**Saída:** incremento integrado e disponível no ambiente autorizado. Issues só são encerradas quando a definição de conclusão estiver satisfeita.
+
+### 11. Validar o produto e aprender
+
+**Entrada:** incremento utilizável.
+
+O humano avalia experiência e valor, não apenas correção técnica. O agente registra feedback, hipóteses confirmadas ou rejeitadas, limitações e oportunidades.
+
+**Saída:** aceite do incremento ou ajustes explicitamente classificados. Novo comportamento retorna aos requisitos; defeito vai ao workflow de bug; o próximo recorte reaproveita decisões existentes.
+
+## 3. How to — como usar o projeto
+
+### Situação atual
+
+Hoje este repositório documenta o modelo. Ainda não fornece instalador, comandos próprios ou execução automática. O uso inicial é **manual, com os agentes seguindo o fluxo e os artefatos no Git**. Os prompts abaixo são instruções de uso; não são comandos implementados.
+
+### Passo 1 — Preparar o repositório do produto
+
+Use estas regras no repositório do produto que será desenvolvido. Leia suas instruções existentes e integre a política comum, sem sobrescrevê-las. Separe instruções compartilhadas das específicas de Claude Code ou Codex.
+
+Defina autonomia, verificações e orçamento. Em projeto existente, peça:
+
+```text
+Inspecione este repositório e proponha a configuração do nosso AI-driven SDLC.
+Identifique instruções existentes, arquitetura, ferramentas e verificações.
+Registre baseline, lacunas e política proposta de autonomia/tentativas.
+Não implemente funcionalidades nem sobrescreva configurações existentes.
+```
+
+A integração com Spec Kit deve usar uma versão fixada e os caminhos/templates correspondentes. Ela ainda não está instalada por este projeto.
+
+### Passo 2 — Apresentar a ideia em planejamento
+
+Se usar Claude Code, o Plan Mode pode conduzir exploração e planejamento. Nossas regras definem os resultados esperados. O mesmo contrato deve funcionar com Codex. Não gere um plano paralelo independente por runtime.
+
+```text
+Quero um protótipo de banco advisor em uma interface semelhante ao WhatsApp.
+Operações bancárias serão mockadas; quero simular movimentações e recomendações.
+Siga as etapas de discovery do AI-driven SDLC.
+Organize o problema, explore alternativas e proponha um MVP.
+Separe fatos, hipóteses e dúvidas. Investigue o que puder antes de me perguntar.
+Não implemente ainda.
+```
+
+### Passo 3 — Responder perguntas e escolher o MVP
+
+Revise perguntas agrupadas, decida o recorte e confirme restrições. Não é necessário responder todo detalhe técnico antecipadamente.
+
+```text
+Vamos seguir com interface simulada e operações mockadas.
+O advisor será o componente que queremos validar.
+Registre essas decisões e confira se resolvem as perguntas bloqueantes.
+Liste somente as decisões relevantes ainda pendentes.
+```
+
+### Passo 4 — Pedir a especificação e o plano rastreável
+
+```text
+Produza a spec do MVP escolhido com RFs e RNFs identificados.
+Inspecione o repositório antes de propor a solução.
+Mapeie impactos, riscos, dependências e conflitos.
+Decomponha tarefas com critérios de aceite e verificações.
+Inclua a matriz requisito → tarefa → evidência.
+Pare para revisão do plano; não implemente.
+```
+
+Revise cobertura, riscos e dúvidas, e ajuste o artefato existente. Uma dúvida sobre T-03 deve atualizar T-03 e os itens afetados; não exige regenerar tudo.
+
+### Passo 5 — Aprovar e registrar a execução
+
+```text
+Aprovo este plano e a execução das tarefas dentro do escopo.
+Registre épico, Issues e dependências no GitHub.
+Use uma tentativa inicial e até uma escalada por tarefa.
+Registre o perfil e o orçamento aprovado de cada tarefa.
+Execute sequencialmente as tarefas prontas.
+Merge e deploy continuam sujeitos à política registrada do projeto.
+```
+
+Nesta fase manual, criar Issues exige ferramenta conectada ou CLI autenticada. Sem acesso, prepare os textos para registro e declare o bloqueio; não alegue que as Issues foram criadas.
+
+### Passo 6 — Executar e acompanhar evidências
+
+O executor recebe uma tarefa por vez. O orquestrador mantém estado e orçamento, verifica o resultado e encaminha ao reviewer. O usuário intervém apenas nos pontos previstos.
+
+Para acompanhar, peça:
+
+```text
+Mostre tarefas concluídas, em execução e bloqueadas.
+Para cada conclusão, vincule critérios de aceite e evidências.
+Liste decisões que precisam de mim com opções e recomendação.
+```
+
+### Passo 7 — Trocar de runtime quando necessário
+
+Antes da troca voluntária, salve checkpoint e alterações acessíveis ao próximo executor. Em interrupção abrupta, reconcilie o último checkpoint com git diff e resultados disponíveis.
+
+```text
+Retome a tarefa indicada no handoff.
+Leia instruções comuns, Issue, spec, plano e checkpoint.
+Confirme branch, commit, diff e término do executor anterior.
+Continue a tentativa vigente com o orçamento restante.
+Não reinicie tentativas nem repita abordagens descartadas.
+```
+
+### Passo 8 — Revisar, entregar e validar
+
+Revise a evidência e o PR. Autorize integração/publicação quando necessário. Use o incremento e forneça feedback ligado aos cenários definidos.
+
+```text
+Valide a cobertura de RFs/RNFs e os critérios do incremento.
+Prepare o PR com evidências e riscos materiais.
+Após a integração autorizada, registre resultado e pendências.
+Separe defeitos de novas necessidades e proponha o próximo recorte.
+```
+
+O primeiro exercício recomendado é uma feature pequena de ponta a ponta, incluindo uma retomada manual entre runtimes. Ela valida o processo antes de automatizar o orquestrador.
 
 ## Humano no loop: quando entrar
 
