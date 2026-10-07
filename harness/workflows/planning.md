@@ -1,17 +1,46 @@
-# Planning — ideia até plano aprovado
+# Planning
 
-Leia [papéis](../roles/README.md) e [integração de métodos](../integrations/methods.md). Use templates como campos, não como requisitos de produto.
+Use este workflow para trabalho L1–L3. A profundidade é proporcional ao risco.
 
-1. **Brief:** problema, público, objetivo, restrições, não objetivos; separar fatos de hipóteses. Template [01](../../templates/workflow/01-brief.md).
-2. **Discovery/MVP:** alternativas, evidências, esforço/risco e aprendizado. Investigar antes de recomendar; usuário escolhe direção. Template [02](../../templates/workflow/02-discovery.md).
-3. **Perguntas:** investigar o respondível pelo repo; agrupar decisões humanas e registrar IDs, opções, resposta, validação e itens afetados. Template [03](../../templates/workflow/03-perguntas.md). Não avance a parte bloqueada; não questione escolhas locais já autorizadas.
-4. **Spec:** RFs/RNFs com IDs, casos de erro, invariantes e aceite observável. Não inventar SLAs, volumes ou thresholds. Template [04](../../templates/workflow/04-requisitos.md).
-5. **Arquitetura/impacto:** inspecionar implementações, contratos e consumidores. Registrar alternativas, evidências/confiança, riscos e regressões. Template [05](../../templates/workflow/05-solucao-impactos.md).
-6. **Tarefas:** unidades coerentes com tipo, complexidade, risco, incerteza, escopo, aceite, orçamento, perfil e reviewer. depends_on ordena execução; impacts aponta regressões; conflicts_with limita concorrência. Template [06](../../templates/workflow/06-plano-tarefas.md).
-7. **Review do plano:** matriz RF/RNF → tarefa → evidência, nenhuma lacuna silenciosa, nenhum ciclo de dependência, decisões bloqueantes resolvidas e orçamento aplicável.
-8. **Entrega:** referenciar artefatos e revisões; resumir decisões pendentes e solicitar aprovação apenas quando ainda necessária. Parar antes de implementar.
+## Define
 
-Em projeto existente, a inspeção começa antes da decomposição e pode alterar o discovery. Não regenerar artefatos aprovados sem motivo; atualizar o recorte e seus impactos.
+Estabeleça:
 
-## Contrato de saída
-Brief/MVP, registro de perguntas, spec, plano técnico/impactos, tarefas e matriz; links podem apontar documentos existentes. Aprovação registra quem decidiu, quando, revisão/escopo e autorizações. Aprovação do plano não é autorização implícita de deploy.
+- objetivo e problema;
+- escopo e não escopo quando relevante;
+- critérios de aceite verificáveis;
+- restrições;
+- hipóteses e dúvidas materiais.
+
+Investigue no repositório antes de perguntar. Agrupe decisões humanas realmente necessárias.
+
+### Artefato
+
+- L1: pode permanecer no contexto da tarefa/Issue.
+- L2/L3: prefira `spec.md`.
+
+## Plan
+
+Obrigatório para L2/L3; opcional para L1 quando a execução não for óbvia.
+
+Inclua somente o necessário:
+
+- abordagem;
+- áreas/contratos afetados;
+- riscos e regressões;
+- tarefas ou sequência de implementação;
+- estratégia de verificação.
+
+Use análise formal de impacto, IDs de requisito e rastreabilidade principalmente em L3 ou quando houver benefício concreto.
+
+### Decisões
+
+Crie ADR somente para decisão arquitetural relevante, durável e com alternativas materiais.
+
+### Aprovação humana
+
+Solicite decisão humana quando houver trade-off material, mudança de escopo, autorização externa ou risco L3. Não peça aprovação para detalhes locais reversíveis.
+
+## Saída
+
+Plano executável e proporcional ao nível, com bloqueios reais explícitos.
