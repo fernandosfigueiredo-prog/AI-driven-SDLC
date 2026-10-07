@@ -1,18 +1,27 @@
-# Bug, refactor e spike
-
-Use o mesmo controle de autorização, tentativas, Issues, checkpoint e verificação.
+# Maintenance
 
 ## Bug
-Reproduzir sintoma → registrar baseline → investigar causa → analisar impactos → planejar correção limitada → executar → verificar sintoma original e regressões → review.
-Se não reproduz, registre evidências e incerteza; não declare causa comprovada.
-Referencie requisito/invariante existente. Correção pequena autorizada não precisa passar por discovery completo.
+
+Fluxo padrão:
+
+Reproduzir/entender → classificar risco → corrigir → verificar sintoma e regressão.
+
+Crie plano formal somente se o diagnóstico revelar impacto L2/L3.
 
 ## Refactor
-Definir invariantes e comportamento preservado → mapear consumidores/contratos → planejar mudanças → executar → verificar equivalência/regressões → review.
-Não adicionar funcionalidade nem mudar contrato silenciosamente.
+
+Defina invariantes observáveis e consumidores relevantes. Planeje migração quando houver impacto distribuído. Verifique equivalência após a mudança.
 
 ## Spike
-Pergunta, escopo, tempo/orçamento e evidência esperada → investigação → resposta fundamentada ou inconclusiva → recomendação.
-Não transformar código experimental em produto sem novo escopo aprovado.
 
-Use [planning](planning.md) para o recorte e [execution](execution.md) para implementar. Checklist e critérios devem ser proporcionais ao risco, sem dispensar gates obrigatórios.
+Defina:
+
+- pergunta;
+- limite de investigação;
+- evidência esperada.
+
+O resultado é uma recomendação ou redução de incerteza, não código de produção implicitamente aprovado.
+
+## Regra
+
+Manutenção não deve repetir discovery de produto já resolvido. Reutilize decisões existentes e aumente o rigor apenas quando o risco descoberto justificar.

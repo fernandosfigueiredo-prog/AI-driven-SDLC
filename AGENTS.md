@@ -1,31 +1,63 @@
-# AI-driven SDLC — instruções comuns
+# AI-driven SDLC — política comum
 
-Este arquivo é a entrada comum do harness. Leia [harness/START.md](harness/START.md) ao iniciar trabalho. Não trate links como conteúdo já carregado: leia os arquivos pertinentes antes de agir.
+Leia [harness/START.md](harness/START.md) antes de iniciar trabalho relevante.
 
-## Escopo e precedência
-- Respeite instruções do ambiente e do usuário. Estas políticas não ampliam permissões nem substituem regras de maior prioridade.
-- Preserve instruções locais do produto. Conflitos materiais entre políticas devem ser explicitados antes do trabalho afetado.
-- Neste repositório estamos desenvolvendo o harness. Sua documentação de um banco mockado é exemplo, não requisito para construir um banco.
-- Em um produto que adotar o harness, aplicação e controles são escopos distintos. Uma tarefa de aplicação não pode mudar controles para passar.
+## Objetivo
 
-## Regras comuns
-1. Inspecione código, decisões e artefatos antes de planejar. Não invente fatos, requisitos, resultados de comandos ou capacidades de ferramentas.
-2. Registre hipóteses. Investigue dúvidas técnicas; leve decisões materiais ao humano com opções e recomendação. Agrupe perguntas e reutilize respostas.
-3. Planejamento não autoriza implementação. Execute quando houver plano aprovado ou autorização explícita suficiente; não peça novamente uma autorização vigente.
-4. Tarefas precisam de escopo, aceite, dependências, RFs/RNFs quando aplicáveis, orçamento e verificações.
-5. Workers não delegam nem certificam sua própria conclusão. Somente o orquestrador controla dispatch, estado, orçamento e Done.
-6. Não enfraqueça testes, mocks, asserts, gates ou aceite para declarar sucesso. Mudanças legítimas nos testes precisam decorrer do requisito e ser revisadas.
-7. Aceite demonstrado, checks obrigatórios e review exigido são necessários para Done. Check ausente/falhando/timeout bloqueia conclusão.
-8. Uma tentativa inicial e até uma escalada. Se começar no perfil de escalada, não há nova tentativa autônoma. Handoff não renova orçamento.
-9. Preserve checkpoints e alterações parciais. Não coloque segredos em Git, Issues ou relatórios.
-10. Pare o trabalho afetado quando faltar decisão bloqueante, autorização necessária ou orçamento. Informe diagnóstico, opções e dependentes bloqueados.
+Aplicar processo proporcional ao risco. O framework não exige um workflow completo para toda mudança.
 
-## Leitura por atividade
-- Iniciar/adotar: [START](harness/START.md) e [bootstrap](harness/workflows/bootstrap.md).
-- Ideia/spec/plano: [planning](harness/workflows/planning.md).
-- Implementação: [execution](harness/workflows/execution.md), [budgets](harness/policies/budgets.md), [verification](harness/policies/verification.md).
-- Retomada: [handoff](harness/workflows/handoff.md).
-- Papéis: [roles](harness/roles/README.md).
-- Spec Kit/TaskForge: [integração](harness/integrations/methods.md).
+## Regras
 
-Arquivos Markdown orientam agentes, mas não implementam hooks, bloqueios automáticos ou scheduler. Nunca descreva controle textual como enforcement técnico.
+1. Inspecione repositório, instruções e evidências antes de assumir fatos.
+2. Classifique a mudança como L0, L1, L2 ou L3 usando risco, impacto, incerteza e reversibilidade.
+3. Use somente as fases e artefatos necessários para o nível escolhido.
+4. Registre hipóteses materiais; investigue dúvidas técnicas antes de perguntar quando possível.
+5. Escale ao humano decisões materiais, autorização externa, mudança relevante de escopo, risco crítico ou orçamento esgotado.
+6. Não peça novamente uma autorização válida.
+7. Não expanda silenciosamente o escopo.
+8. Não enfraqueça testes, asserts, mocks, gates ou critérios de aceite para obter sucesso.
+9. Declare Done somente com as verificações aplicáveis executadas e evidências reais.
+10. Preserve contexto em checkpoint somente quando houver interrupção, handoff ou necessidade concreta de retomada.
+11. Handoff mantém a mesma tarefa, tentativa e orçamento.
+12. Uma tarefa de produto não altera controles do harness para se aprovar.
+
+## Níveis
+
+- **L0 Trivial:** Execute → Verify.
+- **L1 Standard:** Define → Execute → Verify.
+- **L2 Significant:** Define → Plan → Execute → Verify → Deliver.
+- **L3 Critical:** ciclo completo, análise de impacto, aprovação humana para decisões materiais e review independente.
+
+Se novos riscos surgirem, aumente o nível. Reduza cerimônia quando ela não acrescentar controle ou evidência.
+
+## Artefatos
+
+Use por necessidade:
+
+- `spec.md`: objetivo, escopo, aceite e restrições;
+- `plan.md`: abordagem, impactos, riscos, tarefas e verificação;
+- `result.md`: implementação, evidências, limitações e follow-ups;
+- checkpoint/handoff: apenas para continuidade;
+- ADR: apenas para decisão arquitetural relevante;
+- rastreabilidade formal: principalmente L3.
+
+## Responsabilidades
+
+- **Shape:** problema, escopo e aceite.
+- **Build:** solução e implementação.
+- **Verify:** comportamento, regressão e evidências.
+- **Orchestrate:** classificação, estado, routing, limites e handoff.
+
+Capabilities como arquitetura, planejamento, QA e análise de impacto são acionadas quando necessárias; não representam agentes permanentes.
+
+## Leitura
+
+- Roteamento: [START](harness/START.md)
+- Planejamento: [planning](harness/workflows/planning.md)
+- Execução: [execution](harness/workflows/execution.md)
+- Manutenção: [maintenance](harness/workflows/maintenance.md)
+- Handoff: [handoff](harness/workflows/handoff.md)
+- Verificação: [verification](harness/policies/verification.md)
+- Orçamento: [budgets](harness/policies/budgets.md)
+
+Arquivos Markdown orientam agentes; não equivalem a enforcement técnico.

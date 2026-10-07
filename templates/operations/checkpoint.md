@@ -1,39 +1,31 @@
-# Checkpoint e ledger — <task-id>
+# Checkpoint / Handoff
 
-## Identificação e posse
-- Issue/ID, objetivo e status:
-- Spec/plano/política/decisões e revisões:
-- Executor, runtime/modelo e perfil:
-- Branch/worktree, base, commits feitos e diff pendente:
-- Executor anterior encerrado? Evidência:
-- WIP/patch acessível no destino? Localização:
-- Autorizações vigentes:
+Use apenas quando a tarefa precisar ser retomada por outra sessão ou runtime, ou quando houver WIP relevante que não possa ser reconstruído facilmente.
 
-## Tentativas e orçamento
-- Attempt ID:
-- Modo: initial/escalation:
-- Métrica/limite:
-- Início, pausas e retomadas:
-- Consumido/restante (unknown se indisponível):
-- Tentativas anteriores e resultados:
-- Nova autorização humana, se houver, com motivo/escopo:
+## Estado
 
-## Progresso e contexto
-- Critérios atendidos e pendentes:
-- Arquivos alterados:
-- Decisões e hipóteses:
-- Abordagens tentadas, por que falharam e evidências:
-- Checks: comando, ambiente, resultado, revisão e referência a logs:
-- Riscos/bloqueios e dependentes:
-- Motivo de pausa/transferência:
+- Tarefa/objetivo:
+- Nível: L0 | L1 | L2 | L3
+- Branch/base:
+- Commits relevantes:
+- Alterações não commitadas:
+
+## Contexto necessário
+
+- Decisões ainda válidas:
+- Hipóteses:
+- Riscos:
+- Abordagens que falharam:
+
+## Evidências
+
+- Checks executados:
+- Resultados:
+- Evidências ainda válidas:
+
+## Continuidade
+
+- Tentativa/orçamento restante:
 - Próxima ação concreta:
-- Última atualização:
 
-## Review e conclusão
-- Orquestrador: verificações e revisão:
-- Reviewer separado e veredito:
-- Evidência por critério:
-- Integração/PR quando aplicável:
-- Decisão de estado e motivo:
-
-Nunca copiar segredos. Checkpoint deve permitir retomada sem histórico completo do chat.
+Não copie o histórico completo do chat e não registre segredos.
