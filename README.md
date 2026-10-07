@@ -6,7 +6,7 @@ Um modelo de ciclo de desenvolvimento de software conduzido por IA, com execuç�
 
 **Estado atual: V0 de instruções operacionais em Markdown.** Claude Code e Codex podem seguir entradas, workflows, políticas, papéis e templates em operação manual. Ainda não há controlador automático, hooks bloqueantes, medição automática de orçamento ou detecção de quota. A integração nativa com Spec Kit também não está instalada.
 
-## Entradas operacionais do harness
+## Pontos de entrada operacionais
 
 Comece por [docs/USAGE.md](docs/USAGE.md). A política comum fica em [AGENTS.md](AGENTS.md); [CLAUDE.md](CLAUDE.md) encaminha Claude Code à mesma fonte. Arquivos referenciados devem ser lidos pelo agente conforme a atividade.
 
@@ -21,26 +21,26 @@ Comece por [docs/USAGE.md](docs/USAGE.md). A política comum fica em [AGENTS.md]
 | [Budgets](harness/policies/budgets.md) | Tentativas, medição e escalada humana |
 | [Verification](harness/policies/verification.md) | Evidências, review e Definition of Done |
 | [Roles](harness/roles/README.md) | Responsabilidades e limites de cada papel |
-| [Métodos](harness/integrations/methods.md) | O que reaproveitamos de Spec Kit e TaskForge |
+| [Métodos](harness/integrations/methods.md) | Integração de conceitos do Spec Kit e TaskForge |
 | [Política do produto](templates/operations/project-policy.md) | Modelo de configuração e autorizações |
 | [Checkpoint](templates/operations/checkpoint.md) | Modelo de contexto, posse e ledger |
 
-## O que faz e como faz
+## Funcionamento do modelo
 
-| Necessidade | Como o modelo atende |
+| Necessidade | Abordagem do modelo |
 | --- | --- |
-| Transformar uma ideia em algo construível | Discovery, perguntas relevantes, hipóteses explícitas, MVP e critérios de sucesso |
+| Estruturar uma ideia para execução | Discovery, perguntas relevantes, hipóteses explícitas, MVP e critérios de sucesso |
 | Decompor trabalho | Especificações e tarefas com objetivo, escopo, aceite, risco e dependências |
-| Entender o que uma mudança pode quebrar | Inspeção do código e relações de impacto vinculadas a evidências e regressões a verificar |
+| Avaliar impactos de mudanças | Inspeção do código e relações de impacto vinculadas a evidências e regressões a verificar |
 | Coordenar agentes | Papéis especializados, workflows e um orquestrador responsável pelo estado das tarefas |
 | Usar Claude e Codex | Adaptadores de runtime e roteamento por capacidade, risco, disponibilidade e orçamento |
-| Continuar quando a cota acabar | Checkpoints persistidos, handoff e retomada do mesmo orçamento de execução |
-| Evitar sucesso inventado | Verificação determinística, review separado e aceite demonstrado |
-| Saber quando parar | Limites por tentativa e escalada humana com diagnóstico e opções |
+| Preservar continuidade entre runtimes | Checkpoints persistidos, handoff e retomada do mesmo orçamento de execução |
+| Assegurar validação baseada em evidências | Verificação determinística, review separado e aceite demonstrado |
+| Definir critérios de interrupção e escalada | Limites por tentativa e escalada humana com diagnóstico e opções |
 
 O projeto é um **Multi-model Agentic Software Development Harness**: uma camada de processo e controle em torno dos agentes de desenvolvimento.
 
-## 1. Workflow 
+## 1. Workflow operacional
 O ciclo é executado por incrementos: primeiro um MVP ou uma feature, depois os próximos recortes. Um bug pode começar pelo diagnóstico, sem repetir todo o discovery.
 
 | Etapa | Inputs / entradas | Outputs / saídas | Artefatos sugeridos | Papéis participantes | Condição de passagem |
@@ -86,7 +86,7 @@ flowchart TD
     REPLAN --> C
 ```
 
-## 2. O que cada etapa faz
+## 2. Detalhamento das etapas
 
 ### 0. Preparar o projeto
 
@@ -104,7 +104,7 @@ Em projeto existente, descobre e executa os checks aplicáveis para estabelecer 
 
 O product-shaper organiza problema, público, motivação, resultado esperado, restrições, exemplos e não objetivos. Separa fatos fornecidos, hipóteses e dúvidas. Confirma o entendimento sem exigir uma solução técnica pronta.
 
-**Saída:** brief persistido que explica o que queremos alcançar e por quê.
+**Saída:** brief persistido que explicita o objetivo pretendido, seu contexto e sua justificativa.
 
 ### 2. Explorar e delimitar o MVP
 
@@ -238,13 +238,13 @@ O humano avalia experiência e valor, não apenas correção técnica. O agente 
 
 **Saída:** aceite do incremento ou ajustes explicitamente classificados. Novo comportamento retorna aos requisitos; defeito vai ao workflow de bug; o próximo recorte reaproveita decisões existentes.
 
-## 3. How to — como usar o projeto
+## 3. Guia de adoção e uso
 
 ### Situação atual
 
 Este repositório fornece instruções operacionais e templates. Ainda não fornece instalador, comandos próprios ou execução automática. O uso inicial é **manual, com os agentes seguindo os arquivos do harness e os artefatos no Git**. Veja [o guia operacional](docs/USAGE.md). Os prompts abaixo são instruções de uso; não são comandos implementados.
 
-### Passo 1 — Preparar o repositório do produto
+### Etapa 1 — Preparar o repositório do produto
 
 Use estas regras no repositório do produto que será desenvolvido. Leia suas instruções existentes e integre a política comum, sem sobrescrevê-las. Separe instruções compartilhadas das específicas de Claude Code ou Codex.
 
@@ -259,7 +259,7 @@ Não implemente funcionalidades nem sobrescreva configurações existentes.
 
 A integração com Spec Kit deve usar uma versão fixada e os caminhos/templates correspondentes. Ela ainda não está instalada por este projeto.
 
-### Passo 2 — Apresentar a ideia em planejamento
+### Etapa 2 — Apresentar a ideia para planejamento
 
 Se usar Claude Code, o Plan Mode pode conduzir exploração e planejamento. Nossas regras definem os resultados esperados. O mesmo contrato deve funcionar com Codex. Não gere um plano paralelo independente por runtime.
 
@@ -272,7 +272,7 @@ Separe fatos, hipóteses e dúvidas. Investigue o que puder antes de me pergunta
 Não implemente ainda.
 ```
 
-### Passo 3 — Responder perguntas e escolher o MVP
+### Etapa 3 — Validar questões e definir o MVP
 
 Revise perguntas agrupadas, decida o recorte e confirme restrições. Não é necessário responder todo detalhe técnico antecipadamente.
 
@@ -283,7 +283,7 @@ Registre essas decisões e confira se resolvem as perguntas bloqueantes.
 Liste somente as decisões relevantes ainda pendentes.
 ```
 
-### Passo 4 — Pedir a especificação e o plano rastreável
+### Etapa 4 — Elaborar a especificação e o plano rastreável
 
 ```text
 Produza a spec do MVP escolhido com RFs e RNFs identificados.
@@ -296,7 +296,7 @@ Pare para revisão do plano; não implemente.
 
 Revise cobertura, riscos e dúvidas, e ajuste o artefato existente. Uma dúvida sobre T-03 deve atualizar T-03 e os itens afetados; não exige regenerar tudo.
 
-### Passo 5 — Aprovar e registrar a execução
+### Etapa 5 — Aprovar e registrar a execução
 
 ```text
 Aprovo este plano e a execução das tarefas dentro do escopo.
@@ -309,7 +309,7 @@ Merge e deploy continuam sujeitos à política registrada do projeto.
 
 Nesta fase manual, criar Issues exige ferramenta conectada ou CLI autenticada. Sem acesso, prepare os textos para registro e declare o bloqueio; não alegue que as Issues foram criadas.
 
-### Passo 6 — Executar e acompanhar evidências
+### Etapa 6 — Executar e acompanhar evidências
 
 O executor recebe uma tarefa por vez. O orquestrador mantém estado e orçamento, verifica o resultado e encaminha ao reviewer. O usuário intervém apenas nos pontos previstos.
 
@@ -321,7 +321,7 @@ Para cada conclusão, vincule critérios de aceite e evidências.
 Liste decisões que precisam de mim com opções e recomendação.
 ```
 
-### Passo 7 — Trocar de runtime quando necessário
+### Etapa 7 — Realizar transição de runtime quando necessário
 
 Antes da troca voluntária, salve checkpoint e alterações acessíveis ao próximo executor. Em interrupção abrupta, reconcilie o último checkpoint com git diff e resultados disponíveis.
 
@@ -333,7 +333,7 @@ Continue a tentativa vigente com o orçamento restante.
 Não reinicie tentativas nem repita abordagens descartadas.
 ```
 
-### Passo 8 — Revisar, entregar e validar
+### Etapa 8 — Revisar, entregar e validar
 
 Revise a evidência e o PR. Autorize integração/publicação quando necessário. Use o incremento e forneça feedback ligado aos cenários definidos.
 
@@ -346,9 +346,9 @@ Separe defeitos de novas necessidades e proponha o próximo recorte.
 
 O primeiro exercício recomendado é uma feature pequena de ponta a ponta, incluindo uma retomada manual entre runtimes. Ela valida o processo antes de automatizar o orquestrador.
 
-## Humano no loop: quando entrar
+## Governança e intervenção humana
 
-O humano decide o que construir, aceita riscos e resolve impasses. O agente conduz o trabalho dentro do escopo autorizado.
+A intervenção humana concentra-se nas decisões de produto, aceitação de riscos e resolução de impasses. Os agentes conduzem a execução dentro do escopo e das políticas previamente autorizadas.
 
 | Momento | Intervenção humana |
 | --- | --- |
@@ -362,7 +362,7 @@ O humano decide o que construir, aceita riscos e resolve impasses. O agente cond
 
 Escolhas locais, reversíveis e cobertas pelo plano não exigem perguntas repetidas. Ao parar, o agente explica a decisão necessária, apresenta evidências e recomenda opções. Tarefas dependentes ficam bloqueadas; tarefas independentes podem continuar se houver autorização e isolamento seguro.
 
-## Limites de tentativas: como funciona no TaskForge
+## Política de tentativas e escalada
 
 Na versão consultada em **05/10/2026**, o TaskForge configura:
 
@@ -378,7 +378,7 @@ Uma tarefa pode começar diretamente no perfil Opus com justificativa no plano. 
 
 Isso limita custo e loops improdutivos, obriga a reconhecer bloqueios e evita que o agente amplie o escopo ou enfraqueça o aceite para declarar sucesso. Não garante qualidade: uma tarefa mal decomposta pode esgotar o limite sem chegar à verificação.
 
-### Como introduzir no nosso modelo
+### Aplicação no modelo proposto
 
 Adotar **uma tentativa inicial + no máximo uma escalada diagnóstica**. A escalada recebe o histórico e precisa explicar por que a abordagem anterior falhou antes de editar. Se a tarefa já começar no perfil de escalada, não há segunda tentativa autônoma.
 
@@ -443,7 +443,7 @@ O router escolhe por capacidade, risco, complexidade, incerteza e disponibilidad
 | Refactor | Definir invariantes → mapear consumidores → planejar migração → implementar → verificar equivalência → review |
 | Spike | Definir pergunta e orçamento → investigar → registrar evidências e recomendação |
 
-## Estado compartilhado e handoff Claude ↔ Codex
+## Estado compartilhado e continuidade entre Claude ↔ Codex
 
 **Git guarda código, especificações e decisões versionadas. GitHub Issues guarda fila, bloqueios, responsáveis e histórico operacional. PRs guardam a proposta de integração e sua revisão.** O chat não é a fonte de verdade do projeto.
 
@@ -474,7 +474,7 @@ Continue a tentativa existente com o orçamento restante.
 Não repita abordagens descartadas nem altere os critérios de aceite.
 ```
 
-## Estrutura proposta e primeira versão
+## Estrutura proposta e evolução inicial
 
 ```text
 AGENTS.md                  # Política comum; adaptadores referenciam esta fonte
