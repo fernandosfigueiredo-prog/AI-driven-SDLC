@@ -1,28 +1,39 @@
 # Composição de métodos
 
 ## Fonte comum
-AGENTS.md e harness/policies/ definem nossos controles; specs e decisões do produto permanecem canônicas. Instruções de runtime apenas adaptam o uso. A constituição do Spec Kit, quando adotada, deve refletir esses controles, sem manter política contraditória.
+
+AGENTS.md e harness/policies/ definem os controles compartilhados. Specs e decisões do produto permanecem canônicas. Instruções de runtime apenas adaptam a operação.
+
+O framework adota ideias de outros métodos sem reproduzir suas cerimônias integralmente.
 
 | Origem | Reaproveitamos | Adaptação |
 | --- | --- | --- |
-| Spec Kit | Spec → plano → tarefas → implementação → verificação/convergência; princípios do projeto | RF/RNF, impacto e cobertura explícitos; loops limitados pelo orçamento |
-| TaskForge | Inspeção prévia, workers limitados, escopo/aceite, verificação externa, uma escalada, parada humana | Independência de runtime; estado Git/Issues; limite observado/configurado pelo projeto |
-| Nosso workflow | Perguntas validadas, rastreabilidade, handoff e papéis | Estado persistido e orçamento compartilhado entre Claude e Codex |
+| Spec Kit | especificação, planejamento e implementação orientada por artefatos | artefatos são seletivos e proporcionais ao risco |
+| TaskForge | inspeção prévia, execução limitada, gates e separação de verificação | limites adaptativos, continuidade multi-runtime e menos ceremony |
+| AI-driven SDLC | governança adaptativa, handoff e estado compartilhado | classificação L0–L3 define profundidade e independência |
 
 ## Spec Kit instalado
-1. Inspecionar versão, integrações e caminhos reais. Registrar no artifact-map.
-2. Usar seus comandos/skills efetivamente disponíveis, sem supor sintaxe ou instalação.
-3. Manter uma spec/plano/tasks canônicos; complementar campos faltantes, não duplicar documentos.
-4. Levar ambiguidades materiais ao humano. “Implement/converge” não autoriza retries ilimitados ou bypass de gates.
-5. A extensão de assessment é opcional; discovery manual também atende ao contrato.
+
+1. inspecione versão, comandos e caminhos reais;
+2. reutilize a spec/plano existentes em vez de duplicar documentos;
+3. complemente somente campos necessários ao nível de rigor;
+4. preserve limites, verificação e decisões materiais;
+5. não transforme o fluxo do Spec Kit em obrigação para L0/L1.
 
 ## Spec Kit ausente
-Usar templates deste repo para operação manual baseada em especificação. Não afirmar integração nativa. Instalação posterior deve fixar versão e preservar configs.
+
+Use os templates mínimos deste repositório quando fizer sentido: `spec.md`, `plan.md` e `result.md`.
 
 ## TaskForge
-Adaptamos conceitos, não copiamos código/configuração. Não copiar CLAUDE.md/.claude/ por cima de instruções existentes. Hooks e perfis nativos dependem de implementação e validação por runtime.
 
-Fontes consultadas em 05/10/2026:
+Reaproveitamos os princípios de execução limitada e verificação externa, mas não exigimos workers permanentes, retries fixos, uma Issue por unidade mínima ou um workflow completo para toda alteração.
+
+Hooks e perfis nativos só existem quando efetivamente implementados e validados no runtime.
+
+## Regra de integração
+
+Quando dois métodos exigirem artefatos equivalentes, mantenha uma única fonte canônica. O objetivo é reduzir duplicação, não criar uma segunda camada documental.
+
+Fontes:
 - https://github.com/github/spec-kit
 - https://github.com/soeirosantos/taskforge
-- https://github.com/soeirosantos/taskforge/blob/main/CLAUDE.md
