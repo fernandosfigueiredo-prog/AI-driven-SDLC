@@ -1,24 +1,27 @@
-# Verificação e Definition of Done
+# Verification
 
-## Política antes da execução
-docs/project-policy.md define checks obrigatórios por tipo, comandos reais, limites e ambiente. Não há comando universal fictício. Bootstrap descobre a baseline e registra ausência/falhas.
-Código usa build/testes/checks existentes pertinentes e suíte global definida pelo projeto. Documentação usa consistência, links e validação pertinente; não inventar testes de aplicação para docs.
+Verificação é obrigatória; o formato é proporcional ao risco.
 
-## Procedimento
-1. Identificar revisão concreta e critérios.
-2. Worker roda checks pertinentes e reporta resultados reais.
-3. Orquestrador executa os checks exigidos, sem confiar só no relato.
-4. QA confronta comportamento e regressões com spec.
-5. Reviewer separado lê diff, requisito, invariantes, evidências e integridade dos testes.
-6. Após mudança de código, repetir verificações invalidadas. Relacionar evidências à revisão final.
+## Base
 
-## Definition of Done
-Aceite demonstrado + checks obrigatórios aprovados + review separado exigido + integração prevista na tarefa + atualização do estado e evidências.
-Se integração é tarefa separada, registrar explicitamente o entregável da tarefa de implementação.
+Para concluir uma mudança:
 
-## Proibições
-Não remover/pular testes, reduzir thresholds, ocultar falhas, enfraquecer asserts ou modificar gates para concluir. Atualizar testes legitimamente requer requisito e revisão. Check obrigatório ausente/falhando/timeout bloqueia Done.
-Baseline com falhas não autoriza ignorá-las; levar decisão/regularização ao responsável antes de concluir.
-Não declarar review independente quando autor e reviewer são a mesma sessão. Sem reviewer disponível, in_review/blocked; humano pode revisar.
+- critérios de aceite aplicáveis devem ser demonstrados;
+- checks relevantes devem ser executados quando disponíveis;
+- falhas conhecidas devem ser reportadas;
+- testes não podem ser enfraquecidos apenas para produzir verde.
 
-Esta política é textual. Hook TaskCompleted, CI obrigatório e bloqueio de fechamento ainda não são instalados aqui.
+Ausência de um check não pode ser descrita como aprovação.
+
+## Por nível
+
+- **L0:** verificação local suficiente para provar a alteração.
+- **L1:** aceite + testes/checks diretamente relacionados.
+- **L2:** regressões relevantes + review quando risco justificar.
+- **L3:** evidências completas definidas no plano + review independente.
+
+## Review
+
+Reviewer avalia mudança concreta, critérios, diff, riscos e evidências. Independência significa não depender apenas do veredito do próprio implementer; pode ser outra sessão, modelo ou pessoa.
+
+Mudança de escopo ou risco descoberta na verificação retorna ao planejamento, não abre loop ilimitado de correções.
