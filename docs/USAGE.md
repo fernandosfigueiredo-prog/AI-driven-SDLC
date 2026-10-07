@@ -1,44 +1,58 @@
-# Usar a V0 de instruções
+# Uso
 
-## O que já funciona
-Arquivos de entrada, workflows, políticas, papéis e templates permitem operação manual por Claude Code/Codex. Não há scheduler, detecção de quota, perfis nativos ou hooks técnicos implementados.
+## Adoção
 
-## No repositório de um produto
-1. Fixar um commit deste harness e integrar AGENTS.md/CLAUDE.md, harness/, templates/workflow/ e templates/operations/. Preservar e mesclar instruções existentes.
-2. Pedir leitura explícita de AGENTS.md e harness/START.md. Conferir se o agente consegue localizar os arquivos.
-3. Executar bootstrap; preencher política e mapa no produto. Não há comando de instalação.
-4. Apresentar ideia e solicitar planning. Aprovar o recorte/plano quando necessário.
-5. Autorizar execução e indicar tarefa/Issue; seguir execution.
-6. Usar sessão/executor separado ou humano para review.
-7. Para trocar runtime, preservar WIP e seguir handoff.
+Integre `AGENTS.md`, `CLAUDE.md`, `harness/` e os templates necessários. Preserve instruções existentes do produto.
 
-## Prompts de entrada
+Prompt inicial sugerido:
+
 ```text
 Leia AGENTS.md e harness/START.md.
-Configure o harness neste projeto seguindo bootstrap, preservando instruções existentes.
-Registre capacidades, política e mapa de artefatos. Não implemente produto.
+Inspecione este projeto e adote o AI-driven SDLC sem sobrescrever instruções existentes.
+Classifique o trabalho por risco e aplique apenas o nível de processo necessário.
 ```
 
+Não é obrigatório criar política, mapa de artefatos, Issues ou specs antes de qualquer trabalho.
+
+## Novo projeto ou feature
+
 ```text
-Leia AGENTS.md e harness/workflows/planning.md.
-Minha ideia é: <ideia>. Conduza discovery, perguntas, RF/RNF e plano.
-Reutilize Spec Kit se instalado. Não implemente antes da autorização.
+Leia AGENTS.md e harness/START.md.
+Objetivo: <descreva>.
+Classifique o nível de rigor.
+Estruture definição e planejamento somente na profundidade necessária.
+Não implemente antes de resolver decisões materiais ou obter autorização exigida pelo nível.
 ```
+
+## Execução
 
 ```text
 Leia AGENTS.md e harness/workflows/execution.md.
-Execute a tarefa <ID> do plano aprovado <revisão>.
-Autorizações: <ações e ambientes>. Preserve orçamento e checkpoint.
+Execute <tarefa/objetivo> no nível de rigor já definido.
+Respeite escopo, verificações e orçamento.
+Crie checkpoint apenas se houver interrupção ou handoff.
 ```
+
+## Handoff
 
 ```text
 Leia AGENTS.md e harness/workflows/handoff.md.
-Retome <ID> de <checkpoint>. Confira posse, revisão, WIP e orçamento.
+Retome <tarefa> a partir de <checkpoint/branch>.
+Reconcilie branch, diff, decisões e verificações antes de editar.
+Continue a mesma tentativa e orçamento.
 ```
 
-## Teste de aceitação operacional recomendado
-Em um produto de teste: planejar uma pequena feature → verificar cobertura RF/RNF → aprovar → executar uma tarefa → transferir checkpoint → continuar sem reset → checks → review separado.
-Também exercitar bloqueio por pergunta, gate falhando e orçamento esgotado. Isto ainda é um roteiro de validação, não um teste já executado.
+## Review
 
-## Próxima implementação
-Controlador/CLI, budget mensurável, gate técnico, integração GitHub idempotente e adaptadores de dispatch. Não automatizar decisões humanas só porque o Markdown descreve o fluxo.
+Para L3, use executor/sessão independente. Para L2, independência é recomendada quando risco ou blast radius justificarem. L0/L1 podem usar verificação normal salvo política específica do projeto.
+
+## Teste operacional da V0
+
+Validar pelo menos:
+
+1. uma mudança L0 sem artefatos desnecessários;
+2. uma feature L2 com `spec.md` e `plan.md`;
+3. uma mudança L3 com impacto e review independente;
+4. um handoff Claude ↔ Codex sem reset de contexto ou orçamento.
+
+A V0 ainda é instrução operacional em Markdown, não um controlador técnico.
