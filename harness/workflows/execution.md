@@ -61,3 +61,5 @@ Crie somente quando:
 ## Conclusão
 
 Encaminhe para [verification](../policies/verification.md). O executor relata evidências; não inventa resultados nem declara checks não executados como aprovados.
+
+O relatório final também abre com a tag de severidade (`[OK]`/`[ATENÇÃO]`/`[CRÍTICO]`, ver "## Iteração") — não só os incrementos intermediários. E é escrito para quem não tem o contexto desta sessão: na primeira menção, explique em 1 linha qualquer termo interno (nome de módulo, estrutura de dados, mecanismo) que não seja óbvio fora da sessão. Não presuma que quem lê lembra nomes de arquivo, classe ou conceito só porque apareceram no plano ou no código.
