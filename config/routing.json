@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "notes": "Defaults do AI-driven SDLC. Modelos por alias do Claude Code (nunca IDs datados). Override por projeto em .sdlc/routing.json (merge profundo; listas são substituídas).",
+  "tiers": {
+    "efficient": { "rank": 1, "model": "haiku", "effort": "medium", "fallback": ["balanced"] },
+    "balanced": { "rank": 2, "model": "sonnet", "effort": "high", "fallback": ["strong"] },
+    "strong": { "rank": 3, "model": "opus", "effort": "high", "fallback": ["balanced"] },
+    "frontier": { "rank": 4, "model": "opus", "effort": "xhigh", "fallback": ["strong"] },
+    "max": { "rank": 5, "model": "fable", "effort": "high", "fallback": ["frontier"], "useOnlyFor": ["escalation", "L3"] }
+  },
+  "availableModels": ["haiku", "sonnet", "opus"],
+  "roles": {
+    "discovery": { "base": "frontier", "max": "frontier", "mode": "inline" },
+    "refine": { "base": "frontier", "max": "max", "mode": "inline" },
+    "build": { "base": "balanced", "max": "frontier", "mode": "auto", "agent": "sdlc:engineer" },
+    "review": {
+      "base": "strong",
+      "max": "max",
+      "mode": "auto",
+      "agent": "sdlc:reviewer",
+      "riskFloor": { "L3": "frontier" }
+    },
+    "initiative-review": { "base": "frontier", "max": "frontier", "mode": "fork", "agent": "sdlc:initiative-reviewer" },
+    "report": { "base": "balanced", "max": "strong", "mode": "inline" }
+  },
+  "riskFloor": { "L0": "efficient", "L1": "balanced", "L2": "balanced", "L3": "strong" },
+  "adjust": {
+    "complexity": { "low": -1, "medium": 0, "high": 1 },
+    "uncertainty": { "low": 0, "medium": 0, "high": 1 },
+    "budget": { "economy": -1, "normal": 0, "quality": 1 },
+    "lowComplexityDiscountOnlyUpTo": "L1"
+  },
+  "escalation": { "rejectionsToEscalate": 2 },
+  "independentReview": { "L0": "no", "L1": "no", "L2": "when-risky", "L3": "required" },
+  "harnesses": {
+    "claude": { "required": true },
+    "codex": { "optional": true, "enabled": true, "uses": ["second-opinion-review", "build-fallback"] }
+  }
+}

@@ -1,26 +1,33 @@
-# Execution budgets
+# Orçamento de execução
 
-Budget limita loops improdutivos, não quantidade arbitrária de comandos.
+Orçamento limita loops improdutivos, não a quantidade de comandos. Ele é adaptativo: considera complexidade, risco e progresso observável. Não invente limites numéricos fixos (minutos, turnos) como se estivessem aprovados.
 
 ## Princípios
 
-- L0/L1 usam limites leves e interrompem quando não há nova evidência.
-- L2/L3 devem ter limites mais explícitos quando a execução é longa, cara ou arriscada.
-- Repetir a mesma abordagem sem informação nova não constitui progresso.
-- Handoff não renova orçamento.
-- Escalada só é útil quando existe nova capacidade, contexto ou hipótese diagnóstica.
+- Repetir a mesma abordagem sem informação nova não é progresso: pare, diagnostique e mude de hipótese ou escale.
+- L0/L1 usam limite leve implícito: duas tentativas sem evidência nova encerram a abordagem.
+- L2/L3 declaram um **limite observável** por tarefa no plano: marcos verificáveis e condições de parada (por exemplo, "se o teste de integração continuar falhando pela mesma causa após uma mudança de abordagem, escalar"). Tempo pode aparecer só como referência de calibração.
+- O limite observável é aprovado **junto com o plano** — não há uma aprovação separada por tarefa.
+- Handoff, troca de sessão, de modelo ou de runtime **não renova** orçamento nem apaga tentativas.
+- Escalada só se justifica com nova capacidade, contexto ou hipótese diagnóstica.
 
-Ao esgotar o orçamento, registre diagnóstico, estado atual, alternativas e decisão necessária. Não continue silenciosamente.
+## Escalada por rejeições repetidas
 
-## Antes do despacho (L2/L3)
+Quando a verificação ou o review reprovar a mesma tarefa **duas vezes**:
 
-Declare um limite observável para a tarefa antes de começar — não um número arbitrário, mas um sinal concreto de quando parar e escalar (ex.: "se uma nova rodada de review repetir a causa raiz de uma rodada anterior, escalar para humano/INT em vez de continuar o loop autor↔revisor"). Isso não substitui o budget de tempo/tentativas; é o critério de quando uma rodada adicional deixa de ser progresso.
+1. a rodada seguinte usa o tier de maior capacidade disponível (ver [routing](routing.md)) — esta é a nova capacidade que justifica continuar;
+2. se a tarefa já estava no tier máximo, ou se uma rodada seguinte repetir a causa raiz anterior, pare o ciclo autor↔revisor e escale ao humano com `[BLOQUEADO]`.
 
-## Escalada por rejeições repetidas (L2/L3)
+O executor sinaliza que o gatilho foi atingido; a mudança de tier é decidida pelo coordenador (EM Buddy) e registrada em `.sdlc/state.md`.
 
-Quando a revisão independente REPROVAR a mesma tarefa **duas vezes**, a próxima rodada de correção deve ser executada pelo modelo/esforço de maior capacidade disponível ao projeto (conforme o roteamento da tarefa), em vez de repetir a rodada com o mesmo executor. Regras:
+## Ao esgotar
 
-- A mudança é decidida e registrada pela INT/responsável (na Issue e no cabeçalho de status do handoff), não pelo executor sobre si mesmo; o executor apenas sinaliza que o gatilho foi atingido.
-- Escalar o modelo é a **nova capacidade** que justifica continuar: não renova o orçamento da tarefa nem muda tarefa, tentativa ou escopo.
-- Se, mesmo assim, uma rodada seguinte repetir a causa raiz de uma anterior, escale para o humano/INT e pare o ciclo autor↔revisor (critério da seção anterior).
-- Se a tarefa já estiver no modelo de maior capacidade, o gatilho leva direto ao humano/INT.
+Registre diagnóstico, estado atual, abordagens que falharam, alternativas e a decisão necessária. Não continue silenciosamente. Preserve trabalho parcial; não feche a tarefa.
+
+## Medição
+
+Markdown não mede nem bloqueia nada. Sem controlador instalado, o orçamento é aplicado pelo próprio agente e auditado pelo humano. Nunca afirme que existe limite técnico (turnos, tempo) que o runtime não impõe. Quando o runtime oferecer um limite real (por exemplo, `maxTurns` de um subagente ou `--max-turns` em modo headless), registre que ele está em uso.
+
+## Registro mínimo
+
+Em `.sdlc/state.md`, somente enquanto a tarefa estiver ativa: tentativa atual, reprovações seguidas, limite observável e o sinal que indicaria parada. Consumido desconhecido é "desconhecido", não zero.

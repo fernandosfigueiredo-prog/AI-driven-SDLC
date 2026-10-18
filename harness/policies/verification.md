@@ -1,27 +1,54 @@
-# Verification
+# Verificação
 
-Verificação é obrigatória; o formato é proporcional ao risco.
+Verificação é obrigatória; o formato é proporcional ao risco e calibrado pela maturidade.
 
-## Base
+## Base para Done
 
-Para concluir uma mudança:
+- critérios de aceite aplicáveis demonstrados, um a um;
+- checks relevantes executados (build, testes, lint, typecheck) com resultado registrado;
+- falhas conhecidas e checks não executados reportados como tal;
+- nenhum teste, assert, mock ou gate enfraquecido para obter verde.
 
-- critérios de aceite aplicáveis devem ser demonstrados;
-- checks relevantes devem ser executados quando disponíveis;
-- falhas conhecidas devem ser reportadas;
-- testes não podem ser enfraquecidos apenas para produzir verde.
-
-Ausência de um check não pode ser descrita como aprovação.
+Ausência de check não é aprovação. "Testado" significa executado e passando.
 
 ## Por nível
 
-- **L0:** verificação local suficiente para provar a alteração.
-- **L1:** aceite + testes/checks diretamente relacionados.
-- **L2:** regressões relevantes + review quando risco justificar.
-- **L3:** evidências completas definidas no plano + review independente.
+| Nível | Verificação | Review |
+| --- | --- | --- |
+| L0 | prova local da alteração | não |
+| L1 | aceite + testes diretamente relacionados | autoverificação contra o pedido |
+| L2 | aceite completo + regressões relevantes | review contra a spec; independente quando o risco justificar |
+| L3 | evidências definidas no plano + impacto | **independente obrigatório** |
 
-## Review
+## Independência
 
-Reviewer avalia mudança concreta, critérios, diff, riscos e evidências. Independência significa não depender apenas do veredito do próprio implementer; pode ser outra sessão, modelo ou pessoa.
+Independente significa não depender só do veredito de quem implementou. Em ordem de preferência quando disponíveis:
 
-Mudança de escopo ou risco descoberta na verificação retorna ao planejamento, não abre loop ilimitado de correções.
+1. outro runtime/fornecedor (por exemplo, Codex em modo somente leitura);
+2. subagente de review com contexto novo, sem o histórico da implementação;
+3. outra pessoa.
+
+A falta de um runtime opcional nunca bloqueia: use a próxima opção e registre qual independência foi obtida.
+
+## Calibração por maturidade
+
+O review avalia o resultado contra o **propósito** da spec e a maturidade declarada:
+
+- **POC:** bloqueia o que invalida a hipótese, vaza segredo, perde dado ou produz resultado enganoso. Não exige infraestrutura de produção (alertas, escala, HA, hardening) sem justificativa ligada ao objetivo da POC.
+- **MVP:** acrescenta robustez nas bordas, tratamento de erro, dados preservados e regressão do essencial.
+- **Produção:** acrescenta observabilidade, segurança revisada, performance e reversibilidade.
+
+## Achados
+
+Priorize e torne acionável:
+
+- **P0 bloqueia** — impede o aceite ou cria risco crítico; corrige antes de seguir;
+- **P1 corrigir agora** — defeito real dentro do escopo, barato de corrigir nesta entrega;
+- **P2 follow-up** — melhoria legítima fora do essencial; vira pendência registrada;
+- **P3 observação** — estilo ou preferência; não bloqueia.
+
+Cada achado tem local (arquivo:linha), por que importa, recomendação e esforço estimado.
+
+Veredito: **APROVADO**, **APROVADO COM RESSALVAS** (só P2/P3) ou **REPROVADO** (há P0/P1).
+
+Mudança de escopo ou risco descoberta na verificação volta ao refinamento; não abre loop ilimitado de correções (ver [budgets](budgets.md)).

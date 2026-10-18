@@ -1,41 +1,56 @@
 # Roteamento inicial
 
-## 1. Entenda o trabalho
+Ponto de entrada operacional. Carregue somente o contexto que a decisão atual exige; não leia o harness inteiro por ritual.
 
-Leia as instruções do projeto, inspecione o estado relevante do repositório e identifique a intenção:
+## Ciclo
 
-- mudança trivial;
-- bug/manutenção;
-- feature;
-- mudança arquitetural ou integração;
-- trabalho crítico;
-- review;
-- handoff/retomada.
+```text
+Intent → Discovery/Interview → Spec → Approval → Technical Refinement → Tasks → Build → Verify/Review → Ship → Report
+```
 
-## 2. Classifique o rigor
+O ciclo é adaptativo: o nível de risco decide quais etapas existem.
 
-| Nível | Use quando | Fluxo |
+| Nível | Use quando | Etapas |
 | --- | --- | --- |
-| L0 | baixo risco, local, reversível | Execute → Verify |
-| L1 | mudança localizada e previsível | Define → Execute → Verify |
-| L2 | impacto relevante ou coordenação técnica | Define → Plan → Execute → Verify → Deliver |
-| L3 | segurança, pagamentos, dados, migração ou alto impacto | ciclo completo + impacto + review independente |
+| **L0 Trivial** | local, reversível, sem comportamento novo | Build → Verify → Report de 1-3 linhas |
+| **L1 Standard** | mudança localizada e previsível | intenção esclarecida → Build → Verify → Report |
+| **L2 Significant** | feature relevante, integração, coordenação técnica | Discovery → Spec → Approval → Refinement → Tasks → Build → Verify/Review → Ship → Report |
+| **L3 Critical** | segurança, pagamentos, dados sensíveis, migração, alto blast radius | L2 + análise de impacto + controles reforçados + review independente |
 
-Não use L2/L3 apenas porque existem templates. Suba de nível se descobrir risco adicional durante o trabalho.
+Critérios: impacto, reversibilidade, incerteza, criticidade do domínio, componentes afetados, risco de regressão. Na dúvida entre dois níveis, escolha o menor que ainda preserve segurança e verificabilidade. Suba o nível quando surgir risco novo e registre o motivo em uma linha.
 
-## 3. Escolha o workflow
+L0/L1 não criam spec, plano, Issue nem `.sdlc/` só porque os templates existem.
 
-| Intenção | Arquivo |
+## Maturidade do produto (independente do risco)
+
+| Maturidade | O que se exige além do funcional |
 | --- | --- |
-| adoção/configuração | [bootstrap](workflows/bootstrap.md) |
-| definição/planejamento | [planning](workflows/planning.md) |
-| execução autorizada | [execution](workflows/execution.md) |
-| bug/refactor/spike | [maintenance](workflows/maintenance.md) |
-| troca de runtime | [handoff](workflows/handoff.md) |
-| review | [verification](policies/verification.md) |
+| **POC** | provar a hipótese com o menor esforço honesto: segredos protegidos, testes do caminho principal, limitações declaradas. Sem SLO, alertas, escala ou hardening operacional. |
+| **MVP** | usuários reais em escala pequena: tratamento de erro nas bordas, logs estruturados, dados preservados, deploy repetível, testes de regressão do essencial. |
+| **Produção** | operação contínua: observabilidade (métricas, alertas), segurança revisada, migrações reversíveis, performance medida, runbook mínimo. |
 
-## 4. Princípio de contexto
+O **risco** define profundidade do processo e independência do review. A **maturidade** define a barra não funcional. Um L3 em POC (por exemplo, pagamento em sandbox) exige segredos protegidos e review independente da parte crítica, mas não exige SLO nem alta disponibilidade.
 
-Carregue somente o contexto necessário para a decisão ou execução atual. Não transforme o harness em um ritual de leitura integral.
+## Intenção → capability
 
-Registre estado adicional apenas quando necessário para persistência, coordenação ou retomada.
+| Intenção | Capability | Contrato |
+| --- | --- | --- |
+| ideia, feature, problema mal definido | Discovery | [workflows/discovery.md](workflows/discovery.md) |
+| spec aprovada → solução e tarefas | Refinement | [workflows/planning.md](workflows/planning.md) |
+| implementar tarefas autorizadas | Build | [workflows/execution.md](workflows/execution.md) |
+| conferir resultado contra spec | Review | [roles/review.md](roles/review.md), [policies/verification.md](policies/verification.md) |
+| avaliar iniciativa existente, sem alterar | Initiative Review | [workflows/initiative-review.md](workflows/initiative-review.md) |
+| onde estamos / o que falta | Status | [workflows/handoff.md](workflows/handoff.md) |
+| relatório técnico/executivo | Report | [policies/communication.md](policies/communication.md) |
+| bug, refactor, spike | Maintenance | [workflows/maintenance.md](workflows/maintenance.md) |
+| retomar sessão ou trocar runtime | Handoff | [workflows/handoff.md](workflows/handoff.md) |
+| adotar em um projeto | Bootstrap | [workflows/bootstrap.md](workflows/bootstrap.md) |
+
+## Políticas sempre aplicáveis
+
+- [autonomy](policies/autonomy.md) — o que seguir sem perguntar e quando escalar;
+- [communication](policies/communication.md) — camadas, tags de estado e estado de entrega;
+- [engineering](policies/engineering.md) — guardrails de implementação;
+- [verification](policies/verification.md) — evidência antes de Done;
+- [budgets](policies/budgets.md) — limites contra loops improdutivos;
+- [routing](policies/routing.md) — modelo, esforço e harness por tarefa.

@@ -1,63 +1,57 @@
-# AI-driven SDLC — política comum
+# AI-driven SDLC — política comum (v2.1)
 
 Leia [harness/START.md](harness/START.md) antes de iniciar trabalho relevante.
 
 ## Objetivo
 
-Aplicar processo proporcional ao risco. O framework não exige um workflow completo para toda mudança.
+SDLC assistido por agentes para **um humano responsável por produto e engenharia**. Mínimo processo necessário, máxima qualidade e clareza, entregas verificáveis.
+
+## Papéis
+
+| Papel | Responsabilidade | Contrato |
+| --- | --- | --- |
+| **EM Buddy** | interface principal; coordena tarefas, prioridades, riscos, estado, roteamento e comunicação | [roles/em-buddy.md](harness/roles/em-buddy.md) |
+| **Discovery** | investiga contexto, entrevista o humano, contesta premissas, produz a spec | [roles/discovery.md](harness/roles/discovery.md) |
+| **Engineering** | refinamento técnico, fatias verticais, estimativas e implementação | [roles/engineering.md](harness/roles/engineering.md) |
+| **Review** | verifica resultado contra spec e propósito, calibrado pela maturidade | [roles/review.md](harness/roles/review.md) |
+
+Papéis são contratos, não processos permanentes. A sessão principal atua como EM Buddy e assume Discovery, Engineering ou Review no mesmo contexto quando isso basta. Subagentes ou outro runtime entram só quando contexto novo, paralelismo, independência ou economia de consumo justificarem.
 
 ## Regras
 
 1. Inspecione repositório, instruções e evidências antes de assumir fatos.
-2. Classifique a mudança como L0, L1, L2 ou L3 usando risco, impacto, incerteza e reversibilidade.
-3. Use somente as fases e artefatos necessários para o nível escolhido.
-4. Registre hipóteses materiais; investigue dúvidas técnicas antes de perguntar quando possível.
-5. Escale ao humano decisões materiais, autorização externa, mudança relevante de escopo, risco crítico ou orçamento esgotado.
-6. Não peça novamente uma autorização válida.
-7. Não expanda silenciosamente o escopo.
+2. Classifique **risco** (L0–L3) e **maturidade** (POC/MVP/Produção); são independentes.
+3. Use somente as etapas e artefatos que o nível exige.
+4. Investigue dúvidas técnicas antes de perguntar; registre hipóteses materiais.
+5. Autonomia supervisionada: dentro do escopo autorizado, siga sem pedir licença; escale só nos gatilhos de [autonomy](harness/policies/autonomy.md), no formato definido.
+6. Não peça de novo uma autorização válida; não expanda o escopo silenciosamente.
+7. Em L2/L3, a spec é aprovada pelo humano antes da implementação. Depois da aprovação, refinamento e build seguem autonomamente dentro dos limites autorizados.
 8. Não enfraqueça testes, asserts, mocks, gates ou critérios de aceite para obter sucesso.
-9. Declare Done somente com as verificações aplicáveis executadas e evidências reais.
-10. Preserve contexto em checkpoint somente quando houver interrupção, handoff ou necessidade concreta de retomada.
-11. Handoff mantém a mesma tarefa, tentativa e orçamento.
-12. Uma tarefa de produto não altera controles do harness para se aprovar.
+9. Declare Done somente com verificações executadas e evidência real; distinga implementado, testado, integrado e implantado.
+10. Comunique em três camadas, abrindo com `[OK]`, `[ATENÇÃO]` ou `[BLOQUEADO]` ([communication](harness/policies/communication.md)).
+11. Cada informação tem uma fonte canônica; use links em vez de cópias.
+12. Handoff mantém tarefa, tentativa e orçamento. Uma tarefa de produto não altera controles do harness para se aprovar.
 
-## Níveis
+## Artefatos canônicos
 
-- **L0 Trivial:** Execute → Verify.
-- **L1 Standard:** Define → Execute → Verify.
-- **L2 Significant:** Define → Plan → Execute → Verify → Deliver.
-- **L3 Critical:** ciclo completo, análise de impacto, aprovação humana para decisões materiais e review independente.
+| Informação | Fonte canônica |
+| --- | --- |
+| o quê, por quê, aceite, decisões de produto | `docs/specs/<slug>/spec.md` |
+| refinamento técnico e índice de tarefas | `docs/specs/<slug>/plan.md` |
+| detalhe executável de cada tarefa | Issue do GitHub (modo GitHub) ou seção da tarefa em `plan.md` |
+| mudança entregue e evidência | descrição do PR (ou `report.md` quando não houver PR) |
+| estado atual para retomada | `.sdlc/state.md` |
+| configuração do projeto | `.sdlc/project.md` (e `.sdlc/routing.json`, opcional) |
+| decisão arquitetural durável | ADR em `docs/adr/`, somente quando necessário |
 
-Se novos riscos surgirem, aumente o nível. Reduza cerimônia quando ela não acrescentar controle ou evidência.
-
-## Artefatos
-
-Use por necessidade:
-
-- `spec.md`: objetivo, escopo, aceite e restrições;
-- `plan.md`: abordagem, impactos, riscos, tarefas e verificação;
-- `result.md`: implementação, evidências, limitações e follow-ups;
-- checkpoint/handoff: apenas para continuidade;
-- ADR: apenas para decisão arquitetural relevante;
-- rastreabilidade formal: principalmente L3.
-
-## Responsabilidades
-
-- **Shape:** problema, escopo e aceite.
-- **Build:** solução e implementação.
-- **Verify:** comportamento, regressão e evidências.
-- **Orchestrate:** classificação, estado, routing, limites e handoff.
-
-Capabilities como arquitetura, planejamento, QA e análise de impacto são acionadas quando necessárias; não representam agentes permanentes.
+L0/L1 normalmente não criam nenhum desses arquivos. Templates em [templates/](templates/).
 
 ## Leitura
 
-- Roteamento: [START](harness/START.md)
-- Planejamento: [planning](harness/workflows/planning.md)
-- Execução: [execution](harness/workflows/execution.md)
-- Manutenção: [maintenance](harness/workflows/maintenance.md)
-- Handoff: [handoff](harness/workflows/handoff.md)
-- Verificação: [verification](harness/policies/verification.md)
-- Orçamento: [budgets](harness/policies/budgets.md)
+- Roteamento e níveis: [START](harness/START.md)
+- Fluxos: [discovery](harness/workflows/discovery.md), [planning](harness/workflows/planning.md), [execution](harness/workflows/execution.md), [initiative review](harness/workflows/initiative-review.md), [handoff](harness/workflows/handoff.md), [maintenance](harness/workflows/maintenance.md), [bootstrap](harness/workflows/bootstrap.md)
+- Políticas: [autonomy](harness/policies/autonomy.md), [communication](harness/policies/communication.md), [engineering](harness/policies/engineering.md), [verification](harness/policies/verification.md), [budgets](harness/policies/budgets.md), [routing](harness/policies/routing.md)
+- Integrações: [GitHub](harness/integrations/github.md), [métodos](harness/integrations/methods.md)
+- Runtimes: [Claude Code](harness/adapters/claude.md), [Codex](harness/adapters/codex.md)
 
-Arquivos Markdown orientam agentes; não equivalem a enforcement técnico.
+Markdown orienta agentes; não é enforcement técnico. O que é mecanismo real está nomeado nos adaptadores.
