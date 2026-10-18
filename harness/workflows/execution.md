@@ -1,65 +1,52 @@
-# Execution
+# Execução (Build → Verify → Ship → Report)
+
+Papel: [Engineering](../roles/engineering.md), coordenado pelo EM Buddy.
 
 ## Antes de editar
 
-1. confirme o objetivo, nível e escopo;
-2. verifique branch/diff e instruções locais;
-3. confirme dependências e bloqueios reais;
-4. carregue apenas os artefatos necessários.
+1. Confirme iniciativa, nível, tarefa e escopo (state, spec, plano ou Issue).
+2. L2/L3: spec com `status: approved`; L3 também com plano aprovado. Sem isso, `[BLOQUEADO]`.
+3. Trabalhe numa branch (`<tipo>/<slug>`) com a árvore limpa ou com WIP conhecido.
+4. Rode os checks do projeto uma vez como baseline. Falha preexistente é registrada, não corrigida em silêncio.
 
-## Durante
+L0/L1 avulsos pulam os itens 2 e 4 quando não agregarem.
 
-- implemente somente o escopo autorizado;
-- preserve invariantes e padrões existentes;
-- execute verificações incrementais úteis;
-- registre decisão apenas quando ela for relevante para continuidade ou auditoria;
-- não crie Issue, checkpoint ou documento apenas para cumprir ritual;
-- não enfraqueça controles para fazer a mudança passar.
+## Loop por tarefa
 
-## Iteração
+1. Roteie ([routing](../policies/routing.md)) e decida entre inline e subagente.
+2. Implemente seguindo [engineering](../policies/engineering.md); TDD quando apropriado.
+3. Verifique: testes da tarefa, regressões indicadas e checks do projeto. O coordenador confere a evidência; subagente não certifica a si mesmo.
+4. Faça um commit coeso que referencie a tarefa.
+5. Atualize a tarefa (Issue/Project ou `plan.md`) e reporte uma linha: `[OK]` ou `[ATENÇÃO]` · feito · evidência · próximo.
+6. Passe para a próxima tarefa.
 
-Trabalhe em incrementos curtos e verificáveis, não em uma execução monolítica até o fim.
+## Sem interrupções artificiais
 
-A cada incremento, reporte usando um dos três modelos abaixo — nunca prosa livre. A tag já comunica a severidade antes de qualquer leitura de detalhe.
-
-### [OK] — tudo como esperado
-
-- Feito: o que foi concluído, em 1-2 linhas;
-- Resultado: evidência mínima (check, teste, diff);
-- Próximo: o incremento seguinte.
-
-### [ATENÇÃO] — ponto a observar, não crítico
-
-- Feito / Resultado / Próximo (como acima);
-- Ponto de atenção: o que observar, em 1-2 linhas — não bloqueia a continuação, mas o humano deve saber.
-
-### [CRÍTICO] — requer decisão humana antes de continuar
-
-- O que aconteceu;
-- Por que importa;
-- Decisão necessária (opções, se houver).
-
-Pare no incremento; não prossiga sem a decisão. É o mesmo gatilho de escalada de [budgets](../policies/budgets.md).
-
-As tags `[OK]`, `[ATENÇÃO]` e `[CRÍTICO]` são o mesmo vocabulário usado no campo "Atenção humana" de [handoff](handoff.md), para que o resumo de execução e o resumo persistido fiquem escaneáveis sem reler prosa.
-
-Dentro do escopo já autorizado, `[OK]` e `[ATENÇÃO]` não esperam confirmação do humano entre incrementos; `[CRÍTICO]` sim. Isso não dispensa Plan Mode em L2/L3 nem a aprovação do plano antes de começar.
+Não pergunte "posso continuar?" nem peça confirmação entre tarefas. Pare somente nos gatilhos de [autonomy](../policies/autonomy.md#quando-escalar) ou de [budgets](../policies/budgets.md). Ponto de atenção não crítico vai na linha `[ATENÇÃO]` e a execução continua.
 
 ## Orçamento
 
-O orçamento deve ser proporcional à complexidade. Tentativas repetidas sem nova evidência devem parar. Uma escalada diagnóstica pode ser usada quando houver uma hipótese nova e concreta.
+- Respeite o limite observável da tarefa.
+- Falha repetida pela mesma causa, sem hipótese nova: abandone a abordagem, diagnostique e tente uma alternativa distinta, ou escale.
+- Reprovações seguidas seguem [budgets](../policies/budgets.md#escalada-por-rejeições-repetidas).
 
-## Checkpoint
+## Descobertas durante o build
 
-Crie somente quando:
+- Ajuste local e reversível: decida, registre na tarefa e siga.
+- Mudança de escopo, critério de aceite impossível ou risco novo: volte ao [refinamento](planning.md); se for material, escale.
+- Trabalho adjacente útil: registre como follow-up; não expanda o escopo.
 
-- houver troca de runtime/executor;
-- a sessão for interrompida;
-- existir WIP difícil de reconstruir;
-- uma tarefa longa atingir marco útil.
+## Verify e Review
 
-## Conclusão
+Ao fim das tarefas, verifique a iniciativa inteira contra a spec conforme [verification](../policies/verification.md) e o review do nível ([review](../roles/review.md)). REPROVADO volta ao loop com os achados P0/P1.
 
-Encaminhe para [verification](../policies/verification.md). O executor relata evidências; não inventa resultados nem declara checks não executados como aprovados.
+## Ship
 
-O relatório final também abre com a tag de severidade (`[OK]`/`[ATENÇÃO]`/`[CRÍTICO]`, ver "## Iteração") — não só os incrementos intermediários. E é escrito para quem não tem o contexto desta sessão: na primeira menção, explique em 1 linha qualquer termo interno (nome de módulo, estrutura de dados, mecanismo) que não seja óbvio fora da sessão. Não presuma que quem lê lembra nomes de arquivo, classe ou conceito só porque apareceram no plano ou no código.
+- Push e PR conforme as autorizações registradas (`.sdlc/project.md` ou aprovação da spec). Sem autorização, deixe a branch pronta e inclua a decisão no relatório.
+- A descrição do PR segue [templates/pr.md](../../templates/pr.md): resumo, links para spec e tarefas, evidências. Não copie a spec.
+- Merge na branch principal e deploy: sempre decisão humana no momento.
+
+## Report e encerramento
+
+- Relatório final conforme [communication](../policies/communication.md), com o estado de entrega exato.
+- State: registre a conclusão, o estado de entrega e a próxima ação (ou "nenhuma iniciativa ativa").

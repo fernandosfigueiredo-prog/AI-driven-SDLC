@@ -7,7 +7,7 @@ Orçamento limita loops improdutivos, não a quantidade de comandos. Ele é adap
 - Repetir a mesma abordagem sem informação nova não é progresso: pare, diagnostique e mude de hipótese ou escale.
 - L0/L1 usam limite leve implícito: duas tentativas sem evidência nova encerram a abordagem.
 - L2/L3 declaram um **limite observável** por tarefa no plano: marcos verificáveis e condições de parada (por exemplo, "se o teste de integração continuar falhando pela mesma causa após uma mudança de abordagem, escalar"). Tempo pode aparecer só como referência de calibração.
-- O limite observável é aprovado **junto com o plano** — não há uma aprovação separada por tarefa.
+- O limite observável fica visível no plano e vale dentro da autorização dada na aprovação da spec; em L3 ele é aprovado junto com o plano. Não há aprovação separada por tarefa.
 - Handoff, troca de sessão, de modelo ou de runtime **não renova** orçamento nem apaga tentativas.
 - Escalada só se justifica com nova capacidade, contexto ou hipótese diagnóstica.
 
