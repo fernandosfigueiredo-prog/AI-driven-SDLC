@@ -1,0 +1,1 @@
+Se eu pedir agora um review independente L3 desta entrega, qual runtime e mecanismo você usaria? Responda em até 3 linhas, sem executar nada.

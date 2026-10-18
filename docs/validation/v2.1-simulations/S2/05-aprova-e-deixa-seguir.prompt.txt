@@ -1,0 +1,1 @@
+Para as dúvidas que ainda estiverem abertas, siga as suas recomendações. Aprovo a spec. Pode seguir com o refinamento e a implementação; push e PR não estão autorizados.

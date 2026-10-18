@@ -1,0 +1,34 @@
+{
+  "step": "relatório técnico",
+  "acceptance": [
+    10
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 2,
+  "costUsd": 0.08231660000000007,
+  "durationMs": 34272,
+  "checks": [
+    {
+      "name": "abre com tag",
+      "pass": true,
+      "detail": "**[EM]**\n\n[ATENÇÃO] **Conciliação de pedidos com extrato bancário**: está entregue e testada na branch local, com uma ressalva P2 aberta."
+    },
+    {
+      "name": "tem TL;DR",
+      "pass": true
+    },
+    {
+      "name": "declara estado de entrega",
+      "pass": true
+    },
+    {
+      "name": "cita testes executados",
+      "pass": true
+    },
+    {
+      "name": "cita arquivos",
+      "pass": true
+    }
+  ]
+}

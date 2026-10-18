@@ -1,10 +1,32 @@
 ---
 name: build
-description: Implementar fatias autorizadas com testes, guardrails de engenharia e autonomia supervisionada.
+description: Executa as tarefas autorizadas de uma iniciativa com autonomia supervisionada — implementa em incrementos verificáveis, testa, faz commit por tarefa, despacha subagentes quando o roteamento indica e só para nos gatilhos de escalada. Use quando o humano pedir para implementar, executar, construir ou continuar tarefas planejadas. Correção L0/L1 avulsa o EM Buddy executa direto, sem esta skill.
+argument-hint: "[tarefa, slug ou vazio para continuar]"
+allowed-tools: Bash(cat:*), Read(${CLAUDE_PLUGIN_ROOT}/**), Bash(node:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Read, Grep, Glob
 ---
-Confirme spec/Issue e autorização; se feature material não aprovada, pare e inicie Discovery, não improvise autorização.
-Leia ${CLAUDE_PLUGIN_ROOT}/harness/workflows/execution.md e policies/engineering-standards.md, verification.md e budgets.md conforme risco.
-Implemente menor incremento demonstrável com testes de comportamento e contratos; preserve escopo e consumidores afetados.
-Corrija problemas dentro do escopo sem pedir autorização; evite loops sem progresso.
-Selecione revisão independente para L3 e L2 quando risco justificar.
-Ao concluir use template result.md; nunca diga que teste não executado passou. Nunca faça merge/deploy de produção só pela aprovação da spec.
+
+# Build
+
+Alvo: $ARGUMENTS (sem argumento: próxima tarefa pendente da iniciativa ativa).
+
+Você assume o papel **[Engineering]**; o EM Buddy continua coordenando.
+
+## Gate de aprovação (L2/L3)
+
+Antes de editar código, confirme `status: approved` no frontmatter de `docs/specs/<slug>/spec.md`. Sem aprovação, **não implemente**: responda `[BLOQUEADO]` no formato de escalada, com as opções aprovar a spec agora, continuar o Discovery ou reclassificar como L1 com justificativa.
+
+## Procedimento
+
+!`cat "${CLAUDE_PLUGIN_ROOT}/harness/workflows/execution.md"`
+
+## Guardrails de engenharia
+
+!`cat "${CLAUDE_PLUGIN_ROOT}/harness/policies/engineering.md"`
+
+## No Claude Code
+
+- Rota por tarefa: `node "${CLAUDE_PLUGIN_ROOT}/scripts/route.mjs" --role build --risk <L> --complexity <c> --session <modelo-da-sessão> --brief`.
+- `mode: subagent` → ferramenta Agent com `subagent_type: "ai-driven-sdlc:engineer"`, `model` = modelo indicado e um pacote autocontido **no próprio prompt**: tarefa completa, caminhos da spec e do plano no projeto, os guardrails acima (texto, não caminho — o subagente pode não ter permissão para ler a pasta do plugin) e os comandos de verificação. Tarefas independentes podem ir em paralelo; dependentes, em sequência.
+- `mode: inline` → implemente nesta conversa.
+- Após cada tarefa: rode os checks você mesmo, faça commit, atualize Issue/Project no modo GitHub e reporte uma linha `[OK]` ou `[ATENÇÃO]`.
+- Ao final: invoque as skills `ai-driven-sdlc:review` (conforme o nível) e, em seguida, `ai-driven-sdlc:report` com a ferramenta Skill.

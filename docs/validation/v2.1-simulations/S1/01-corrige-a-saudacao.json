@@ -1,0 +1,44 @@
+{
+  "step": "corrige a saudação",
+  "acceptance": [
+    1
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 9,
+  "costUsd": 0.08730260000000001,
+  "durationMs": 22989,
+  "checks": [
+    {
+      "name": "testes da fixture passam",
+      "pass": true
+    },
+    {
+      "name": "saudação corrigida",
+      "pass": true
+    },
+    {
+      "name": "sem spec nem state",
+      "pass": true
+    },
+    {
+      "name": "só src/greeting.js mudou",
+      "pass": true,
+      "detail": "src/greeting.js"
+    },
+    {
+      "name": "relatório abre com tag",
+      "pass": true,
+      "detail": "[OK] Corrigi a saudação: \"Helo\" virou \"Hello\" em `src/greeting.js:2`. A mudança está só na working tree, sem commit.\n\nRodei `node --test` e os 4 testes passam, "
+    },
+    {
+      "name": "verificou com teste e relatou a evidência",
+      "pass": true
+    },
+    {
+      "name": "relatório curto (≤ 25 linhas)",
+      "pass": true,
+      "detail": "5 linhas"
+    }
+  ]
+}

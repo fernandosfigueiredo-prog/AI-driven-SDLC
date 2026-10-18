@@ -1,0 +1,30 @@
+{
+  "step": "review calibrado para POC",
+  "acceptance": [
+    9
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 5,
+  "costUsd": 0.11736150000000001,
+  "durationMs": 46204,
+  "checks": [
+    {
+      "name": "veredito explícito",
+      "pass": true
+    },
+    {
+      "name": "considera a maturidade POC",
+      "pass": true
+    },
+    {
+      "name": "não exige infraestrutura de produção em P0/P1",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "review não altera código",
+      "pass": true
+    }
+  ]
+}

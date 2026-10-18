@@ -1,0 +1,25 @@
+{
+  "step": "nova sessão retoma pelo estado",
+  "acceptance": [
+    11
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 2,
+  "costUsd": 0.05287950000000001,
+  "durationMs": 12165,
+  "checks": [
+    {
+      "name": "reconhece a iniciativa",
+      "pass": true
+    },
+    {
+      "name": "indica fase ou próxima ação",
+      "pass": true
+    },
+    {
+      "name": "não altera nada",
+      "pass": true
+    }
+  ]
+}

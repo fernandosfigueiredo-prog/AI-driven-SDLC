@@ -1,31 +1,32 @@
 ---
 name: Fatia vertical
-about: Comportamento verificável de negócio, com contratos, dependências e riscos
+about: Tarefa executável do AI-driven SDLC — mesmo conteúdo de templates/task.md
 title: "[Slice] "
 labels: []
 assignees: []
 ---
 
-## TL;DR e valor
-Qual comportamento ficará demonstrável e por quê?
+Parte de: <link da spec/plano> · Depende de: <tarefas ou "nenhuma">
 
-## Spec e critérios
-- Spec aprovada (link + versão):
-- Given / When / Then:
-- Fora do escopo:
+**TL;DR e valor** — qual comportamento ficará demonstrável e por quê.
 
-## Contexto técnico e dependências
-- Contratos/consumidores afetados:
-- Bloqueios de execução:
-- Regressões necessárias:
+**Objetivo e contexto de negócio** — por que esta fatia existe e qual valor entrega.
 
-## Execução
-- Risco L0/L1/L2/L3:
-- Maturidade POC/MVP/produção:
-- Complexidade S/M/L/XL, esforço/incerteza:
-- Harness/modelo disponível e fallback:
+**Contexto técnico** — onde mexer, padrões existentes a seguir, armadilhas conhecidas.
 
-## Evidências / conclusão
-- Testes realmente executados:
-- PR/commit:
-- Limitações e recomendação:
+**Escopo** — inclui: … · não inclui: …
+
+**Interfaces afetadas** — APIs, schemas, eventos, telas, contratos entre módulos.
+
+**Critérios de aceite** (ligados aos ACs da spec)
+- [ ] Given <contexto> · When <ação> · Then <resultado observável> (AC<n>)
+
+**Testes e regressões** — testes novos; suites existentes que precisam continuar verdes.
+
+**Estimativa** — complexidade S/M/L · risco L0–L3 · maturidade POC/MVP/Produção · incerteza baixa/média/alta
+
+**Roteamento** — <tier → modelo/esforço · modo> (saída de `scripts/route.mjs`)
+
+**Limite observável** — marcos verificáveis e condição de parada.
+
+**Pronto quando** — aceite demonstrado, checks verdes, commit referenciando esta tarefa.

@@ -1,0 +1,26 @@
+{
+  "step": "volta ao EM sem perder decisões",
+  "acceptance": [
+    4
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 1,
+  "costUsd": 0.015729699999999985,
+  "durationMs": 13046,
+  "checks": [
+    {
+      "name": "fala como [EM]",
+      "pass": true
+    },
+    {
+      "name": "aponta a spec",
+      "pass": true
+    },
+    {
+      "name": "state registra a fase e a spec",
+      "pass": true,
+      "detail": "# Estado\n\n- Fase: Discovery (aguardando aprovação da spec)\n- Iniciativa: conciliação de pedidos com extrato bancário (L2, POC)\n- Spec: docs/specs/conciliacao/spec.md (draft, AC1–AC7 escritos)\n- Decisõ"
+    }
+  ]
+}

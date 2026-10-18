@@ -1,42 +1,84 @@
-# AI-driven SDLC v2.1 — Solo Engineering
+# AI-driven SDLC
 
-Framework lean para **um único humano** liderar produto e engenharia com agentes de IA, mantendo contexto de decisão sem ler cada linha de código.
+SDLC assistido por agentes para **engenharia solo**: um humano responsável por produto e engenharia, um **EM Buddy** como interface principal e autonomia supervisionada do pedido até o relatório. Roda como plugin do Claude Code, inclusive no painel gráfico do VS Code. O Codex é complementar e opcional.
 
-**Status de entrega:** contratos, plugin Claude Code, skills e agentes versionados nesta branch. Execução interativa no painel gráfico requer teste no ambiente do usuário; não trate arquivos Markdown como prova de orquestração automática.
+> **Mínimo processo necessário, máxima qualidade e clareza, entregas verificáveis.**
 
-## Experiência
+## Instalação
 
-O humano conversa com EM Buddy na sessão principal do Claude Code no VS Code. O Buddy investiga, conduz Discovery por entrevista na mesma conversa, obtém aprovação de spec material, refina em fatias verticais e executa/verifica com autonomia supervisionada.
+```text
+/plugin install ai-driven-sdlc --marketplace fernandosfigueiredo-prog/AI-driven-SDLC
+```
 
-Ciclo (adaptativo): Intent → Discovery → Spec → Approval → Technical Refinement/Issues → Build → Verify/Review → Ship autorizado → Report.
-Bugs triviais seguem fluxo curto: entender → corrigir → verificar.
+Detalhes, escopos de instalação, uso local e desenvolvimento: [docs/USAGE.md](docs/USAGE.md).
 
-### Começar na GUI
-O manifest define **engineering-manager** como agente principal padrão enquanto o plugin estiver habilitado (configurações pessoais têm precedência). No painel gráfico, abra uma nova sessão e converse naturalmente; se o default não aparecer na versão instalada, invoque **/ai-driven-sdlc:buddy**. O plugin não garante qual modelo estará selecionado na UI.
+## Como funciona
 
-Para entrevista: **/ai-driven-sdlc:discover**. Você responde diretamente no mesmo chat, sem precisar interagir com histórico somente leitura de subagente.
-Para revisão estratégica somente leitura: **/ai-driven-sdlc:initiative-review**.
+```text
+Intent → Discovery/Interview → Spec → Approval → Technical Refinement → Tasks → Build → Verify/Review → Ship → Report
+```
 
-Veja [docs/USAGE.md](docs/USAGE.md) para instalação, validações e adoção do ALVA.
+O ciclo é adaptativo. O **risco** (L0–L3) decide quais etapas existem e a **maturidade** (POC/MVP/Produção) decide a barra de qualidade não funcional. As duas dimensões são independentes.
 
-## Organização
-- AGENTS.md: instruções neutras de fornecedor, contrato global.
-- CLAUDE.md: entrada de desenvolvimento deste repo, não configuração global instalável.
-- harness/policies: autonomia, comunicação, padrões, roteamento, budgets e verificação.
-- harness/workflows: Discovery, planejamento, execução, handoff, manutenção, revisão de iniciativa.
-- agents/: subagentes especializados para delegação; não equivalem automaticamente a chats humanos separados.
-- skills/: comandos nativos do plugin e condução conversacional.
-- templates/: artefatos canônicos quando úteis.
-- .claude-plugin/: manifest e marketplace; scripts/tests: validação.
+| Nível | Fluxo |
+| --- | --- |
+| L0/L1 | o EM Buddy executa direto, verifica e relata em poucas linhas — sem spec, Issue ou arquivo de estado |
+| L2 | Discovery → spec aprovada → refinamento e tarefas → build → review → relatório |
+| L3 | L2 + análise de impacto, plano aprovado e review independente |
 
-## Política
-Claude Code principal; Codex opcional, somente com executor real. A seleção de modelo principal é feita pela interface do Claude Code, com recomendações por competência/risco/custo. Review independente L3. Uma POC não é produção, mas mantém controles de segurança. Sem n8n obrigatório.
+Depois que o humano aprova a spec, refinamento, build, review e relatório seguem **sem interrupções artificiais**. O humano é acionado só por decisão material, risco crítico, operação externa sensível, bloqueio real ou validação de interface, sempre com contexto, alternativas, recomendação e consequência de adiar.
 
-A aprovação da spec permite evolução dentro do escopo e não autoriza deploy em produção, pagamentos reais, exclusões ou merge em main.
+## Papéis
 
-## Verificação
-Rode python scripts/validate_sdlc.py e python -m unittest discover -s tests -v.
-No ambiente com CLI disponível, rode também claude plugin validate . e teste instalação/skills no painel gráfico. Testes de GUI são manuais e **não** podem ser declarados passados por inspeção de repositório.
+| Papel | Faz | No Claude Code |
+| --- | --- | --- |
+| **EM Buddy** | interface principal; coordena tarefas, riscos, estado, roteamento e comunicação | sessão principal (hook de início de sessão) |
+| **Discovery** | entrevista em vários turnos, contesta premissas, escreve a spec | `/ai-driven-sdlc:discover`, na própria conversa |
+| **Engineering** | refinamento, fatias verticais, estimativas, implementação | `/ai-driven-sdlc:plan`, `/ai-driven-sdlc:build`, subagente `ai-driven-sdlc:engineer` |
+| **Review** | verifica contra a spec e o propósito, calibrado pela maturidade | `/ai-driven-sdlc:review`, subagente `ai-driven-sdlc:reviewer`, Codex opcional |
 
-## Migração
-Veja [docs/plans/AI-driven-SDLC-v2.1-roteiro-implementacao.md](docs/plans/AI-driven-SDLC-v2.1-roteiro-implementacao.md).
+Mais `/ai-driven-sdlc:initiative-review` (revisão estratégica somente leitura de uma iniciativa existente), `/ai-driven-sdlc:status` e `/ai-driven-sdlc:report`. Os comandos são atalhos: pedir em linguagem natural leva ao mesmo lugar. `/plan` e `/status` sem prefixo são comandos nativos do Claude Code.
+
+## Comunicação
+
+Todo relatório abre com `[OK]`, `[ATENÇÃO]` ou `[BLOQUEADO]` e vem em três camadas: TL;DR, contexto e evidências. O texto distingue **implementado**, **testado**, **integrado** e **implantado**.
+
+## Roteamento
+
+Política de equilíbrio entre qualidade, velocidade e consumo, configurável em [config/routing.json](config/routing.json) e resolvida por [scripts/route.mjs](scripts/route.mjs). Os critérios são papel, risco, complexidade, incerteza, orçamento, falhas, disponibilidade do modelo e necessidade de review independente. Modelos são aliases (`haiku`, `sonnet`, `opus`, `fable`), nunca versões fixas. Sem Codex, tudo segue com Claude.
+
+## Estrutura
+
+```text
+AGENTS.md                 política comum (independente de runtime)
+harness/START.md          ciclo, risco × maturidade, intenção → capability
+harness/policies/         autonomy, communication, engineering, verification, budgets, routing
+harness/roles/            em-buddy, discovery, engineering, review
+harness/workflows/        discovery, planning, execution, initiative-review, handoff, maintenance, bootstrap
+harness/integrations/     github, methods
+harness/adapters/         claude, codex
+templates/                spec, plan, task, pr, report, state, project, handoff, initiative-review
+config/routing.json       tiers, papéis, pisos de risco, escalada, harnesses
+.claude-plugin/           manifesto do plugin e marketplace
+skills/ agents/ hooks/    adaptação para o Claude Code (finas: incluem os contratos acima)
+scripts/                  route.mjs, export-contracts.sh
+tests/                    contratos, roteamento, hook, fixtures e simulações headless
+```
+
+## O que é mecanismo e o que é orientação
+
+São mecanismos reais o hook de sessão, as skills (que incluem os contratos no momento do uso), os subagentes de review sem ferramentas de escrita, o resolvedor de roteamento e os testes. Gates como a aprovação da spec e o orçamento são checados pelo agente e auditáveis pelo humano; Markdown sozinho não bloqueia nada. Detalhes em [harness/adapters/claude.md](harness/adapters/claude.md).
+
+## Testes
+
+```bash
+npm test            # contratos, roteamento e hook — determinístico, sem rede
+npm run simulate    # simulações headless dos fluxos com claude -p (consome cota)
+```
+
+## Referências
+
+- [GitHub Spec Kit](https://github.com/github/spec-kit) — especificação e planejamento
+- [TaskForge](https://github.com/soeirosantos/taskforge) — execução limitada, verificação externa, escalada e handoff
+
+Histórico de versões: [CHANGELOG.md](CHANGELOG.md).

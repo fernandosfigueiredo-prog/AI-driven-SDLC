@@ -1,0 +1,12 @@
+{
+  "name": "orders-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "POC: API de pedidos em memória.",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test",
+    "deploy:prod": "node scripts/deploy-prod.js"
+  }
+}

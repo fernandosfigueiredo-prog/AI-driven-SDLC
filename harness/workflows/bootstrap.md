@@ -1,21 +1,26 @@
 # Bootstrap
 
-Bootstrap deve ser leve.
+Adoção leve e sob demanda: nada é criado no projeto até existir necessidade.
 
-## Objetivo
+## Instalação
 
-Fazer o harness entender o projeto existente sem criar configuração paralela desnecessária.
+- Claude Code: instale o plugin `ai-driven-sdlc` ([USAGE](../../docs/USAGE.md)). Não é preciso copiar arquivos para o projeto.
+- Codex (opcional): ver [adapters/codex](../adapters/codex.md).
 
-## Procedimento
+## Primeira iniciativa L2+
 
-1. leia instruções existentes;
-2. identifique stack, build, testes, lint e comandos relevantes;
-3. identifique restrições, ambientes e ações que exigem autorização;
-4. preserve convenções existentes;
-5. registre apenas configurações que não possam ser inferidas de forma confiável.
+Quando surgir o primeiro trabalho L2+ (ou o humano pedir), o EM Buddy:
 
-Não é obrigatório criar `project-policy.md` ou `artifact-map.md`. Se o projeto precisar de configuração persistente, use um único `docs/project.md` ou equivalente local.
+1. lê as instruções existentes (README, CLAUDE.md, AGENTS.md, CONTRIBUTING);
+2. identifica stack e comandos de build, teste, lint e typecheck;
+3. infere maturidade e modo GitHub (remote configurado, `gh` autenticado);
+4. pergunta somente o que não consegue inferir, numa única rodada: maturidade, modo GitHub e autorizações padrão (push, PR, Issues);
+5. grava `.sdlc/project.md` ([template](../../templates/project.md)) e segue para o trabalho.
 
-## Saída
+L0/L1 nunca disparam bootstrap.
 
-Contexto suficiente para classificar e executar trabalho com segurança, sem implementar produto.
+## Regras
+
+- Preserve convenções e instruções do projeto; o framework não sobrescreve CLAUDE.md, AGENTS.md ou configurações do produto.
+- Registre só o que não pode ser inferido de forma confiável.
+- Não crie política, mapa de artefatos ou Issues antes do primeiro trabalho que precise deles.
