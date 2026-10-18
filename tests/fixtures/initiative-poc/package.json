@@ -1,0 +1,11 @@
+{
+  "name": "parcel-notify",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "POC: avisar clientes por SMS quando a entrega muda de status.",
+  "scripts": {
+    "test": "node --test",
+    "demo": "node src/demo.js"
+  }
+}
