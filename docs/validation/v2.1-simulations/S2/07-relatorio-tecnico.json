@@ -5,14 +5,14 @@
   ],
   "subtype": "success",
   "isError": false,
-  "turns": 2,
-  "costUsd": 0.08231660000000007,
-  "durationMs": 34272,
+  "turns": 1,
+  "costUsd": 0.06210139999999997,
+  "durationMs": 19260,
   "checks": [
     {
       "name": "abre com tag",
       "pass": true,
-      "detail": "**[EM]**\n\n[ATENÇÃO] **Conciliação de pedidos com extrato bancário**: está entregue e testada na branch local, com uma ressalva P2 aberta."
+      "detail": "**[EM]**\n\n[ATENÇÃO] Conciliação de pedidos com o extrato bancário: implementada e testada na branch, mas reprovada no review. Há 3 defeitos a corrigir antes de "
     },
     {
       "name": "tem TL;DR",

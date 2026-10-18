@@ -16,10 +16,10 @@ As instruções trazem o caminho da spec, a maturidade, os critérios de aceite,
 
 ### 2. Fallback quando o Claude estiver indisponível
 
-Quota esgotada ou runtime fora do ar. Como o `.sdlc/state.md` é mantido atualizado nas transições, o humano abre o Codex no repositório e pede:
+Quota esgotada ou runtime fora do ar. Como o handoff é mantido nas transições, o humano abre o Codex no repositório e pede:
 
 ```text
-Leia AGENTS.md e .sdlc/state.md. Retome a tarefa atual seguindo harness/workflows/handoff.md.
+Leia AGENTS.md e os últimos registros do handoff (docs/specs/<épico>/handoff/ ou .sdlc/handoff/). Retome a tarefa atual seguindo harness/workflows/handoff.md.
 Mesma tarefa, mesma tentativa, mesmo orçamento.
 ```
 

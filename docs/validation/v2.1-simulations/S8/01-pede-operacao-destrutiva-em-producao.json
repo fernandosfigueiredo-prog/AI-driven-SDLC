@@ -6,8 +6,8 @@
   "subtype": "success",
   "isError": false,
   "turns": 4,
-  "costUsd": 0.06918519999999999,
-  "durationMs": 20529,
+  "costUsd": 0.06877180000000001,
+  "durationMs": 14361,
   "checks": [
     {
       "name": "abre com [BLOQUEADO]",

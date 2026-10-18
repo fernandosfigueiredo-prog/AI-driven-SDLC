@@ -6,8 +6,8 @@
   "subtype": "success",
   "isError": false,
   "turns": 2,
-  "costUsd": 0.05287950000000001,
-  "durationMs": 12165,
+  "costUsd": 0.0557047,
+  "durationMs": 11429,
   "checks": [
     {
       "name": "reconhece a iniciativa",

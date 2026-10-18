@@ -7,17 +7,17 @@
   ],
   "subtype": "success",
   "isError": false,
-  "turns": 33,
-  "costUsd": 0.3878232,
-  "durationMs": 155018,
+  "turns": 54,
+  "costUsd": 0.5770963999999998,
+  "durationMs": 185365,
   "checks": [
     {
       "name": "spec aprovada com data",
       "pass": true,
-      "detail": "---\nstatus: approved\nlevel: L2\nmaturity: POC\napproved_by: humano (chat)\napproved_at: 2026-10-18\n---\n\n# Conciliação de pedidos com extrato bancário\n\n## Objetivo\n"
+      "detail": "---\nstatus: approved\nlevel: L2\nmaturity: POC\napproved_by: humano (chat)\napproved_at: 2026-10-18\n---\n\n# Conciliação de pedidos com o extrato bancário\n\n## Objetiv"
     },
     {
-      "name": "plano com tarefas completas",
+      "name": "story com tarefas, contexto, dependências e testes",
       "pass": true
     },
     {
@@ -31,6 +31,16 @@
     {
       "name": "commits feitos",
       "pass": true
+    },
+    {
+      "name": "registros do handoff no formato e com horário real",
+      "pass": true,
+      "detail": "4 registros"
+    },
+    {
+      "name": "handoff com registros curtos e próxima ação",
+      "pass": true,
+      "detail": "4 registros; longos: nenhum"
     },
     {
       "name": "sem pausa artificial",

@@ -144,23 +144,34 @@ test('templates trazem os campos que os fluxos exigem', () => {
   assert.deepEqual(Object.keys(spec).sort(), ['approved_at', 'approved_by', 'level', 'maturity', 'status']);
   assert.equal(spec.status, 'draft');
 
-  const task = read('templates/task.md');
+  const story = read('templates/story.md');
   for (const field of [
+    'TL;DR e valor',
     'Objetivo e contexto de negócio',
     'Contexto técnico',
     'Depende de',
     'Interfaces afetadas',
     'Critérios de aceite',
+    'Given',
+    'Tarefas',
     'Testes e regressões',
     'Estimativa',
     'Roteamento',
     'Limite observável',
   ]) {
-    assert.ok(task.includes(field), `task.md: ${field}`);
+    assert.ok(story.includes(field), `story.md: ${field}`);
   }
 
-  const stateLines = read('templates/state.md').split('\n').length;
-  assert.ok(stateLines <= 60, `state.md cabe no que o hook injeta (${stateLines} linhas)`);
+  assert.match(read('templates/spec.md'), /## Stories/, 'spec tem a tabela de stories');
+
+  const entry = frontmatter(read('templates/handoff.md'));
+  assert.deepEqual(Object.keys(entry).sort(), ['autor', 'data', 'nivel', 'story', 'tag']);
+  const entryBody = body(read('templates/handoff.md')).replace(/<!--[\s\S]*?-->/, '');
+  for (const field of ['Feito', 'Evidência', 'Estado', 'Próxima ação', 'Decisões e pendências humanas', 'Atenção']) {
+    assert.ok(entryBody.includes(`**${field}:**`), `registro de handoff: ${field}`);
+  }
+  assert.ok(entryBody.split('\n').length <= 14, 'o registro é curto');
+  assert.ok(!exists('templates/state.md'), 'o retrato state.md foi substituído pelo handoff');
 });
 
 test('quatro papéis existem e o AGENTS.md aponta para eles', () => {
@@ -197,9 +208,9 @@ test('nenhum segredo ou ID de modelo datado no repositório', () => {
   }
 });
 
-test('template de Issue do GitHub espelha templates/task.md (uma fonte)', () => {
-  const task = read('templates/task.md').split('\n').slice(2).join('\n').trim();
-  const issue = body(read('.github/ISSUE_TEMPLATE/slice.md')).trim();
+test('template de Issue do GitHub espelha templates/story.md (uma fonte)', () => {
+  const task = read('templates/story.md').split('\n').slice(2).join('\n').trim();
+  const issue = body(read('.github/ISSUE_TEMPLATE/story.md')).trim();
   assert.equal(issue, task);
 });
 
@@ -214,4 +225,27 @@ test('nenhum comando ou agente usa o prefixo antigo sdlc:', () => {
   for (const file of files) {
     assert.doesNotMatch(read(file), /(?<![\w.-])sdlc:(discover|plan|build|review|report|status|initiative-review|engineer|reviewer)\b/, file);
   }
+});
+
+test('o handoff é o único estado: nada aponta para .sdlc/state.md e os fluxos citam o livro de registros', () => {
+  const files = listFiles('.', (path) => /\.(md|json|mjs|sh)$/.test(path) && !path.startsWith('docs/validation/v2.1-simulations/') && path !== 'CHANGELOG.md' && !path.startsWith('docs/plans/'));
+  for (const file of files) {
+    if (file === 'tests/contracts.test.mjs') continue;
+    assert.doesNotMatch(read(file), /\.sdlc\/state\.md/, file);
+  }
+  const workflow = read('harness/workflows/handoff.md');
+  for (const term of ['append-only', 'últimos 3', 'docs/specs/<slug>/handoff/', '.sdlc/handoff/', 'uma linha', 'scripts/handoff.mjs', 'nunca sobrescreve', 'pelo relógio']) {
+    assert.ok(workflow.includes(term), `handoff.md: ${term}`);
+  }
+  for (const file of ['harness/workflows/execution.md', 'harness/workflows/discovery.md', 'harness/workflows/planning.md', 'harness/roles/em-buddy.md']) {
+    assert.match(read(file), /handoff/i, `${file} menciona o handoff`);
+  }
+});
+
+test('épico, story e tarefa: o refinamento define os três níveis e o refinamento sob demanda', () => {
+  const planning = read('harness/workflows/planning.md');
+  for (const term of ['Épico', 'Story', 'Tarefa', 'perto da hora de construir', 'não precisa de épico']) {
+    assert.ok(planning.includes(term), `planning.md: ${term}`);
+  }
+  assert.match(read('skills/plan/SKILL.md'), /templates\/story\.md/);
 });

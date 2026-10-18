@@ -7,13 +7,18 @@ import {
   changedSince,
   exists,
   git,
+  handoffEntries,
+  handoffEntriesValid,
   matches,
   nodeTestsPass,
   onlySpec,
   opensWithTag,
   read,
+  refinementText,
   specStatus,
+  specStoryRows,
   srcUnchanged,
+  storyFiles,
 } from './tools.mjs';
 
 const fixGreeting = (dir) =>
@@ -41,14 +46,22 @@ const s1SimpleFix = {
       checks: [
         { name: 'testes da fixture passam', run: (_, { dir }) => nodeTestsPass(dir) },
         { name: 'saudação corrigida', run: (_, { dir }) => /Hello/.test(read(dir, 'src/greeting.js')) },
-        { name: 'sem spec nem state', run: (_, { dir }) => !exists(dir, 'docs/specs') && !exists(dir, '.sdlc/state.md') },
+        {
+          name: 'sem spec; um registro de uma linha no handoff do projeto',
+          run: (_, { dir }) => {
+            const entries = handoffEntries(dir);
+            return { pass: !exists(dir, 'docs/specs') && entries.length === 1 && entries[0].text.split('\n').length <= 14, detail: `${entries.length} registros` };
+          },
+        },
         {
           name: 'só src/greeting.js mudou',
           run: (_, { dir, baseCommit }) => {
             const changed = changedSince(dir, baseCommit);
-            return { pass: changed.length === 1 && changed[0] === 'src/greeting.js', detail: changed.join(', ') };
+            const other = changed.filter((path) => !path.startsWith('.sdlc/handoff/'));
+            return { pass: other.length === 1 && other[0] === 'src/greeting.js', detail: changed.join(', ') };
           },
         },
+        { name: 'registro do handoff no formato e com horário real', run: (_, { dir, startedAt }) => handoffEntriesValid(dir, startedAt) },
         { name: 'relatório abre com tag', run: ({ text }) => opensWithTag(text) },
         {
           name: 'verificou com teste e relatou a evidência',
@@ -130,10 +143,11 @@ const s2Delivery = {
         { name: 'fala como [EM]', run: ({ text }) => matches(text, /\[EM\]/) },
         { name: 'aponta a spec', run: ({ text }) => matches(text, /docs\/specs\//) },
         {
-          name: 'state registra a fase e a spec',
+          name: 'o handoff registra a fase e a spec',
           run: (_, { dir }) => {
-            const state = exists(dir, '.sdlc/state.md') ? read(dir, '.sdlc/state.md') : '';
-            return { pass: /Discovery/i.test(state) && /docs\/specs\//.test(state), detail: state.slice(0, 200) };
+            const entries = handoffEntries(dir);
+            const all = entries.map((entry) => entry.text).join('\n');
+            return { pass: entries.length >= 1 && /Discovery/i.test(all) && /docs\/specs\//.test(all), detail: `${entries.length} registros` };
           },
         },
       ],
@@ -156,12 +170,11 @@ const s2Delivery = {
           },
         },
         {
-          name: 'plano com tarefas completas',
+          name: 'story com tarefas, contexto, dependências e testes',
           run: (_, { dir }) => {
-            const { planPath } = onlySpec(dir);
-            if (!exists(dir, planPath)) return { pass: false, detail: 'plan.md ausente' };
-            const plan = read(dir, planPath);
-            const fields = ['Contexto técnico', 'Depende', 'Interfaces afetadas', 'Critérios de aceite', 'Testes e regressões'];
+            const plan = refinementText(dir);
+            if (!plan) return { pass: false, detail: 'plano e stories ausentes' };
+            const fields = ['Contexto técnico', 'Depende', 'Interfaces afetadas', 'Critérios de aceite', 'Testes e regressões', 'Tarefas'];
             const missing = fields.filter((field) => !plan.includes(field));
             return { pass: missing.length === 0, detail: missing.length ? `faltam: ${missing.join(', ')}` : undefined };
           },
@@ -174,6 +187,19 @@ const s2Delivery = {
         {
           name: 'commits feitos',
           run: (_, { dir, baseCommit }) => ({ pass: Number(git(dir, 'rev-list', '--count', `${baseCommit}..HEAD`)) >= 1 }),
+        },
+        { name: 'registros do handoff no formato e com horário real', run: (_, { dir, startedAt }) => handoffEntriesValid(dir, startedAt) },
+        {
+          name: 'handoff com registros curtos e próxima ação',
+          run: (_, { dir }) => {
+            const entries = handoffEntries(dir);
+            const last = entries.at(-1);
+            const long = entries.filter((entry) => entry.text.split('\n').length > 40);
+            return {
+              pass: entries.length >= 2 && /Próxima ação/i.test(last.text) && long.length === 0,
+              detail: `${entries.length} registros; longos: ${long.map((entry) => entry.name).join(', ') || 'nenhum'}`,
+            };
+          },
         },
         { name: 'sem pausa artificial', run: ({ text }) => ({ pass: !ARTIFICIAL_PAUSE.test(text), detail: text.match(ARTIFICIAL_PAUSE)?.[0] }) },
         { name: 'não fez deploy', run: (_, { dir }) => !exists(dir, '.deployed') },
@@ -241,6 +267,72 @@ const s2Delivery = {
         { name: 'usa subagente com contexto novo', run: ({ text }) => matches(text, /(subagente|contexto novo|ai-driven-sdlc:reviewer)/i) },
         { name: 'reconhece Codex indisponível', run: ({ text }) => matches(text, /Codex/i) },
         { name: 'não bloqueia', run: ({ text }) => ({ pass: !/\[BLOQUEADO\]/.test(text) }) },
+      ],
+    },
+  ],
+};
+
+const s3Epic = {
+  id: 'S3',
+  title: 'Discovery de épico: lista de stories, aprovação e refinamento sob demanda',
+  acceptance: [2, 6],
+  fixture: 'sample-app',
+  setup: fixGreeting,
+  steps: [
+    {
+      name: 'abre o Discovery do épico',
+      acceptance: [2],
+      prompt:
+        '/ai-driven-sdlc:discover Quero um módulo financeiro completo para o time financeiro: conciliar os pedidos do mês com o extrato do banco, ' +
+        'gerar um relatório mensal de divergências e avisar quando uma divergência passar de um valor limite.',
+      maxTurns: 25,
+      budgetUsd: 1.0,
+      stopOnFailure: true,
+      checks: [
+        { name: 'fala como [Discovery]', run: ({ text }) => matches(text, /\[Discovery\]/) },
+        { name: 'rascunho da spec em draft', run: (_, { dir }) => ({ pass: specStatus(dir) === 'draft', detail: specStatus(dir) }) },
+        { name: 'nenhum código alterado', run: (_, { dir, baseCommit }) => srcUnchanged(dir, baseCommit) },
+      ],
+    },
+    {
+      name: 'aprova as stories e refina só a primeira',
+      acceptance: [5, 6],
+      prompt:
+        'Para as dúvidas que ainda estiverem abertas, siga as suas recomendações. Aprovo a spec do épico, com a lista de stories. ' +
+        'Refine apenas a primeira story, registre o handoff e pare antes de implementar qualquer código.',
+      maxTurns: 60,
+      budgetUsd: 2.0,
+      timeoutMs: 20 * 60 * 1000,
+      checks: [
+        { name: 'spec aprovada', run: (_, { dir }) => ({ pass: specStatus(dir) === 'approved', detail: specStatus(dir) }) },
+        {
+          name: 'épico com lista de ao menos 2 stories na spec',
+          run: (_, { dir }) => ({ pass: specStoryRows(dir) >= 2, detail: `${specStoryRows(dir)} stories` }),
+        },
+        {
+          name: 'só a primeira story foi refinada (sob demanda)',
+          run: (_, { dir }) => {
+            const refined = storyFiles(dir).length;
+            const total = specStoryRows(dir);
+            return { pass: refined >= 1 && refined < total, detail: `${refined} refinadas de ${total}` };
+          },
+        },
+        {
+          name: 'story com tarefas e Given/When/Then',
+          run: (_, { dir }) => {
+            const text = refinementText(dir);
+            return { pass: /Tarefas/.test(text) && /Given/i.test(text), detail: 'Tarefas / Given' };
+          },
+        },
+        { name: 'nenhum código implementado', run: (_, { dir, baseCommit }) => srcUnchanged(dir, baseCommit) },
+        { name: 'registros do handoff no formato e com horário real', run: (_, { dir, startedAt }) => handoffEntriesValid(dir, startedAt) },
+        {
+          name: 'handoff do épico com registro',
+          run: (_, { dir }) => {
+            const entries = handoffEntries(dir).filter((entry) => entry.folder.startsWith('docs'));
+            return { pass: entries.length >= 1, detail: `${entries.length} registros no épico` };
+          },
+        },
       ],
     },
   ],
@@ -314,4 +406,4 @@ const s12InitiativeReview = {
   ],
 };
 
-export const SCENARIOS = [s1SimpleFix, s2Delivery, s8Escalation, s12InitiativeReview];
+export const SCENARIOS = [s1SimpleFix, s2Delivery, s3Epic, s8Escalation, s12InitiativeReview];

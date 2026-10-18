@@ -59,9 +59,15 @@ Fale normalmente; os comandos são atalhos.
 - O Discovery roda **na conversa principal**: você responde no próprio painel, em quantos turnos precisar.
 - Perguntas fechadas aparecem como formulário de opções (a recomendada vem primeiro); perguntas abertas vêm numeradas no chat.
 - Cada resposta é gravada na hora em `docs/specs/<slug>/spec.md`, com `status: draft`.
-- Para pausar e voltar ao EM: "volta pro EM" ou "chega por hoje". As decisões ficam na spec e em `.sdlc/state.md`.
+- Para pausar e voltar ao EM: "volta pro EM" ou "chega por hoje". As decisões ficam na spec e no último registro do handoff.
 - Para aprovar, diga explicitamente ("aprovo", "pode seguir") ou escolha **Aprovar**. Nada é implementado em L2/L3 antes disso.
 - Na aprovação, diga também o que está autorizado (por exemplo, "push e PR liberados"). Merge na branch principal e deploy sempre voltam para você.
+
+## Épicos, stories e o handoff
+
+- **Épico** é trabalho que se divide em várias stories: uma spec aprovada com a lista de stories. **Story** é uma fatia vertical com valor demonstrável; as **tarefas** são os passos técnicos dentro dela. Feature de uma story só não precisa de épico.
+- As stories são refinadas **perto da hora de construir**, uma de cada vez, não todas no começo.
+- O **handoff** é um livro de registros que nunca é editado, só acrescentado: um arquivo pequeno por registro, em `docs/specs/<épico>/handoff/` (ou `.sdlc/handoff/` quando não há épico). Existe em todo trabalho: completo em L2/L3, uma linha em L0/L1. Ao abrir uma sessão, o hook mostra só os últimos 3 registros; o último é o estado atual.
 
 ## Quando o EM vai chamar você
 
@@ -69,7 +75,7 @@ Somente para: mudança material de escopo, decisão arquitetural difícil de rev
 
 ## Retomar
 
-Abra uma conversa nova: o hook injeta o contrato do EM e o `.sdlc/state.md`. Pergunte "onde estamos?" e peça para continuar. O estado é reconciliado com o git antes de qualquer edição.
+Abra uma conversa nova: o hook injeta o contrato do EM e os últimos 3 registros do handoff. Pergunte "onde estamos?" e peça para continuar. O estado é reconciliado com o git antes de qualquer edição.
 
 ## GitHub, Codex e configuração
 

@@ -1,5 +1,5 @@
-[OK] Corrigi a saudação: "Helo" virou "Hello" em `src/greeting.js:2`. A mudança está só na working tree, sem commit.
+[OK] Corrigi a saudação em `src/greeting.js:2`: agora retorna `Hello, ${name}!` em vez de "Helo". Os 4 testes passam com `npm test`, incluindo `greeting.test.js`, que espera `Hello, Ana!`.
 
-Rodei `node --test` e os 4 testes passam, incluindo o de `greet`.
+Meu primeiro edit tirou sem querer o espaço depois da vírgula (`Hello,Ana!`) e o teste falhou. Corrigi e rodei de novo.
 
-No meio do caminho, minha primeira edição deixou a string como `Hello,${name}`, sem o espaço depois da vírgula, e o teste falhou. Ajustei, e o diff final troca só a palavra errada.
+Não fiz commit. Registrei uma linha no handoff em `.sdlc/handoff/2026-10-18-171504-fix-greeting-typo.md`.

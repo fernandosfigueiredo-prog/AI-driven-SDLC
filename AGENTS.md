@@ -30,21 +30,21 @@ Papéis são contratos, não processos permanentes. A sessão principal atua com
 9. Declare Done somente com verificações executadas e evidência real; distinga implementado, testado, integrado e implantado.
 10. Comunique em três camadas, abrindo com `[OK]`, `[ATENÇÃO]` ou `[BLOQUEADO]` ([communication](harness/policies/communication.md)).
 11. Cada informação tem uma fonte canônica; use links em vez de cópias.
-12. Handoff mantém tarefa, tentativa e orçamento. Uma tarefa de produto não altera controles do harness para se aprovar.
+12. O handoff é um livro de registros append-only, sempre mantido; ele preserva tarefa, tentativa e orçamento ao trocar de sessão ou de runtime. Uma tarefa de produto não altera controles do harness para se aprovar.
 
 ## Artefatos canônicos
 
 | Informação | Fonte canônica |
 | --- | --- |
 | o quê, por quê, aceite, decisões de produto | `docs/specs/<slug>/spec.md` |
-| refinamento técnico e índice de tarefas | `docs/specs/<slug>/plan.md` |
-| detalhe executável de cada tarefa | Issue do GitHub (modo GitHub) ou seção da tarefa em `plan.md` |
+| refinamento técnico e ordem das stories | `docs/specs/<slug>/plan.md` |
+| detalhe executável de cada story, com suas tarefas | Issue do GitHub (modo GitHub), `docs/specs/<slug>/stories/<story>.md` (épico) ou seção do `plan.md` (feature isolada) |
 | mudança entregue e evidência | descrição do PR (ou `report.md` quando não houver PR) |
-| estado atual para retomada | `.sdlc/state.md` |
+| o que aconteceu e o estado atual (o último registro) | `docs/specs/<slug>/handoff/` (épico) ou `.sdlc/handoff/` (sem épico) |
 | configuração do projeto | `.sdlc/project.md` (e `.sdlc/routing.json`, opcional) |
 | decisão arquitetural durável | ADR em `docs/adr/`, somente quando necessário |
 
-L0/L1 normalmente não criam nenhum desses arquivos. Templates em [templates/](templates/).
+L0/L1 não criam spec nem plano; deixam apenas um registro de uma linha no handoff do projeto. Templates em [templates/](templates/).
 
 ## Leitura
 

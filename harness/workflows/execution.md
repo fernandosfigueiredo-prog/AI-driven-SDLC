@@ -11,14 +11,15 @@ Papel: [Engineering](../roles/engineering.md), coordenado pelo EM Buddy.
 
 L0/L1 avulsos pulam os itens 2 e 4 quando não agregarem.
 
-## Loop por tarefa
+## Loop por story (e por tarefa)
 
 1. Roteie ([routing](../policies/routing.md)) e decida entre inline e subagente.
 2. Implemente seguindo [engineering](../policies/engineering.md); TDD quando apropriado.
 3. Verifique: testes da tarefa, regressões indicadas e checks do projeto. O coordenador confere a evidência; subagente não certifica a si mesmo.
-4. Faça um commit coeso que referencie a tarefa.
-5. Atualize a tarefa (Issue/Project ou `plan.md`) e reporte uma linha: `[OK]` ou `[ATENÇÃO]` · feito · evidência · próximo.
-6. Passe para a próxima tarefa.
+4. Faça um commit coeso que referencie a tarefa e marque-a na story.
+5. Atualize a story (Issue/Project, `stories/` ou `plan.md`) e reporte uma linha: `[OK]` ou `[ATENÇÃO]` · feito · evidência · próximo.
+6. Ao **fechar a story**, ao pausar ou ao escalar, escreva o registro no [handoff](handoff.md).
+7. Passe para a próxima tarefa; sem tarefas, refine a próxima story ([planning](planning.md)).
 
 ## Sem interrupções artificiais
 
@@ -43,10 +44,10 @@ Ao fim das tarefas, verifique a iniciativa inteira contra a spec conforme [verif
 ## Ship
 
 - Push e PR conforme as autorizações registradas (`.sdlc/project.md` ou aprovação da spec). Sem autorização, deixe a branch pronta e inclua a decisão no relatório.
-- A descrição do PR segue [templates/pr.md](../../templates/pr.md): resumo, links para spec e tarefas, evidências. Não copie a spec.
+- A descrição do PR segue [templates/pr.md](../../templates/pr.md): resumo, links para spec e stories, evidências. Não copie a spec.
 - Merge na branch principal e deploy: sempre decisão humana no momento.
 
 ## Report e encerramento
 
 - Relatório final conforme [communication](../policies/communication.md), com o estado de entrega exato.
-- State: registre a conclusão, o estado de entrega e a próxima ação (ou "nenhuma iniciativa ativa").
+- Handoff: escreva o registro final com a conclusão, o estado de entrega e a próxima ação (ou "nenhuma iniciativa ativa"). Em L0/L1, o registro de uma linha com o commit.

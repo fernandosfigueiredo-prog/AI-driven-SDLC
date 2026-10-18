@@ -1,7 +1,7 @@
 {
   "name": "ai-driven-sdlc",
   "displayName": "AI-driven SDLC — Solo Engineering",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "AI-driven SDLC para engenharia solo: EM Buddy, Discovery interativo, refinamento em fatias, build, review e relatórios com autonomia supervisionada.",
   "author": { "name": "Fernando Figueiredo" },
   "homepage": "https://github.com/fernandosfigueiredo-prog/AI-driven-SDLC",

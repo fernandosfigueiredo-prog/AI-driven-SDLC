@@ -19,11 +19,13 @@ Spec: [spec.md](spec.md) · Nível: L2 · Maturidade: POC
 - Estratégia por critério de aceite:
 - Review: autoverificação | independente (motivo)
 
-## Tarefas
+## Ordem das stories
 
-| # | Tarefa | Depende de | Est. | Risco | Rota | Issue |
+<!-- Épico: a ordem e as dependências entre as stories da spec. O detalhe de cada story fica em
+     stories/<story>.md (ou na Issue), refinado perto da hora de construir. -->
+
+| # | Story | Depende de | Porte | Risco | Rota | Issue |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | <título da fatia> | — | S | L1 | balanced → sonnet · subagent | — |
+| 1 | <título da story> | — | S | L1 | balanced → sonnet/high · subagent | — |
 
-<!-- Sem modo GitHub: detalhe cada tarefa abaixo com o template task.md.
-     Com modo GitHub: o detalhe vive na Issue; aqui fica só a linha da tabela. -->
+<!-- Feature isolada (uma story): detalhe-a abaixo com o template story.md. -->

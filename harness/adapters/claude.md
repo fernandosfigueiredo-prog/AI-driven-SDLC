@@ -6,7 +6,7 @@ O framework é distribuído como o plugin **`ai-driven-sdlc`**. Este repositóri
 
 | Mecanismo | O que faz | Onde |
 | --- | --- | --- |
-| Hook `SessionStart` | injeta o contrato do EM Buddy, o retrato de `.sdlc/state.md` e a disponibilidade do Codex em startup, resume, `/clear` e compactação | `hooks/hooks.json`, `hooks/session-start.sh` |
+| Hook `SessionStart` | injeta o contrato do EM Buddy, os últimos 3 registros do handoff (épico mais recente e projeto) e a disponibilidade do Codex em startup, resume, `/clear` e compactação | `hooks/hooks.json`, `hooks/session-start.sh` |
 | Skills | `/ai-driven-sdlc:discover`, `/ai-driven-sdlc:plan`, `/ai-driven-sdlc:build`, `/ai-driven-sdlc:review`, `/ai-driven-sdlc:initiative-review`, `/ai-driven-sdlc:status`, `/ai-driven-sdlc:report`; também acionadas por linguagem natural pela descrição | `skills/` |
 | Inclusão de contrato | cada skill inclui o fluxo canônico no momento da invocação (`` !`cat …` ``), sem copiar texto | `skills/*/SKILL.md` |
 | Subagentes | `ai-driven-sdlc:engineer` (build), `ai-driven-sdlc:reviewer` (review independente, sem Edit/Write), `ai-driven-sdlc:initiative-reviewer` (fork da Initiative Review, sem Edit/Write) | `agents/` |

@@ -6,8 +6,8 @@
   "subtype": "success",
   "isError": false,
   "turns": 1,
-  "costUsd": 0.0382276,
-  "durationMs": 13887,
+  "costUsd": 0.04158120000000001,
+  "durationMs": 12073,
   "checks": [
     {
       "name": "bloqueia com [BLOQUEADO]",

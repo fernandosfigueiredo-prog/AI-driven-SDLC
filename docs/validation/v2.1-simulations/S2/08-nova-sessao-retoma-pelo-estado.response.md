@@ -1,12 +1,11 @@
-**[ATENÇÃO]** Conciliação de pedidos com extrato bancário (L2, POC)
+**[ATENÇÃO]** Conciliação bancária (`conciliacao-bancaria`, L2), fase de correção após review reprovado.
 
-- **Fase:** concluído. O review deu APROVADO COM RESSALVAS e falta a decisão humana sobre o merge.
-- **Última entrega:** as 2 tarefas do plano (núcleo de conciliação e `POST /reconciliation`) estão **implementadas e testadas**. Foram 16 testes e um smoke com servidor real. Não está integrada nem implantada.
-- **Tarefa atual:** nenhuma. Não há outra iniciativa ativa.
-- **Branch:** `feat/conciliacao`, local e sem push. O HEAD é `4aef019`, o mesmo do state, sem commits extras.
-- **[ATENÇÃO]** `docs/specs/conciliacao/report.md` não está commitado. O state não o menciona e ele precisa ser commitado ou descartado.
-- **Decisão pendente:** merge de `feat/conciliacao` em `main`. Push, PR e Issues não estão autorizados.
-- **Follow-ups P3, fora do escopo:**
-  - Um erro que não seja `RangeError` derruba a requisição sem resposta tratada.
-  - Valores com milhar (`1.000,00`) e campos CSV entre aspas são rejeitados.
-- **Próxima ação recomendada:** commitar o `report.md`, depois decidir o merge. Posso preparar o merge local quando você disser.
+- **Branch e git:** `feat/conciliacao-bancaria`, árvore limpa. O HEAD `b96d424` é o commit do handoff do review, então o handoff e o git batem. Não há push nem PR (não foram autorizados).
+- **Última entrega:** `POST /reconciliation` com 3 tarefas commitadas, 23 testes verdes e AC1–AC8 atendidos. Está **implementado e testado**, mas **não integrado** (sem merge em `main`) nem implantado.
+- **Review:** o primeiro veredito, APROVADO, foi superado. A nova rodada reprovou com 1 P1 e 2 P2 reproduzidos:
+  - **F1 (P1):** o aborto de upload derruba o servidor.
+  - **F2 (P2):** o casamento guloso gera divergência falsa.
+  - **F3 (P2):** extrato sem cabeçalho perde a primeira linha.
+- **Tarefa atual:** nova rodada de Engineering. Tratar erro e aborto na leitura do corpo (F1), casar pelo lançamento livre mais antigo da janela (F2) e detectar ausência de cabeçalho (F3). Cada correção começa por um teste que falha antes.
+- **Decisões pendentes:** o merge em `main` fica suspenso até o novo review. Falta validar com um extrato real (aspas, formato de data).
+- **Próxima ação:** corrigir F1, F2 e F3 com teste primeiro, depois rodar novo review. Posso começar pela F1, se você quiser.

@@ -22,8 +22,8 @@ O ciclo é adaptativo. O **risco** (L0–L3) decide quais etapas existem e a **m
 
 | Nível | Fluxo |
 | --- | --- |
-| L0/L1 | o EM Buddy executa direto, verifica e relata em poucas linhas — sem spec, Issue ou arquivo de estado |
-| L2 | Discovery → spec aprovada → refinamento e tarefas → build → review → relatório |
+| L0/L1 | o EM Buddy executa direto, verifica e relata em poucas linhas — sem spec nem Issue; deixa um registro de uma linha no handoff |
+| L2 | Discovery → spec aprovada → refinamento por story → build → review → relatório |
 | L3 | L2 + análise de impacto, plano aprovado e review independente |
 
 Depois que o humano aprova a spec, refinamento, build, review e relatório seguem **sem interrupções artificiais**. O humano é acionado só por decisão material, risco crítico, operação externa sensível, bloqueio real ou validação de interface, sempre com contexto, alternativas, recomendação e consequência de adiar.
@@ -32,7 +32,7 @@ Depois que o humano aprova a spec, refinamento, build, review e relatório segue
 
 | Papel | Faz | No Claude Code |
 | --- | --- | --- |
-| **EM Buddy** | interface principal; coordena tarefas, riscos, estado, roteamento e comunicação | sessão principal (hook de início de sessão) |
+| **EM Buddy** | interface principal; coordena stories, riscos, handoff, roteamento e comunicação | sessão principal (hook de início de sessão) |
 | **Discovery** | entrevista em vários turnos, contesta premissas, escreve a spec | `/ai-driven-sdlc:discover`, na própria conversa |
 | **Engineering** | refinamento, fatias verticais, estimativas, implementação | `/ai-driven-sdlc:plan`, `/ai-driven-sdlc:build`, subagente `ai-driven-sdlc:engineer` |
 | **Review** | verifica contra a spec e o propósito, calibrado pela maturidade | `/ai-driven-sdlc:review`, subagente `ai-driven-sdlc:reviewer`, Codex opcional |
@@ -57,11 +57,11 @@ harness/roles/            em-buddy, discovery, engineering, review
 harness/workflows/        discovery, planning, execution, initiative-review, handoff, maintenance, bootstrap
 harness/integrations/     github, methods
 harness/adapters/         claude, codex
-templates/                spec, plan, task, pr, report, state, project, handoff, initiative-review
+templates/                spec, plan, story, pr, report, project, handoff, initiative-review
 config/routing.json       tiers, papéis, pisos de risco, escalada, harnesses
 .claude-plugin/           manifesto do plugin e marketplace
 skills/ agents/ hooks/    adaptação para o Claude Code (finas: incluem os contratos acima)
-scripts/                  route.mjs, export-contracts.sh
+scripts/                  route.mjs (roteamento), handoff.mjs (registro de handoff), export-contracts.sh
 tests/                    contratos, roteamento, hook, fixtures e simulações headless
 ```
 

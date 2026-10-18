@@ -56,23 +56,49 @@ test('sem estado: injeta o contrato do EM Buddy e informa que não há iniciativ
     assert.equal(code, 0);
     assert.match(out, /# EM Buddy — contrato operacional/);
     assert.match(out, /Raiz do framework: /);
-    assert.match(out, /Sem \.sdlc\/state\.md/);
+    assert.match(out, /Sem registros de handoff/);
     assert.match(out, /Codex: indisponível \(SDLC_CODEX=unavailable\)/);
     assert.ok(out.split('\n').length < 120, 'saída compacta');
   });
 });
 
-test('com estado: injeta o retrato do projeto respeitando o limite de linhas', { skip }, () => {
+function writeEntry(folder, name, title) {
+  mkdirSync(folder, { recursive: true });
+  writeFileSync(join(folder, name), `---\ndata: x\nstory: s\ntag: OK\n---\n# ${title}\n- Feito: x\n- linha 3\n- linha 4 fora do corte\n`);
+}
+
+test('com handoff: injeta os últimos 3 registros do épico mais recente e do projeto, cortados por linhas', { skip }, () => {
   withProject((project) => {
-    mkdirSync(join(project, '.sdlc'));
-    writeFileSync(join(project, '.sdlc', 'state.md'), '# Estado SDLC\n- Fase: Build\n- linha 3\n- linha 4 fora do corte\n');
+    const epic = join(project, 'docs', 'specs', 'conciliacao', 'handoff');
+    for (const n of [1, 2, 3, 4, 5]) writeEntry(epic, `2026-10-18-1${n}00-s${n}.md`, `Épico registro ${n}`);
+    writeEntry(join(project, 'docs', 'specs', 'antigo', 'handoff'), '2026-10-17-0900-a.md', 'Épico antigo');
+    writeEntry(join(project, '.sdlc', 'handoff'), '2026-10-18-1530-fix.md', 'Correção L1');
+    writeEntry(join(project, '.sdlc', 'handoff', 'arquivo'), '2026-01-01-0000-velho.md', 'Arquivado');
     writeFileSync(join(project, '.sdlc', 'project.md'), '# Projeto\n');
-    const { code, out } = runHook({ project, env: { SDLC_STATE_LINES: '3', SDLC_CODEX: 'available' } });
+    const { code, out } = runHook({ project, env: { SDLC_HANDOFF_LINES: '6', SDLC_CODEX: 'available' } });
     assert.equal(code, 0);
-    assert.match(out, /- Fase: Build/);
-    assert.doesNotMatch(out, /fora do corte/);
+    assert.match(out, /Handoff do épico conciliacao/);
+    assert.doesNotMatch(out, /Épico registro [12]\b/, 'só os 3 últimos');
+    for (const n of [3, 4, 5]) assert.match(out, new RegExp(`Épico registro ${n}`));
+    assert.doesNotMatch(out, /Épico antigo/, 'só o épico mais recente');
+    assert.match(out, /Há outros 1 logs de épico/);
+    assert.match(out, /Handoff do projeto/);
+    assert.match(out, /Correção L1/);
+    assert.doesNotMatch(out, /Arquivado/, 'ignora a subpasta arquivo');
+    assert.doesNotMatch(out, /fora do corte/, 'corta cada registro em SDLC_HANDOFF_LINES');
     assert.match(out, /Configuração do projeto: \.sdlc\/project\.md/);
     assert.match(out, /Codex: disponível/);
+  });
+});
+
+test('só o handoff do projeto (L0/L1, sem épico) também é injetado', { skip }, () => {
+  withProject((project) => {
+    writeEntry(join(project, '.sdlc', 'handoff'), '2026-10-18-1530-fix.md', 'Correção L1');
+    const { code, out } = runHook({ project, env: { SDLC_CODEX: 'unavailable' } });
+    assert.equal(code, 0);
+    assert.doesNotMatch(out, /Handoff do épico/);
+    assert.match(out, /Handoff do projeto/);
+    assert.match(out, /Correção L1/);
   });
 });
 

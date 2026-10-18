@@ -7,7 +7,7 @@
       "name": "ai-driven-sdlc",
       "source": "./",
       "description": "AI-driven SDLC v2.1: EM Buddy, Discovery interativo, refinamento, build, review, initiative review e relatórios.",
-      "version": "2.1.1"
+      "version": "2.2.0"
     }
   ]
 }

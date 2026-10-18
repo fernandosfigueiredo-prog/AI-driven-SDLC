@@ -1,13 +1,32 @@
 #!/usr/bin/env bash
 # Hook SessionStart do plugin ai-driven-sdlc. A saída padrão vira contexto da sessão:
-# contrato do EM Buddy, retrato do estado do projeto (.sdlc/state.md) e
-# disponibilidade do Codex. Nunca falha a sessão: erros viram aviso no texto.
+# contrato do EM Buddy, os últimos registros do handoff (épico mais recente e projeto)
+# e a disponibilidade do Codex. Nunca falha a sessão: erros viram aviso no texto.
 set -u
 
 root="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 project="${CLAUDE_PROJECT_DIR:-$PWD}"
-state_file="$project/.sdlc/state.md"
-max_state_lines="${SDLC_STATE_LINES:-60}"
+entries="${SDLC_HANDOFF_ENTRIES:-3}"
+max_lines="${SDLC_HANDOFF_LINES:-25}"
+
+# Imprime os últimos N registros de uma pasta de handoff (arquivos AAAA-MM-DD-HHMMSS-*.md,
+# em ordem cronológica pelo nome), cada um cortado em max_lines linhas. Ignora subpastas.
+print_log() {
+  local dir="$1" label="$2" file count=0
+  local files
+  files="$(find "$dir" -maxdepth 1 -type f -name '*.md' 2>/dev/null | sort | tail -n "$entries")"
+  [ -n "$files" ] || return 1
+  printf '### %s — `%s` (últimos %s registros, do mais antigo ao mais novo)\n' "$label" "${dir#"$project"/}" "$entries"
+  while IFS= read -r file; do
+    [ -n "$file" ] || continue
+    count=$((count + 1))
+    printf '\n#### %s\n' "$(basename "$file")"
+    head -n "$max_lines" "$file"
+  done <<EOF
+$files
+EOF
+  return 0
+}
 
 printf '# AI-driven SDLC v2.1 — plugin ai-driven-sdlc ativo\n'
 printf 'Raiz do framework: %s\n\n' "$root"
@@ -19,11 +38,28 @@ else
 fi
 
 printf '\n## Projeto\n'
-if [ -f "$state_file" ]; then
-  printf 'Estado atual (.sdlc/state.md, até %s linhas). Reconcilie com git antes de editar:\n\n' "$max_state_lines"
-  head -n "$max_state_lines" "$state_file"
+shown=0
+
+# Log do épico (ou feature) mais recente: a pasta cujo registro mais novo tem o maior nome.
+newest_epic="$(find "$project/docs/specs" -mindepth 3 -maxdepth 3 -type f -path '*/handoff/*.md' 2>/dev/null \
+  | awk -F/ '{print $NF "\t" $0}' | sort | tail -n 1 | cut -f2-)"
+if [ -n "$newest_epic" ]; then
+  epic_dir="$(dirname "$newest_epic")"
+  epic_name="$(basename "$(dirname "$epic_dir")")"
+  print_log "$epic_dir" "Handoff do épico $epic_name" && shown=1
+  others="$(find "$project/docs/specs" -mindepth 2 -maxdepth 2 -type d -name handoff 2>/dev/null | grep -v -F "$epic_dir" | wc -l | tr -d ' ')"
+  [ "${others:-0}" -gt 0 ] && printf '\n(Há outros %s logs de épico em docs/specs/*/handoff/.)\n' "$others"
+fi
+
+if [ -d "$project/.sdlc/handoff" ]; then
+  [ "$shown" -eq 1 ] && printf '\n'
+  print_log "$project/.sdlc/handoff" "Handoff do projeto" && shown=1
+fi
+
+if [ "$shown" -eq 0 ]; then
+  printf 'Sem registros de handoff: nenhuma iniciativa registrada para retomar. Todo trabalho a partir daqui deixa um registro (ver harness/workflows/handoff.md).\n'
 else
-  printf 'Sem .sdlc/state.md: nenhuma iniciativa L2+ registrada para retomada.\n'
+  printf '\nReconcilie com o git antes de editar. O último registro é o estado atual.\n'
 fi
 if [ -f "$project/.sdlc/project.md" ]; then
   printf 'Configuração do projeto: .sdlc/project.md\n'

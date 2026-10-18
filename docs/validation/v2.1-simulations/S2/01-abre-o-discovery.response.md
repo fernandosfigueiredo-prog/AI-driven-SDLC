@@ -1,24 +1,19 @@
-**[Discovery]** Vou entrevistar você em rodadas curtas para fechar a spec da conciliação. Esta é a primeira.
+**[Discovery]** Li o repositório e abri o rascunho da spec. Agora vou fazer a primeira rodada de perguntas.
 
-**O que já levantei no repositório**
-- A API de pedidos é uma POC com dados em memória: 3 pedidos, com `id`, `date`, `customer` e `total`. Ela só lista os pedidos do mês (`GET /orders?month=AAAA-MM`).
-- Não existe nada de extrato bancário nem de conciliação.
-- Classifico como **L2 / POC**: é uma funcionalidade nova, mas sem produção e sem banco.
-- Abri o rascunho em `docs/specs/conciliacao/spec.md` e o estado em `.sdlc/state.md`.
+**O que já sei (não vou perguntar):**
+- Hoje existe uma API Node mínima (POC, sem dependências) com pedidos fixos em memória: `GET /orders?month=AAAA-MM`. Cada pedido tem `id`, `date`, `customer` e `total`.
+- Não existe nada sobre banco ou extrato no código.
+- Classifiquei como **L2 / POC**, porque é uma funcionalidade nova que lida com dado financeiro. A spec está em `docs/specs/conciliacao-bancaria/spec.md` com `status: draft`.
 
-**Perguntas**
+**Contesto:** a premissa de que dá para "conciliar com o extrato" assume que o extrato entra no sistema de alguma forma, e hoje não há nenhuma entrada. Os pedidos também são 3 registros fixos. Sugiro provar a hipótese com uma fatia pequena: o financeiro envia um arquivo de extrato e recebe a lista de divergências. Isso evita integrar com o banco logo de início.
 
-1. **Em que formato o financeiro recebe o extrato?** Recomendo **CSV exportado do banco** como hipótese. É o formato mais simples e não exige integração. As alternativas são OFX, PDF ou uma integração direta com o banco. Se for OFX, o parser fica mais pesado. Se for PDF ou integração, eu sugiro adiar para depois da POC.
+**Perguntas (rodada 1):**
 
-2. **Como casamos um pedido com um lançamento do extrato?** Recomendo **valor exato + data dentro de uma janela de poucos dias**. O lançamento do extrato costuma ter só descrição e valor, sem o id do pedido. Se o banco trouxer o id do pedido (ou o nome do cliente) na descrição, usamos isso como critério principal. O extrato que você tem traz alguma referência ao pedido?
+1. **De onde vem o extrato e em que formato?** Por exemplo, CSV exportado do internet banking, OFX, ou API do banco. Recomendo **CSV exportado** como ponto de partida, por ser o mais simples e o que dispensa credencial bancária. Se tiver, me diga as colunas de um extrato real, sem dados sensíveis.
+2. **Como um lançamento do banco é associado a um pedido?** Os pedidos hoje não têm uma referência que apareça no extrato. As opções são:
+   - **A)** por valor e data, com tolerância de alguns dias (Recomendado, porque funciona sem mudar o pedido, mas pode gerar ambiguidade quando houver valores iguais)
+   - **B)** por um identificador do pedido na descrição do lançamento
+   - **C)** não sei ainda
+3. **O que "não bate" significa para o financeiro?** Marque os casos que importam: pedido sem lançamento no banco, lançamento sem pedido, e valor divergente. Diga também quem vai olhar o resultado e em que forma: tela, JSON do endpoint ou planilha.
 
-3. **Que resultado o financeiro precisa ver?** Recomendo um **relatório de divergências por mês**, em três grupos:
-   - pedidos sem lançamento no extrato;
-   - lançamentos sem pedido;
-   - valores diferentes.
-
-   Ele sairia por um endpoint novo (`GET /reconciliation?month=...`) que recebe o CSV. Também dá para gerar um arquivo CSV de saída. Qual você prefere?
-
-**Contesto:** o objetivo da POC no README é "conferir os pedidos sem acesso ao banco". Conciliar com o extrato exige dados bancários reais, que são sensíveis. Alternativa: validar primeiro com um extrato de exemplo ou anonimizado, sem dados reais, e só depois falar de dados de produção. Isso serve para você?
-
-A ferramenta de perguntas fechadas não está disponível nesta sessão, então responda aqui no chat. Pode ser curto, por exemplo "1 CSV, 2 valor+data, 3 endpoint".
+Responda como preferir, em texto livre. Depois eu gravo as decisões na spec antes da rodada 2.

@@ -1,0 +1,26 @@
+{
+  "step": "abre o Discovery do épico",
+  "acceptance": [
+    2
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 8,
+  "costUsd": 0.1277447,
+  "durationMs": 27706,
+  "checks": [
+    {
+      "name": "fala como [Discovery]",
+      "pass": true
+    },
+    {
+      "name": "rascunho da spec em draft",
+      "pass": true,
+      "detail": "draft"
+    },
+    {
+      "name": "nenhum código alterado",
+      "pass": true
+    }
+  ]
+}

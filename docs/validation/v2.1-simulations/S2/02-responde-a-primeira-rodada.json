@@ -6,8 +6,8 @@
   "subtype": "success",
   "isError": false,
   "turns": 3,
-  "costUsd": 0.07240700000000001,
-  "durationMs": 37646,
+  "costUsd": 0.07562739999999998,
+  "durationMs": 32270,
   "checks": [
     {
       "name": "spec continua draft",

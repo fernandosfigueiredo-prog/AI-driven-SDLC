@@ -6,8 +6,8 @@
   "subtype": "success",
   "isError": false,
   "turns": 1,
-  "costUsd": 0.0079216,
-  "durationMs": 5740,
+  "costUsd": 0.008670900000000002,
+  "durationMs": 6028,
   "checks": [
     {
       "name": "usa subagente com contexto novo",

@@ -19,7 +19,9 @@ O ciclo é adaptativo: o nível de risco decide quais etapas existem.
 
 Critérios: impacto, reversibilidade, incerteza, criticidade do domínio, componentes afetados, risco de regressão. Na dúvida entre dois níveis, escolha o menor que ainda preserve segurança e verificabilidade. Suba o nível quando surgir risco novo e registre o motivo em uma linha.
 
-L0/L1 não criam spec, plano, Issue nem `.sdlc/` só porque os templates existem.
+L0/L1 não criam spec, plano nem Issue; deixam um registro de uma linha em `.sdlc/handoff/`.
+
+Trabalho que se divide em várias stories é um **épico** (uma spec aprovada com a lista de stories, refinadas perto da hora de construir). Feature de uma story só não precisa de épico.
 
 ## Maturidade do produto (independente do risco)
 
@@ -36,8 +38,8 @@ O **risco** define profundidade do processo e independência do review. A **matu
 | Intenção | Capability | Contrato |
 | --- | --- | --- |
 | ideia, feature, problema mal definido | Discovery | [workflows/discovery.md](workflows/discovery.md) |
-| spec aprovada → solução e tarefas | Refinement | [workflows/planning.md](workflows/planning.md) |
-| implementar tarefas autorizadas | Build | [workflows/execution.md](workflows/execution.md) |
+| spec aprovada → solução, stories e tarefas | Refinement | [workflows/planning.md](workflows/planning.md) |
+| implementar stories autorizadas | Build | [workflows/execution.md](workflows/execution.md) |
 | conferir resultado contra spec | Review | [roles/review.md](roles/review.md), [policies/verification.md](policies/verification.md) |
 | avaliar iniciativa existente, sem alterar | Initiative Review | [workflows/initiative-review.md](workflows/initiative-review.md) |
 | onde estamos / o que falta | Status | [workflows/handoff.md](workflows/handoff.md) |
