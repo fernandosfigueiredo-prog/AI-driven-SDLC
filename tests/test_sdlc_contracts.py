@@ -22,7 +22,10 @@ class FrameworkContractTests(unittest.TestCase):
 
     def test_plugin_provides_buddy_main_agent_default(self):
         text = (ROOT / "docs/USAGE.md").read_text(encoding="utf-8").lower()
-        self.assertIn("não garante um modelo específico", text)\n        import json\n        manifest = json.loads((ROOT / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))\n        self.assertEqual("engineering-manager", manifest["settings"]["agent"])
+        self.assertIn("não garante um modelo específico", text)
+        import json
+        manifest = json.loads((ROOT / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
+        self.assertEqual("engineering-manager", manifest["settings"]["agent"])
         self.assertIn("/ai-driven-sdlc:buddy", text)
 
     def test_skill_headers(self):
