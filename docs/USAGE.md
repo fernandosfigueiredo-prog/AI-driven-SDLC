@@ -2,9 +2,9 @@
 
 ## 1. Instalação (após merge)
 
-Abra o Claude Code no VS Code e use o gerenciamento de plugins para registrar o marketplace GitHub fernandosfigueiredo-prog/AI-driven-SDLC e instalar ai-driven-sdlc@solo-engineering-marketplace, caso a versão da extensão suporte o fluxo. Alternativa CLI verificável:
+Abra o Claude Code no VS Code e use o gerenciamento de plugins para registrar o marketplace GitHub fernandosfigueiredo-prog/AI-driven-SDLC e instalar ai-driven-sdlc@solo-engineering-marketplace **com escopo de projeto (ALVA)**, caso a versão da extensão suporte o fluxo. Evite escopo de usuário se não quiser que o Buddy assuma a conversa em outros repositórios. Alternativa CLI verificável:
 1. claude plugin marketplace add fernandosfigueiredo-prog/AI-driven-SDLC
-2. claude plugin install ai-driven-sdlc@solo-engineering-marketplace
+2. claude plugin install ai-driven-sdlc@solo-engineering-marketplace --scope project
 3. Recarregue plugins ou reinicie a sessão da extensão.
 
 **Antes do merge da branch feature**, a instalação a partir do repositório remoto pode baixar a main sem a V2.1. Para pré-testar, faça checkout da branch localmente e use o carregamento local suportado pela sua versão; não supor instalação remota já disponível.
