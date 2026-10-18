@@ -1,47 +1,100 @@
-# Uso do Solo Engineering v2.1 no painel gráfico VS Code
+# Uso — AI-driven SDLC v2.1
 
-## 1. Instalação (após merge)
+Guia para quem vai trabalhar com o plugin `ai-driven-sdlc` no Claude Code, principalmente pelo painel do VS Code.
 
-Abra o Claude Code no VS Code e use o gerenciamento de plugins para registrar o marketplace GitHub fernandosfigueiredo-prog/AI-driven-SDLC e instalar ai-driven-sdlc@solo-engineering-marketplace **com escopo de projeto (ALVA)**, caso a versão da extensão suporte o fluxo. Evite escopo de usuário se não quiser que o Buddy assuma a conversa em outros repositórios. Alternativa CLI verificável:
-1. claude plugin marketplace add fernandosfigueiredo-prog/AI-driven-SDLC
-2. claude plugin install ai-driven-sdlc@solo-engineering-marketplace --scope project
-3. Recarregue plugins ou reinicie a sessão da extensão.
+## Requisitos
 
-**Antes do merge da branch feature**, a instalação a partir do repositório remoto pode baixar a main sem a V2.1. Para pré-testar, faça checkout da branch localmente e use o carregamento local suportado pela sua versão; não supor instalação remota já disponível.
-Execute claude plugin validate . no checkout quando o CLI estiver disponível.
+- Claude Code 2.1 ou superior (validado na 2.1.301), CLI ou extensão do VS Code.
+- Windows: Git for Windows (Git Bash), usado pelo hook de sessão e pelas inclusões das skills.
+- Opcionais: Node 20+ (resolvedor de roteamento), `gh` autenticado (modo GitHub), Codex CLI (segunda opinião e fallback).
 
-## 2. Como falar com agentes
+## Instalar
 
-Na GUI, escolha um modelo competente disponível no seletor do chat. O plugin define engineering-manager como agente principal padrão quando habilitado, sujeito a configurações de maior prioridade; não garante um modelo específico. Teste uma sessão nova; se não ativar, invoque /ai-driven-sdlc:buddy e verifique as configurações locais.
+O plugin vale para os projetos em que for habilitado. Escolha o escopo:
 
-Digite /ai-driven-sdlc:buddy e diga o objetivo. Se o plugin não for descoberto, confirme instalação e recarregue. Para uso em linguagem natural por padrão em cada repositório, adicione instrução leve no CLAUDE.md daquele projeto indicando o Buddy e o plugin, mantendo instruções já existentes.
+| Escopo | Efeito | Quando usar |
+| --- | --- | --- |
+| `local` | só você, só neste projeto (`.claude/settings.local.json`) | experimentar sem afetar mais ninguém |
+| `project` | todos que abrirem o projeto (`.claude/settings.json`, versionado) | projeto adotado pelo time |
+| `user` | todos os seus projetos | só se quiser o EM Buddy em toda sessão |
 
-- /ai-driven-sdlc:discover — entrevista progressiva no mesmo chat; pode dizer "quero falar com Discovery".
-- /ai-driven-sdlc:plan — fatias, Issue e dependências para spec aprovada.
-- /ai-driven-sdlc:build — implementar fatia autorizada.
-- /ai-driven-sdlc:review — revisar implementação orientada ao propósito.
-- /ai-driven-sdlc:initiative-review — diagnóstico estratégico SOMENTE LEITURA.
-- /ai-driven-sdlc:status — situação, evidência, risco e próxima ação.
-- /ai-driven-sdlc:report — relatório técnico ou executivo.
+**Do GitHub** (branch padrão do repositório), num terminal dentro do projeto:
 
-ATENÇÃO: um subagente na GUI não implica conversa humana bidirecional com sua transcrição. Discovery é conduzido pelo papel/skill da conversa principal. Recarregue a skill em nova conversa se estiver desatualizada.
+```bash
+claude plugin install ai-driven-sdlc --marketplace fernandosfigueiredo-prog/AI-driven-SDLC --scope local
+```
 
-## 3. Fluxo usual
+No prompt de uma sessão de terminal, a forma equivalente é `/plugin install ai-driven-sdlc --marketplace fernandosfigueiredo-prog/AI-driven-SDLC`.
 
-1. Solicite feature ao Buddy; ele consulta contexto e ativa Discovery.
-2. Converse com Discovery até a spec de versão identificável; aprove explicitamente.
-3. Buddy refina Tasks/Issues, executa e verifica; revisor independente quando L3.
-4. Só escala decisões materiais com opções, prós, contras e recomendação.
-5. Receba [OK|ATENÇÃO|BLOQUEADO], TL;DR, explicação acessível, principais arquivos/classes, evidências e próximo passo.
+**De um checkout local** (por exemplo, para testar uma branch):
 
-Bug localizado não precisa de entrevista, spec formal e plano extensos.
+```bash
+claude plugin marketplace add C:\workspace\AI-driven-SDLC
+cd <projeto>
+claude plugin install ai-driven-sdlc@solo-engineering-marketplace --scope local
+```
 
-## 4. GitHub e Codex
+Com marketplace de pasta, o plugin é lido direto dessa pasta: depois de editar o framework, rode `/reload-plugins` na sessão.
 
-Issues concentram o contexto da fatia; PR é entrega. Se integração GitHub indisponível, gerar conteúdo da Issue localmente e reportar que não houve publicação. GitHub Projects exige permissões/API reais e configuração posterior; não é provisionado automaticamente por este plugin.
+**Conferir no painel:** abra uma conversa nova no projeto e pergunte "qual é o seu papel nesta sessão?" — a resposta deve ser EM Buddy. Digite `/ai-driven-sdlc:` para ver os sete comandos.
 
-Codex é complementar: só use após confirmar execução no ambiente. Caso não esteja acessível, crie checkpoint mínimo e continue com Claude, sem inventar review cruzado.
+## Uso diário
 
-## 5. Validação real antes de adotar no ALVA
+Fale normalmente; os comandos são atalhos.
 
-Execute o roteiro tests/acceptance.md, especialmente a entrevista multi-turn no painel gráfico (A2), retorno ao Buddy (A3), e Initiative Review SOMENTE LEITURA (A11). Registre resultados como passou/falhou/não testado. Não instalar no ALVA sem validar experiência de instalação da V2.1.
+| Você diz | Acontece |
+| --- | --- |
+| "a saudação está escrita errado, corrige" | L0/L1: o EM corrige, roda o teste mais próximo e responde em 1-3 linhas |
+| "quero exportar pedidos em CSV" ou `/ai-driven-sdlc:discover …` | Discovery: entrevista no próprio painel e rascunho da spec |
+| "aprovo a spec" | refinamento, tarefas, build, review e relatório seguem sozinhos |
+| "onde estamos?" ou `/ai-driven-sdlc:status` | retrato em até 10 linhas, reconciliado com o git |
+| `/ai-driven-sdlc:review` | review contra a spec, calibrado pela maturidade |
+| "faz um relatório executivo" ou `/ai-driven-sdlc:report executivo` | relatório em três camadas |
+| "avalia se essa iniciativa vale continuar" ou `/ai-driven-sdlc:initiative-review` | revisão estratégica somente leitura |
+
+`/plan` e `/status` **sem** o prefixo são comandos nativos do Claude Code (Plan Mode e status da conta). Para o SDLC use `/ai-driven-sdlc:plan` e `/ai-driven-sdlc:status`, ou linguagem natural.
+
+## Discovery no painel
+
+- O Discovery roda **na conversa principal**: você responde no próprio painel, em quantos turnos precisar.
+- Perguntas fechadas aparecem como formulário de opções (a recomendada vem primeiro); perguntas abertas vêm numeradas no chat.
+- Cada resposta é gravada na hora em `docs/specs/<slug>/spec.md`, com `status: draft`.
+- Para pausar e voltar ao EM: "volta pro EM" ou "chega por hoje". As decisões ficam na spec e em `.sdlc/state.md`.
+- Para aprovar, diga explicitamente ("aprovo", "pode seguir") ou escolha **Aprovar**. Nada é implementado em L2/L3 antes disso.
+- Na aprovação, diga também o que está autorizado (por exemplo, "push e PR liberados"). Merge na branch principal e deploy sempre voltam para você.
+
+## Quando o EM vai chamar você
+
+Somente para: mudança material de escopo, decisão arquitetural difícil de reverter, risco crítico, operação externa sensível ou destrutiva, bloqueio real ou validação de interface. A mensagem abre com `[BLOQUEADO]` e traz contexto, decisão, alternativas com prós e contras, recomendação e a consequência de adiar.
+
+## Retomar
+
+Abra uma conversa nova: o hook injeta o contrato do EM e o `.sdlc/state.md`. Pergunte "onde estamos?" e peça para continuar. O estado é reconciliado com o git antes de qualquer edição.
+
+## GitHub, Codex e configuração
+
+- **GitHub:** modo em `.sdlc/project.md` (`issues+prs`, `prs` ou `off`). A spec fica no repositório, o detalhe da tarefa na Issue, o andamento no Project e a evidência no PR — ver [integrations/github](../harness/integrations/github.md).
+- **Codex (opcional):** segunda opinião em review independente e fallback quando o Claude estiver indisponível — ver [adapters/codex](../harness/adapters/codex.md). Para o Codex enxergar os contratos num projeto: `bash scripts/export-contracts.sh <projeto>`.
+- **Roteamento:** override por projeto em `.sdlc/routing.json`. Por exemplo, para habilitar o tier `max` quando a conta tiver o modelo:
+
+  ```json
+  { "availableModels": ["haiku", "sonnet", "opus", "fable"] }
+  ```
+
+## Desenvolver o framework
+
+- Sessão única com o plugin do disco: `claude --plugin-dir C:\workspace\AI-driven-SDLC`.
+- No painel do VS Code: instale a partir do checkout local (acima) num projeto de teste e use `/reload-plugins` depois de cada edição.
+- `npm test`: contratos, roteamento e hook (determinístico).
+- `npm run simulate [-- --only S1,S8]`: simulações headless com `claude -p`, que consomem cota. Resultados em `tests/simulations/results/` (ignorado pelo git).
+- `claude plugin validate .`: manifesto e marketplace.
+
+## Problemas comuns
+
+| Sintoma | Causa provável | Ação |
+| --- | --- | --- |
+| a sessão não se apresenta como EM Buddy | plugin não habilitado neste projeto, ou bash ausente no Windows | `claude plugin list`; instale o Git for Windows |
+| `/plan` abre o Plan Mode | comando nativo | use `/ai-driven-sdlc:plan` |
+| edição no framework não aparece | o plugin foi lido antes da edição | `/reload-plugins` ou conversa nova |
+| comandos `/ai-driven-sdlc:` não aparecem | plugin instalado em outro escopo/projeto | reinstale com `--scope local` dentro do projeto |
+| pedido de permissão para ler a pasta do plugin | leitura de contrato fora de uma skill | "permitir sempre", ou `Read(<pasta-do-plugin>/**)` em `permissions.allow` |

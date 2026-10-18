@@ -1,0 +1,3 @@
+Runtime: Claude, porque o Codex está indisponível (`SDLC_CODEX=unavailable`) e isso não bloqueia nada.
+Mecanismo: o subagente `ai-driven-sdlc:reviewer`, de contexto novo e somente leitura. Eu o despacharia pelo Agent tool, com spec, plano, base e diff, e o modelo viria de `scripts/route.mjs --role review --risk L3 --session <modelo>`.
+Depois eu conferiria os achados P0–P3 e as evidências, porque o subagente não certifica a própria conclusão.

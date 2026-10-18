@@ -1,0 +1,25 @@
+{
+  "step": "fallback sem Codex",
+  "acceptance": [
+    11
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 1,
+  "costUsd": 0.0079216,
+  "durationMs": 5740,
+  "checks": [
+    {
+      "name": "usa subagente com contexto novo",
+      "pass": true
+    },
+    {
+      "name": "reconhece Codex indisponível",
+      "pass": true
+    },
+    {
+      "name": "não bloqueia",
+      "pass": true
+    }
+  ]
+}
