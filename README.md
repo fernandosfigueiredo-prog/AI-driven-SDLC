@@ -12,7 +12,7 @@ Ciclo (adaptativo): Intent → Discovery → Spec → Approval → Technical Ref
 Bugs triviais seguem fluxo curto: entender → corrigir → verificar.
 
 ### Começar na GUI
-Após instalar o plugin e recarregá-lo, inicie a conversa com **/ai-driven-sdlc:buddy** ou peça em linguagem natural para o Buddy assumir a coordenação se a configuração do projeto o invocar. A instalação sozinha não garante substituir automaticamente o agente principal nem o modelo selecionado na UI.
+O manifest define **engineering-manager** como agente principal padrão enquanto o plugin estiver habilitado (configurações pessoais têm precedência). No painel gráfico, abra uma nova sessão e converse naturalmente; se o default não aparecer na versão instalada, invoque **/ai-driven-sdlc:buddy**. O plugin não garante qual modelo estará selecionado na UI.
 
 Para entrevista: **/ai-driven-sdlc:discover**. Você responde diretamente no mesmo chat, sem precisar interagir com histórico somente leitura de subagente.
 Para revisão estratégica somente leitura: **/ai-driven-sdlc:initiative-review**.

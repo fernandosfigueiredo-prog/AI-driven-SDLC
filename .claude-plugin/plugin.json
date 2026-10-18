@@ -12,5 +12,8 @@
     "solo-engineering",
     "discovery",
     "engineering-management"
-  ]
+  ],
+  "settings": {
+    "agent": "engineering-manager"
+  }
 }

@@ -12,7 +12,7 @@ Execute claude plugin validate . no checkout quando o CLI estiver disponível.
 
 ## 2. Como falar com agentes
 
-Na GUI, escolha um modelo competente disponível na seleção do chat (modelo de ponta para decisões complexas quando justificável). Instalação de plugin não altera obrigatoriamente o modelo principal.
+Na GUI, escolha um modelo competente disponível no seletor do chat. O plugin define engineering-manager como agente principal padrão quando habilitado, sujeito a configurações de maior prioridade; não garante um modelo específico. Teste uma sessão nova; se não ativar, invoque /ai-driven-sdlc:buddy e verifique as configurações locais.
 
 Digite /ai-driven-sdlc:buddy e diga o objetivo. Se o plugin não for descoberto, confirme instalação e recarregue. Para uso em linguagem natural por padrão em cada repositório, adicione instrução leve no CLAUDE.md daquele projeto indicando o Buddy e o plugin, mantendo instruções já existentes.
 
