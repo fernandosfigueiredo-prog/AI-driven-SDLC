@@ -135,7 +135,7 @@ function runClaude(dir, step, options, sessionId) {
 async function runScenario(scenario, options, resultsDir) {
   const dir = prepareFixture(scenario);
   const baseCommit = git(dir, 'rev-parse', 'HEAD');
-  const context = { dir, baseCommit, sessionId: undefined, notes: {}, sessionCost: {} };
+  const context = { dir, baseCommit, sessionId: undefined, notes: {}, sessionCost: {}, startedAt: Date.now() };
   const report = { id: scenario.id, title: scenario.title, acceptance: scenario.acceptance, dir, steps: [] };
   const scenarioDir = join(resultsDir, scenario.id);
   mkdirSync(scenarioDir, { recursive: true });
