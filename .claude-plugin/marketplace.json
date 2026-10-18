@@ -1,0 +1,14 @@
+{
+  "name": "solo-engineering-marketplace",
+  "description": "AI-driven SDLC para Claude Code",
+  "owner": {
+    "name": "AI-driven-SDLC contributors"
+  },
+  "plugins": [
+    {
+      "name": "ai-driven-sdlc",
+      "source": "./",
+      "description": "EM Buddy, Discovery e fluxos lean supervisionados"
+    }
+  ]
+}

@@ -1,41 +1,11 @@
-# Roteamento inicial
+# Roteamento inicial v2.1
 
-## 1. Entenda o trabalho
+1. Detectar solicitação: nova feature / bug / refactor / spike / review / Initiative Review / retomada.
+2. Ler somente contexto necessário e classificar L0–L3 + POC/MVP/produção + S/M/L/XL.
+3. Nova feature com decisões materiais: workflows/discovery.md → planning.md, obter aprovação da spec.
+4. Trabalho aprovado: planning.md (tasks) → execution.md → verification.md → relatório. Sem autorização repetida.
+5. Bug, refactor ou spike: workflows/maintenance.md.
+6. Revisão da direção do projeto: workflows/initiative-review.md SOMENTE LEITURA.
+7. Troca real de runtime/interrupção: workflows/handoff.md.
 
-Leia as instruções do projeto, inspecione o estado relevante do repositório e identifique a intenção:
-
-- mudança trivial;
-- bug/manutenção;
-- feature;
-- mudança arquitetural ou integração;
-- trabalho crítico;
-- review;
-- handoff/retomada.
-
-## 2. Classifique o rigor
-
-| Nível | Use quando | Fluxo |
-| --- | --- | --- |
-| L0 | baixo risco, local, reversível | Execute → Verify |
-| L1 | mudança localizada e previsível | Define → Execute → Verify |
-| L2 | impacto relevante ou coordenação técnica | Define → Plan → Execute → Verify → Deliver |
-| L3 | segurança, pagamentos, dados, migração ou alto impacto | ciclo completo + impacto + review independente |
-
-Não use L2/L3 apenas porque existem templates. Suba de nível se descobrir risco adicional durante o trabalho.
-
-## 3. Escolha o workflow
-
-| Intenção | Arquivo |
-| --- | --- |
-| adoção/configuração | [bootstrap](workflows/bootstrap.md) |
-| definição/planejamento | [planning](workflows/planning.md) |
-| execução autorizada | [execution](workflows/execution.md) |
-| bug/refactor/spike | [maintenance](workflows/maintenance.md) |
-| troca de runtime | [handoff](workflows/handoff.md) |
-| review | [verification](policies/verification.md) |
-
-## 4. Princípio de contexto
-
-Carregue somente o contexto necessário para a decisão ou execução atual. Não transforme o harness em um ritual de leitura integral.
-
-Registre estado adicional apenas quando necessário para persistência, coordenação ou retomada.
+Skills/agents podem apoiar. O humano conversa sempre no chat principal do VS Code, em linguagem natural ou usando comando do plugin. Evite reler o harness inteiro ou criar artefatos por obrigação.

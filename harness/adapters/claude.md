@@ -1,14 +1,8 @@
-# Adaptador operacional — Claude Code
+# Adaptador — Claude Code GUI
 
-- Entrada específica: CLAUDE.md aponta para AGENTS.md e START.md.
-- Em L2/L3, use Plan Mode para a fase Plan (ver [planning](../workflows/planning.md)): é o mecanismo deste runtime para produzir o plano e obter aprovação antes de Execute. Só pule quando Define já produziu um plano trivial e inequívoco.
-- Em L0/L1, não force Plan Mode ou documentação formal para trabalho simples e autorizado.
-- No Define de L2/L3, declare brevemente: nível classificado, modelo/esforço desta sessão e se correspondem à expectativa do nível (quando souber qual é). É autodeclaração para o responsável decidir, não um gate técnico — nada bloqueia a execução caso não correspondam.
-- Persistir artefatos compartilhados somente quando o nível ou a continuidade justificarem.
-- TaskCreate/TaskUpdate podem auxiliar execução, mas não são requisito.
-- Não presuma hooks, perfis ou limites técnicos que não estejam instalados.
-- Não altere `.claude/settings.json` ou controles para fazer uma tarefa passar.
-- Subagentes são opcionais; não simule uma organização de agentes quando uma sessão é suficiente.
-- Em handoff, siga o workflow compartilhado e preserve tarefa, evidências e orçamento.
-
-A classificação L0–L3 define o rigor; a marca do runtime não define o papel.
+Interface prioritária: extensão gráfica VS Code, não terminal.
+EM Buddy é papel da conversa principal, ativado via skill /ai-driven-sdlc:buddy ou orientação de projeto; um subagente não deve ser presumido como principal automaticamente após instalar plugin.
+Discovery interativo é uma skill na mesma conversa, não entrevista no histórico somente leitura do subagente.
+Subagentes são apoio de pesquisa, engenharia e revisão independente quando necessários.
+Antes de referir comandos, modelos ou seleção automática, detectar funcionalidades e modelos realmente disponíveis; não inventar permissões/instalação. Seleção de modelo principal via UI, salvo configuração real verificada.
+Plan Mode somente quando ajudar, sem criar aprovação redundante após spec aprovada. Não alterar configurações para contornar controles.

@@ -1,27 +1,8 @@
-# Verification
+# Verificação por risco, objetivo e maturidade
 
-Verificação é obrigatória; o formato é proporcional ao risco.
+Checks obrigatórios no escopo; review independente quando justificado.
+L0: prova local. L1: aceite e regressão direta. L2: contratos/consumidores afetados, cenários positivos e negativos relevantes; review quando risco justificar. L3: segurança, impacto, regressão, evidências e review independente.
 
-## Base
-
-Para concluir uma mudança:
-
-- critérios de aceite aplicáveis devem ser demonstrados;
-- checks relevantes devem ser executados quando disponíveis;
-- falhas conhecidas devem ser reportadas;
-- testes não podem ser enfraquecidos apenas para produzir verde.
-
-Ausência de um check não pode ser descrita como aprovação.
-
-## Por nível
-
-- **L0:** verificação local suficiente para provar a alteração.
-- **L1:** aceite + testes/checks diretamente relacionados.
-- **L2:** regressões relevantes + review quando risco justificar.
-- **L3:** evidências completas definidas no plano + review independente.
-
-## Review
-
-Reviewer avalia mudança concreta, critérios, diff, riscos e evidências. Independência significa não depender apenas do veredito do próprio implementer; pode ser outra sessão, modelo ou pessoa.
-
-Mudança de escopo ou risco descoberta na verificação retorna ao planejamento, não abre loop ilimitado de correções.
+Revisor recebe spec, diff, objetivo de negócio, maturidade POC/MVP/produção, testes e riscos. Não avaliar POC como sistema de produção por padrão.
+Classificar achados BLOQUEANTE, RELEVANTE ou SUGESTÃO, com evidência, consequência e correção mínima. Corrigir trivialidade no mesmo ciclo, sem rodadas administrativas.
+Sem execução de check, registrar NÃO EXECUTADO. Nunca ajustar assert, mock ou critério apenas para obter verde.

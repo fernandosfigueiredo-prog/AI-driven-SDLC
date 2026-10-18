@@ -1,0 +1,19 @@
+{
+  "name": "ai-driven-sdlc",
+  "displayName": "AI-driven SDLC — Solo Engineering",
+  "version": "2.1.0",
+  "description": "Autonomia supervisionada, EM Buddy, Discovery interativo e engenharia por risco para um único humano.",
+  "author": {
+    "name": "AI-driven-SDLC contributors"
+  },
+  "repository": "https://github.com/fernandosfigueiredo-prog/AI-driven-SDLC",
+  "keywords": [
+    "sdlc",
+    "solo-engineering",
+    "discovery",
+    "engineering-management"
+  ],
+  "settings": {
+    "agent": "engineering-manager"
+  }
+}
