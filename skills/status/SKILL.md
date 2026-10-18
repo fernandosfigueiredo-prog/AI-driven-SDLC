@@ -1,7 +1,7 @@
 ---
 name: status
 description: Mostra onde a iniciativa está e o que vem a seguir — fase, tarefa atual, decisões pendentes, riscos e próxima ação — a partir de .sdlc/state.md, git e GitHub, sem alterar nada. Use quando o humano perguntar "onde estamos?", "o que falta?", "status do projeto", ao retomar uma sessão ou trocar de runtime. O /status nativo do Claude Code mostra conta e modelo; este é o do projeto.
-allowed-tools: Bash(cat:*), Bash(git status:*), Bash(git log:*), Bash(git branch:*), Bash(git rev-parse:*), Bash(gh issue list:*), Bash(gh pr list:*), Bash(gh pr view:*), Read, Grep, Glob
+allowed-tools: Bash(cat:*), Read(${CLAUDE_PLUGIN_ROOT}/**), Bash(git status:*), Bash(git log:*), Bash(git branch:*), Bash(git rev-parse:*), Bash(gh issue list:*), Bash(gh pr list:*), Bash(gh pr view:*), Read, Grep, Glob
 ---
 
 # Status do projeto

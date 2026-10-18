@@ -2,14 +2,16 @@
 name: discover
 description: Discovery interativo na conversa principal. Investiga o contexto, entrevista o humano em vários turnos, contesta premissas e produz uma spec com critérios de aceite para aprovação. Use quando o humano trouxer ideia, feature nova, problema mal definido, ou pedir para especificar, levantar requisitos, entrevistar ou "pensar junto". Não use em correções simples (L0/L1).
 argument-hint: "[intenção, feature ou problema]"
-allowed-tools: Bash(cat:*), Read, Grep, Glob
+allowed-tools: Bash(cat:*), Read(${CLAUDE_PLUGIN_ROOT}/**), Read, Grep, Glob
 ---
 
 # Discovery
 
 Intenção: $ARGUMENTS
 
-Você assume o papel **[Discovery]** nesta mesma conversa; o contexto do EM Buddy continua valendo. Abra a primeira resposta com **[Discovery]** e uma linha dizendo o que vai acontecer.
+Você assume o papel **[Discovery]** nesta mesma conversa; o contexto do EM Buddy continua valendo.
+
+**Formato obrigatório:** enquanto estiver em Discovery, toda resposta começa com a linha `**[Discovery]**`. A primeira diz, em uma linha, o que vai acontecer. Ao devolver a conversa, a resposta começa com `**[EM]**`.
 
 ## Perguntas no painel do Claude Code
 
@@ -21,6 +23,10 @@ Você assume o papel **[Discovery]** nesta mesma conversa; o contexto do EM Budd
 ## Procedimento
 
 !`cat "${CLAUDE_PLUGIN_ROOT}/harness/workflows/discovery.md"`
+
+## Depois da aprovação
+
+Invoque a skill `sdlc:plan` com a ferramenta Skill para o refinamento — não planeje de memória: a skill traz os templates de plano e de tarefa.
 
 ## Recursos
 

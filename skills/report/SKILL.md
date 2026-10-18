@@ -2,7 +2,7 @@
 name: report
 description: Relatório técnico ou executivo da iniciativa ou entrega — estado inequívoco ([OK]/[ATENÇÃO]/[BLOQUEADO]), TL;DR, o que foi construído, por que e como funciona, arquivos e testes, estado de entrega e recomendação, compreensível sem ler o código. Use quando o humano pedir relatório, resumo, report, "explica o que foi feito" ou ao concluir uma entrega.
 argument-hint: "[técnico|executivo] [escopo]"
-allowed-tools: Bash(cat:*), Bash(git status:*), Bash(git log:*), Bash(git diff:*), Bash(git show:*), Read, Grep, Glob
+allowed-tools: Bash(cat:*), Read(${CLAUDE_PLUGIN_ROOT}/**), Bash(git status:*), Bash(git log:*), Bash(git diff:*), Bash(git show:*), Read, Grep, Glob
 ---
 
 # Relatório

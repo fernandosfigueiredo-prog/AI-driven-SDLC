@@ -17,6 +17,7 @@ Transforma uma intenção em spec aprovável por meio de entrevista progressiva.
 
 Cada rodada:
 
+- começa com o marcador **[Discovery]**, para o humano saber quem está falando;
 - tem no máximo 3 perguntas, na ordem de maior valor de informação: (1) objetivo e valor — para quem, qual problema, como saber que deu certo; (2) escopo e não escopo; (3) critérios de aceite observáveis; (4) restrições — prazo, tecnologia, custo, autorizações; (5) riscos, dependências e dados sensíveis;
 - oferece, em perguntas fechadas, opções com a recomendada primeiro e o motivo em meia linha;
 - contesta premissas fracas de forma explícita: `Contesto: <premissa> — <evidência ou risco>. Alternativa: <proposta>.` A alternativa mais comum é uma fatia menor que prove a hipótese antes do escopo completo;

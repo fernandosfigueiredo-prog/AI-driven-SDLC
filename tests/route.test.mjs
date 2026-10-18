@@ -8,13 +8,20 @@ import { loadConfig, main, parseArgs, resolveRoute, RoutingInputError } from '..
 const config = loadConfig();
 const route = (input) => resolveRoute(config, input);
 
-test('correção L0 simples vai para o tier eficiente em subagente quando a sessão é opus', () => {
+test('correção L0 pequena fica inline: subagente custaria mais do que economiza', () => {
   const result = route({ role: 'build', risk: 'L0', complexity: 'low', session: 'opus' });
   assert.equal(result.tier, 'efficient');
-  assert.equal(result.model, 'haiku');
+  assert.equal(result.mode, 'inline');
+  assert.equal(result.action, 'proceed');
+  assert.ok(result.reasons.some((reason) => reason.includes('tarefa pequena')));
+});
+
+test('tarefa média bem especificada abaixo do modelo da sessão vai para subagente mais econômico', () => {
+  const result = route({ role: 'build', risk: 'L1', complexity: 'medium', uncertainty: 'low', session: 'opus' });
+  assert.equal(result.tier, 'balanced');
+  assert.equal(result.model, 'sonnet');
   assert.equal(result.mode, 'subagent');
   assert.equal(result.agent, 'sdlc:engineer');
-  assert.equal(result.action, 'proceed');
 });
 
 test('build L1 de baixa complexidade respeita o piso de risco L1', () => {
@@ -167,11 +174,11 @@ test('CLI: saída resumida, flags booleanas e erro de uso com código 2', () => 
   });
 
   let out = '';
-  const code = main(['--role', 'build', '--risk', 'L0', '--complexity', 'low', '--session', 'opus', '--codex', 'unavailable', '--brief'], {
+  const code = main(['--role', 'build', '--risk', 'L1', '--complexity', 'medium', '--session', 'opus', '--codex', 'unavailable', '--brief'], {
     stdout: { write: (text) => (out += text) },
   });
   assert.equal(code, 0);
-  assert.match(out, /^proceed · efficient → haiku\/medium · subagent \(sdlc:engineer\) · harness claude/);
+  assert.match(out, /^proceed · balanced → sonnet\/high · subagent \(sdlc:engineer\) · harness claude/);
 
   let err = '';
   const badCode = main(['--role', 'nope', '--codex', 'unavailable'], {

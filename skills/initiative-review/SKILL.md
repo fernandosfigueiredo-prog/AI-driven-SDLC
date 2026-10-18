@@ -4,7 +4,7 @@ description: Revisão estratégica, somente leitura, de uma iniciativa ou projet
 argument-hint: "[caminho ou escopo da iniciativa]"
 context: fork
 agent: sdlc:initiative-reviewer
-allowed-tools: Bash(cat:*)
+allowed-tools: Bash(cat:*), Read(${CLAUDE_PLUGIN_ROOT}/**)
 ---
 
 Escopo da revisão: $ARGUMENTS (vazio: o repositório atual inteiro).

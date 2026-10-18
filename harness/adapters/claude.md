@@ -34,6 +34,10 @@ O framework é distribuído como o plugin **`sdlc`**. Este repositório é ao me
 - Não troque o modelo nem o esforço da conversa principal no meio do trabalho: o cache de prompt é por modelo e esforço. Roteie para baixo com subagentes e recomende `/model` ao iniciar uma etapa longa.
 - No Define de L2/L3, declare em uma linha: nível, modelo da sessão e se corresponde à recomendação do roteamento. É informação, não gate.
 
+## Permissões da pasta do plugin
+
+As inclusões `` !`cat` `` só leem arquivos dos diretórios permitidos na sessão, e o plugin instalado fica fora do projeto. Por isso cada skill concede a si mesma `Read(${CLAUDE_PLUGIN_ROOT}/**)` em `allowed-tools`, enquanto está ativa. Subagentes não herdam essa concessão: o EM envia o texto dos contratos (guardrails, procedimento de review) no prompt do subagente, não o caminho. Fora de uma skill, ler um contrato da pasta do plugin pode pedir permissão; "permitir sempre" resolve.
+
 ## Requisitos
 
 - Hooks e as inclusões `` !`cat` `` usam bash. No Windows, exige Git for Windows (Git Bash). Sem bash, o hook falha sem bloquear a sessão; peça ao agente para ler `harness/roles/em-buddy.md` da raiz do plugin.

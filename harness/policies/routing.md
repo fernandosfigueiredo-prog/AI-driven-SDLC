@@ -29,7 +29,7 @@ A saída inclui `reasons`: registre o motivo em uma linha quando despachar.
 ## Modo de execução
 
 - **inline** — na conversa principal: Discovery (exige interação), refinamento, relatórios.
-- **subagent** — contexto novo: build de tarefa bem especificada em tier abaixo do modelo da sessão (economiza consumo), tarefas paralelas independentes, review independente.
+- **subagent** — contexto novo: build de tarefa média ou grande, bem especificada, em tier abaixo do modelo da sessão (economiza consumo); tarefas paralelas independentes; review independente. Tarefa pequena fica inline: o subagente começa sem cache e a carga de contexto supera a economia.
 - **fork** — Initiative Review: leitura extensa em contexto isolado, somente leitura.
 
 Não troque o modelo nem o esforço da conversa principal no meio do trabalho: o cache de prompt é por modelo e por esforço, e a troca relê todo o histórico sem cache. Roteie para baixo despachando subagentes; para cima, recomende `/model` ao iniciar uma etapa longa (por exemplo, antes de uma entrevista de Discovery numa sessão em sonnet).
@@ -43,7 +43,7 @@ Não troque o modelo nem o esforço da conversa principal no meio do trabalho: o
 ## Uso
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/scripts/route.mjs" --role build --risk L1 --complexity low --session opus --brief
+node "${CLAUDE_PLUGIN_ROOT}/scripts/route.mjs" --role build --risk L1 --complexity medium --session opus --brief
 # proceed · balanced → sonnet/high · subagent (sdlc:engineer) · harness claude
 ```
 

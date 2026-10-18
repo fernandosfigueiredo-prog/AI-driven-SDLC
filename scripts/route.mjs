@@ -213,6 +213,11 @@ function resolveMode(role, request, ladder, tier, independent, reasons) {
   }
   const sessionRank = request.session ? ladder.sessionRank(request.session) : undefined;
   if (sessionRank !== undefined && ladder.rank(tier) < sessionRank) {
+    // Subagente começa sem cache: numa tarefa pequena, carregar o contexto custa mais do que o tier economiza.
+    if (request.complexity === 'low') {
+      reasons.push('tarefa pequena: inline, a sobrecarga de um subagente supera a economia de tier');
+      return { mode: 'inline' };
+    }
     reasons.push(`tier ${tier} abaixo do modelo da sessão (${request.session}): subagente economiza consumo`);
     return { mode: 'subagent', agent: role.agent };
   }
