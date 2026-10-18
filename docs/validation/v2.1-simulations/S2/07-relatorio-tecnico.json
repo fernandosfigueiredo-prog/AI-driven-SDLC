@@ -1,0 +1,34 @@
+{
+  "step": "relatório técnico",
+  "acceptance": [
+    10
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 7,
+  "costUsd": 0.12131379999999992,
+  "durationMs": 34156,
+  "checks": [
+    {
+      "name": "abre com tag",
+      "pass": true,
+      "detail": "**[EM]**\n\n[ATENÇÃO] **Conciliação de pedidos com o extrato bancário: implementada e testada na branch local, mas com um bug P2 aberto no pareamento.** O endpoin"
+    },
+    {
+      "name": "tem TL;DR",
+      "pass": true
+    },
+    {
+      "name": "declara estado de entrega",
+      "pass": true
+    },
+    {
+      "name": "cita testes executados",
+      "pass": true
+    },
+    {
+      "name": "cita arquivos",
+      "pass": true
+    }
+  ]
+}

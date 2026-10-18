@@ -1,0 +1,1 @@
+/sdlc:discover Quero que o financeiro consiga conciliar os pedidos do mês com o extrato do banco e ver o que não bate.

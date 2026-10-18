@@ -1,0 +1,44 @@
+{
+  "step": "corrige a saudação",
+  "acceptance": [
+    1
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 10,
+  "costUsd": 0.0871262,
+  "durationMs": 23599,
+  "checks": [
+    {
+      "name": "testes da fixture passam",
+      "pass": true
+    },
+    {
+      "name": "saudação corrigida",
+      "pass": true
+    },
+    {
+      "name": "sem spec nem state",
+      "pass": true
+    },
+    {
+      "name": "só src/greeting.js mudou",
+      "pass": true,
+      "detail": "src/greeting.js"
+    },
+    {
+      "name": "relatório abre com tag",
+      "pass": true,
+      "detail": "[OK] Corrigi a saudação em `src/greeting.js:2`: de \"Helo\" para \"Hello, ${name}!\". O teste `test/greeting.test.js` passa (1 de 1).\n\nDepois do primeiro ajuste, o "
+    },
+    {
+      "name": "verificou com teste e relatou a evidência",
+      "pass": true
+    },
+    {
+      "name": "relatório curto (≤ 25 linhas)",
+      "pass": true,
+      "detail": "5 linhas"
+    }
+  ]
+}

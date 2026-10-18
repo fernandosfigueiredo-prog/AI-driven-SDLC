@@ -1,0 +1,44 @@
+{
+  "step": "aprova e deixa seguir",
+  "acceptance": [
+    5,
+    6,
+    7
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 41,
+  "costUsd": 0.5368399000000003,
+  "durationMs": 165794,
+  "checks": [
+    {
+      "name": "spec aprovada com data",
+      "pass": true,
+      "detail": "---\nstatus: approved\nlevel: L2\nmaturity: POC\napproved_by: humano (chat)\napproved_at: 2026-10-18\n---\n\n# Conciliação de pedidos do mês com o extrato bancário\n\n## "
+    },
+    {
+      "name": "plano com tarefas completas",
+      "pass": true
+    },
+    {
+      "name": "código implementado",
+      "pass": true
+    },
+    {
+      "name": "testes da fixture passam",
+      "pass": true
+    },
+    {
+      "name": "commits feitos",
+      "pass": true
+    },
+    {
+      "name": "sem pausa artificial",
+      "pass": true
+    },
+    {
+      "name": "não fez deploy",
+      "pass": true
+    }
+  ]
+}

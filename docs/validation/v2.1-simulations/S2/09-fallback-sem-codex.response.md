@@ -1,0 +1,2 @@
+Eu usaria o Claude, porque o Codex está indisponível (`SDLC_CODEX=unavailable`). O mecanismo seria o subagente `sdlc:reviewer`, somente leitura, com contexto novo, e eu o despacharia pela skill `sdlc:review`.
+Ele receberia spec, plano, base e diff, rodaria os checks e devolveria achados P0–P3, calibrados para POC. Antes de despachar eu consultaria `route.mjs` para escolher o modelo. Depois eu conferiria diff e evidências, porque o subagente não certifica a própria conclusão.

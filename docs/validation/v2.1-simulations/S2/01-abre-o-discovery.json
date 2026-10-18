@@ -1,0 +1,30 @@
+{
+  "step": "abre o Discovery",
+  "acceptance": [
+    2
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 10,
+  "costUsd": 0.1377215,
+  "durationMs": 32098,
+  "checks": [
+    {
+      "name": "fala como [Discovery]",
+      "pass": true
+    },
+    {
+      "name": "faz perguntas",
+      "pass": true
+    },
+    {
+      "name": "rascunho da spec em draft",
+      "pass": true,
+      "detail": "draft"
+    },
+    {
+      "name": "nenhum código alterado",
+      "pass": true
+    }
+  ]
+}

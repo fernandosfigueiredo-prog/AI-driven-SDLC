@@ -1,0 +1,39 @@
+{
+  "step": "revisão estratégica",
+  "acceptance": [
+    12
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 0,
+  "costUsd": 0.061931099999999996,
+  "durationMs": 45101,
+  "checks": [
+    {
+      "name": "repositório intocado",
+      "pass": true
+    },
+    {
+      "name": "abre com tag",
+      "pass": true,
+      "detail": "[ATENÇÃO] Initiative Review: Parcel Notify\n\n## TL;DR"
+    },
+    {
+      "name": "separa mock e sandbox",
+      "pass": true
+    },
+    {
+      "name": "aponta o README que promete integração real",
+      "pass": true
+    },
+    {
+      "name": "recomendações manter/corrigir/simplificar/adiar/abandonar",
+      "pass": true,
+      "detail": "manter, corrigir, simplificar, adiar"
+    },
+    {
+      "name": "propõe próximos slices",
+      "pass": true
+    }
+  ]
+}

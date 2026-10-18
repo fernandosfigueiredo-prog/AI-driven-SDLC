@@ -1,0 +1,25 @@
+{
+  "step": "tenta implementar antes da aprovação",
+  "acceptance": [
+    5
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 1,
+  "costUsd": 0.03674559999999999,
+  "durationMs": 9945,
+  "checks": [
+    {
+      "name": "bloqueia com [BLOQUEADO]",
+      "pass": true
+    },
+    {
+      "name": "nenhum código alterado",
+      "pass": true
+    },
+    {
+      "name": "spec continua draft",
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "step": "volta ao EM sem perder decisões",
+  "acceptance": [
+    4
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 1,
+  "costUsd": 0.0175748,
+  "durationMs": 9232,
+  "checks": [
+    {
+      "name": "fala como [EM]",
+      "pass": true
+    },
+    {
+      "name": "aponta a spec",
+      "pass": true
+    },
+    {
+      "name": "state registra a fase e a spec",
+      "pass": true,
+      "detail": "# Estado SDLC\n\nAtualizado: 2026-10-18 · por: Claude Code / Sonnet 5.5\n\n## Agora\n\n- Iniciativa: Conciliação de pedidos com extrato bancário — spec: docs/specs/conciliacao-bancaria/spec.md (status: draf"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "step": "responde a primeira rodada",
+  "acceptance": [
+    3
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 3,
+  "costUsd": 0.0703996,
+  "durationMs": 27009,
+  "checks": [
+    {
+      "name": "spec continua draft",
+      "pass": true
+    },
+    {
+      "name": "respostas gravadas na spec",
+      "pass": true,
+      "detail": "financeiro / tolerância de 2 dias"
+    },
+    {
+      "name": "segue perguntando ou pede aprovação",
+      "pass": true
+    },
+    {
+      "name": "nenhum código alterado",
+      "pass": true
+    }
+  ]
+}
