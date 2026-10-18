@@ -54,7 +54,7 @@ def validate(root=ROOT):
         fm, issues = frontmatter(path); errors += issues
         if fm.get("name") != name or not fm.get("description"):
             errors.append("skill metadata incorrect: " + name)
-        if name == "discover" and "context: fork" in path.read_text(encoding="utf-8"):
+        if name == "discover" and fm.get("context") == "fork":
             errors.append("interactive Discovery must not fork")
     for name in AGENTS:
         path = root / "agents" / (name + ".md")
