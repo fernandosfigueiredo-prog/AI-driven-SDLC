@@ -1,0 +1,1 @@
+/ai-driven-sdlc:discover Quero um módulo financeiro completo para o time financeiro: conciliar os pedidos do mês com o extrato do banco, gerar um relatório mensal de divergências e avisar quando uma divergência passar de um valor limite.

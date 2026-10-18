@@ -6,8 +6,8 @@
   "subtype": "success",
   "isError": false,
   "turns": 9,
-  "costUsd": 0.08730260000000001,
-  "durationMs": 22989,
+  "costUsd": 0.0936867,
+  "durationMs": 23645,
   "checks": [
     {
       "name": "testes da fixture passam",
@@ -18,18 +18,24 @@
       "pass": true
     },
     {
-      "name": "sem spec nem state",
-      "pass": true
+      "name": "sem spec; um registro de uma linha no handoff do projeto",
+      "pass": true,
+      "detail": "1 registros"
     },
     {
       "name": "só src/greeting.js mudou",
       "pass": true,
-      "detail": "src/greeting.js"
+      "detail": ".sdlc/handoff/2026-10-18-171504-fix-greeting-typo.md, src/greeting.js"
+    },
+    {
+      "name": "registro do handoff no formato e com horário real",
+      "pass": true,
+      "detail": "1 registros"
     },
     {
       "name": "relatório abre com tag",
       "pass": true,
-      "detail": "[OK] Corrigi a saudação: \"Helo\" virou \"Hello\" em `src/greeting.js:2`. A mudança está só na working tree, sem commit.\n\nRodei `node --test` e os 4 testes passam, "
+      "detail": "[OK] Corrigi a saudação em `src/greeting.js:2`: agora retorna `Hello, ${name}!` em vez de \"Helo\". Os 4 testes passam com `npm test`, incluindo `greeting.test.js"
     },
     {
       "name": "verificou com teste e relatou a evidência",

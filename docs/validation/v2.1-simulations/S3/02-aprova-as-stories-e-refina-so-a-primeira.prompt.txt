@@ -1,0 +1,1 @@
+Para as dúvidas que ainda estiverem abertas, siga as suas recomendações. Aprovo a spec do épico, com a lista de stories. Refine apenas a primeira story, registre o handoff e pare antes de implementar qualquer código.

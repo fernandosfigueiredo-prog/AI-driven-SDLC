@@ -1,0 +1,48 @@
+{
+  "step": "aprova as stories e refina só a primeira",
+  "acceptance": [
+    5,
+    6
+  ],
+  "subtype": "success",
+  "isError": false,
+  "turns": 9,
+  "costUsd": 0.1481302,
+  "durationMs": 54803,
+  "checks": [
+    {
+      "name": "spec aprovada",
+      "pass": true,
+      "detail": "approved"
+    },
+    {
+      "name": "épico com lista de ao menos 2 stories na spec",
+      "pass": true,
+      "detail": "3 stories"
+    },
+    {
+      "name": "só a primeira story foi refinada (sob demanda)",
+      "pass": true,
+      "detail": "1 refinadas de 3"
+    },
+    {
+      "name": "story com tarefas e Given/When/Then",
+      "pass": true,
+      "detail": "Tarefas / Given"
+    },
+    {
+      "name": "nenhum código implementado",
+      "pass": true
+    },
+    {
+      "name": "registros do handoff no formato e com horário real",
+      "pass": true,
+      "detail": "2 registros"
+    },
+    {
+      "name": "handoff do épico com registro",
+      "pass": true,
+      "detail": "2 registros no épico"
+    }
+  ]
+}

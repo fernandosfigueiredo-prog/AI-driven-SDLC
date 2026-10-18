@@ -6,8 +6,8 @@
   "subtype": "success",
   "isError": false,
   "turns": 0,
-  "costUsd": 0.07811009999999999,
-  "durationMs": 48948,
+  "costUsd": 0.0731561,
+  "durationMs": 36373,
   "checks": [
     {
       "name": "repositório intocado",

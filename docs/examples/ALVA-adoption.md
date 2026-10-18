@@ -20,7 +20,7 @@ Depois, abra uma conversa nova e use, em ordem de risco crescente: `/ai-driven-s
 | Assunto | V0 copiada no projeto | v2.1 (plugin) |
 | --- | --- | --- |
 | Tag de severidade | `[CRÍTICO]` | `[BLOQUEADO]` |
-| Handoff | arquivo que só cresce | `.sdlc/state.md`, retrato atual |
+| Handoff | arquivo único que só cresce e é lido inteiro | livro append-only em arquivos pequenos; só os últimos registros são lidos |
 | Orçamento | limite aprovado antes de cada tarefa | no plano, dentro da aprovação da spec |
 
 A sessão pode misturar os dois vocabulários. É a sobreposição de duas versões, não falha do plugin.
@@ -29,7 +29,7 @@ A sessão pode misturar os dois vocabulários. É a sobreposição de duas vers�
 
 1. Substituir o `AGENTS.md` e o `harness/` copiados pelos da v2.1 (ou apontar para eles com `scripts/export-contracts.sh`), preservando as regras específicas do produto.
 2. Manter no `CLAUDE.md` do projeto só a entrada que aponta para `AGENTS.md`; as regras ficam no plugin.
-3. Migrar o histórico do handoff antigo para o git e iniciar `.sdlc/state.md` na primeira iniciativa L2+.
+3. Congelar o handoff antigo como histórico e iniciar o novo livro de registros em `.sdlc/handoff/` (ou `docs/specs/<épico>/handoff/`) com um primeiro registro do estado atual.
 4. Registrar em `.sdlc/project.md` a maturidade (POC), o modo GitHub e as autorizações.
 
 Nada disso foi aplicado por este repositório.

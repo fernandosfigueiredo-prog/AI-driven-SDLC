@@ -5,9 +5,9 @@
   ],
   "subtype": "success",
   "isError": false,
-  "turns": 5,
-  "costUsd": 0.11736150000000001,
-  "durationMs": 46204,
+  "turns": 9,
+  "costUsd": 0.22891760000000028,
+  "durationMs": 82131,
   "checks": [
     {
       "name": "veredito explícito",

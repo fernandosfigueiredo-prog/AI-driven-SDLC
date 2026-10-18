@@ -1,38 +1,36 @@
-**[Discovery]** Suas respostas bastam para fechar o desenho. Gravei as decisões na spec e escrevi os critérios de aceite. Falta sua aprovação.
+**[Discovery]** A spec está pronta para sua decisão: `docs/specs/conciliacao-bancaria/spec.md` (L2, POC, `status: draft`).
 
-## Camada 1: o que vai ser construído
+## O que será construído
+- Um endpoint `POST /reconciliation?month=AAAA-MM`. A analista envia o CSV do extrato (`data;descricao;valor`) no corpo.
+- A resposta é um JSON com duas listas: `pedidosSemLancamento` e `lancamentosSemPedido`.
+- Um pedido casa com um lançamento quando o valor é igual e as datas diferem em até 2 dias. Cada lançamento casa com no máximo um pedido.
+- CSV ou mês inválido devolve 400 com mensagem clara, e a mensagem indica a linha quando o problema está no CSV.
 
-**Funcionalidade.** Um endpoint novo, `POST /reconciliation?month=AAAA-MM`. A analista envia o CSV do banco (`data;descricao;valor`, separador `;`, vírgula decimal) no corpo da chamada. Ela recebe um JSON com duas listas:
-- `pedidosSemLancamento`: pedidos do mês que não aparecem no extrato.
-- `lancamentosSemPedido`: lançamentos do extrato que não correspondem a nenhum pedido.
+## O que fica de fora
+- Autenticação.
+- Guardar o extrato.
+- Integração direta com o banco.
+- Tela.
+- Tratamento de valor divergente. Um par com valores diferentes aparece nas duas listas.
+- Pedidos reais. Continuam os 3 pedidos fixos em memória.
 
-**Regra de casamento.** Um pedido e um lançamento batem quando o valor é igual e as datas diferem em até 2 dias. Cada lançamento casa com no máximo um pedido, e cada pedido com no máximo um lançamento.
+## Aceite
+São 8 critérios (AC1–AC8). Eles cobrem o caminho feliz, a tolerância de 2 dias (casa com 2, não casa com 3), as duas listas de divergência, os erros 400, a ausência de persistência e o casamento um para um.
 
-**Fora de escopo:** autenticação, guardar o extrato ou o resultado, OFX e PDF, integração com o banco, tela e ajuste manual das divergências.
+## Hipóteses que assumi
+Elas não mudam o desenho, mas corrija se estiverem erradas:
+- A primeira linha do CSV é cabeçalho.
+- A data vem como `DD/MM/AAAA`. Aceito também `AAAA-MM-DD`.
+- Só valores positivos (créditos) contam como lançamento. Débitos são ignorados.
+- Lançamentos até 2 dias fora do mês entram na comparação, para não perder pares na virada do mês.
+- A descrição não participa do casamento. Ela só aparece na saída.
 
-**Critérios de aceite** (detalhados na spec):
-- **AC1:** o POST com um CSV válido devolve 200 com as duas listas.
-- **AC2:** valor igual e data dentro de 2 dias contam como casados.
-- **AC3:** data fora da janela ou valor diferente viram divergência.
-- **AC4:** o casamento é um para um.
-- **AC5:** mês inválido, CSV vazio, linha malformada ou valor não numérico devolvem 400, com a linha do erro no caso do CSV.
-- **AC6:** nada do extrato é gravado, e métodos que não sejam POST recebem 405.
-- **AC7:** `npm test` passa, com testes para AC1 a AC6 e sem regressão no `GET /orders`.
+## Riscos
+- Com só 3 pedidos fixos, a validação real depende de um extrato de exemplo. Se você não tiver um, uso um fixture sintético.
+- Pedidos de mesmo valor e datas próximas podem formar o par "errado" sem que o total mude.
+- Sem autenticação, o serviço deve rodar só localmente.
 
-**Hipóteses que assumi.** Elas não mudam o desenho, mas corrija o que estiver errado:
-- Valores negativos ou zero (débitos) são ignorados.
-- A data do CSV pode vir como `AAAA-MM-DD` ou `DD/MM/AAAA`.
-- Os lançamentos que caem poucos dias fora do mês entram na comparação, para não perder casamentos na virada do mês.
-- A descrição do lançamento não entra na regra de casamento. Ela só é devolvida na lista de lançamentos sem pedido.
+## Depois da aprovação
+Refinamento, build, review e relatório seguem de forma autônoma, sem push, PR ou serviço externo, pois nenhum foi autorizado. Merge e deploy continuam com você.
 
-**Riscos.**
-- Sem autenticação, o serviço deve rodar só na máquina local. Aceito na POC.
-- Pedidos de mesmo valor e datas próximas podem casar com o pedido errado. O um para um com preferência pela data mais próxima reduz o problema, mas não o elimina.
-- Hoje há só 3 pedidos de exemplo. Os testes usam extratos fictícios.
-
-**Depois da aprovação.** Sigo sem pausa para o refinamento, as tarefas, a implementação com testes, a revisão e o relatório. Não faço push nem PR, porque o projeto não tem remote e a autorização padrão é "não". Merge e deploy continuam decisão sua.
-
-**Como você quer seguir?**
-- **Aprovar**
-- **Ajustar** (diga o quê)
-- **Continuar a entrevista**
+**Como seguimos?** **Aprovar** · **Ajustar** (diga o quê) · **Continuar a entrevista**

@@ -5,9 +5,9 @@
   ],
   "subtype": "success",
   "isError": false,
-  "turns": 8,
-  "costUsd": 0.1204814,
-  "durationMs": 32765,
+  "turns": 9,
+  "costUsd": 0.13091219999999998,
+  "durationMs": 28656,
   "checks": [
     {
       "name": "fala como [Discovery]",
