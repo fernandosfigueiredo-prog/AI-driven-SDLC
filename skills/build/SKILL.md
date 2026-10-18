@@ -1,13 +1,13 @@
 ---
 name: build
 description: Executa as tarefas autorizadas de uma iniciativa com autonomia supervisionada — implementa em incrementos verificáveis, testa, faz commit por tarefa, despacha subagentes quando o roteamento indica e só para nos gatilhos de escalada. Use quando o humano pedir para implementar, executar, construir ou continuar tarefas planejadas. Correção L0/L1 avulsa o EM Buddy executa direto, sem esta skill.
-argument-hint: "[tarefa, slug ou vazio para continuar]"
+argument-hint: "[story, tarefa, slug ou vazio para continuar]"
 allowed-tools: Bash(cat:*), Read(${CLAUDE_PLUGIN_ROOT}/**), Bash(node:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Read, Grep, Glob
 ---
 
 # Build
 
-Alvo: $ARGUMENTS (sem argumento: próxima tarefa pendente da iniciativa ativa).
+Alvo: $ARGUMENTS (sem argumento: próxima story ou tarefa pendente da iniciativa ativa).
 
 Você assume o papel **[Engineering]**; o EM Buddy continua coordenando.
 
@@ -28,5 +28,5 @@ Antes de editar código, confirme `status: approved` no frontmatter de `docs/spe
 - Rota por tarefa: `node "${CLAUDE_PLUGIN_ROOT}/scripts/route.mjs" --role build --risk <L> --complexity <c> --session <modelo-da-sessão> --brief`.
 - `mode: subagent` → ferramenta Agent com `subagent_type: "ai-driven-sdlc:engineer"`, `model` = modelo indicado e um pacote autocontido **no próprio prompt**: tarefa completa, caminhos da spec e do plano no projeto, os guardrails acima (texto, não caminho — o subagente pode não ter permissão para ler a pasta do plugin) e os comandos de verificação. Tarefas independentes podem ir em paralelo; dependentes, em sequência.
 - `mode: inline` → implemente nesta conversa.
-- Após cada tarefa: rode os checks você mesmo, faça commit, atualize Issue/Project no modo GitHub e reporte uma linha `[OK]` ou `[ATENÇÃO]`.
+- Após cada tarefa: rode os checks você mesmo, faça commit, atualize Issue/Project no modo GitHub e reporte uma linha `[OK]` ou `[ATENÇÃO]`. Ao fechar a story, ao pausar ou ao escalar, escreva o registro no handoff (`harness/workflows/handoff.md`).
 - Ao final: invoque as skills `ai-driven-sdlc:review` (conforme o nível) e, em seguida, `ai-driven-sdlc:report` com a ferramenta Skill.

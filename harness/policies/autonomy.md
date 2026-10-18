@@ -55,4 +55,4 @@ Trabalho independente da decisão continua; somente o trabalho afetado para.
 
 ## Registro
 
-A decisão humana é persistida onde ela governa o trabalho: na spec (decisões de produto), no plano ou ADR (decisões técnicas) ou em `.sdlc/state.md` (decisões operacionais em aberto). O chat não é fonte de verdade.
+A decisão humana é persistida onde ela governa o trabalho: na spec (decisões de produto), no plano ou ADR (decisões técnicas) ou no último registro do handoff (decisões operacionais em aberto). O chat não é fonte de verdade.
