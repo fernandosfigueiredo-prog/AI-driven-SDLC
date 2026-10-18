@@ -1,14 +1,44 @@
 # Adaptador operacional — Claude Code
 
-- Entrada específica: CLAUDE.md aponta para AGENTS.md e START.md.
-- Em L2/L3, use Plan Mode para a fase Plan (ver [planning](../workflows/planning.md)): é o mecanismo deste runtime para produzir o plano e obter aprovação antes de Execute. Só pule quando Define já produziu um plano trivial e inequívoco.
-- Em L0/L1, não force Plan Mode ou documentação formal para trabalho simples e autorizado.
-- No Define de L2/L3, declare brevemente: nível classificado, modelo/esforço desta sessão e se correspondem à expectativa do nível (quando souber qual é). É autodeclaração para o responsável decidir, não um gate técnico — nada bloqueia a execução caso não correspondam.
-- Persistir artefatos compartilhados somente quando o nível ou a continuidade justificarem.
-- TaskCreate/TaskUpdate podem auxiliar execução, mas não são requisito.
-- Não presuma hooks, perfis ou limites técnicos que não estejam instalados.
-- Não altere `.claude/settings.json` ou controles para fazer uma tarefa passar.
-- Subagentes são opcionais; não simule uma organização de agentes quando uma sessão é suficiente.
-- Em handoff, siga o workflow compartilhado e preserve tarefa, evidências e orçamento.
+O framework é distribuído como o plugin **`sdlc`**. Este repositório é ao mesmo tempo o plugin e o marketplace ([USAGE](../../docs/USAGE.md) explica a instalação).
 
-A classificação L0–L3 define o rigor; a marca do runtime não define o papel.
+## Mecanismos reais
+
+| Mecanismo | O que faz | Onde |
+| --- | --- | --- |
+| Hook `SessionStart` | injeta o contrato do EM Buddy, o retrato de `.sdlc/state.md` e a disponibilidade do Codex em startup, resume, `/clear` e compactação | `hooks/hooks.json`, `hooks/session-start.sh` |
+| Skills | `/sdlc:discover`, `/sdlc:plan`, `/sdlc:build`, `/sdlc:review`, `/sdlc:initiative-review`, `/sdlc:status`, `/sdlc:report`; também acionadas por linguagem natural pela descrição | `skills/` |
+| Inclusão de contrato | cada skill inclui o fluxo canônico no momento da invocação (`` !`cat …` ``), sem copiar texto | `skills/*/SKILL.md` |
+| Subagentes | `sdlc:engineer` (build), `sdlc:reviewer` (review independente, sem Edit/Write), `sdlc:initiative-reviewer` (fork da Initiative Review, sem Edit/Write) | `agents/` |
+| Roteamento | `scripts/route.mjs` decide tier e modo; o modelo vai no parâmetro `model` da ferramenta Agent | `scripts/`, `config/` |
+
+## Nomes de comando
+
+`/plan` e `/status` são comandos nativos do Claude Code (Plan Mode; conta e modelo). Use `/sdlc:plan` e `/sdlc:status`, ou peça em linguagem natural ("planeja a spec aprovada", "onde estamos?"). Os demais também têm a forma `/sdlc:<nome>`.
+
+## Painel gráfico do VS Code
+
+- O Discovery roda na conversa principal: a entrevista acontece no próprio painel, em múltiplos turnos. Perguntas fechadas usam a ferramenta AskUserQuestion, exibida como formulário de opções.
+- Não dependa de interação com transcrições de subagentes; elas são somente leitura no painel.
+- Plan Mode é opcional. O gate de L2/L3 é a aprovação da spec (`status: approved`). Use Plan Mode quando quiser revisar um plano antes de qualquer escrita.
+
+## O que é enforcement e o que é orientação
+
+- **Imposto pelo runtime:** a lista de ferramentas dos subagentes de review (sem Edit/Write); o hook de sessão; a inclusão dos contratos nas skills.
+- **Checado pelo agente:** o gate de aprovação (o build lê o frontmatter da spec); o `git status` antes e depois da Initiative Review; o orçamento.
+- **Disponível e não configurado por padrão:** `maxTurns` e `permissionMode` no frontmatter de subagentes. O framework não fixa números; um projeto pode definir limites técnicos se quiser.
+- Nada no plugin altera `.claude/settings.json` ou permissões. Não altere controles para fazer uma tarefa passar.
+
+## Modelo e esforço
+
+- Não troque o modelo nem o esforço da conversa principal no meio do trabalho: o cache de prompt é por modelo e esforço. Roteie para baixo com subagentes e recomende `/model` ao iniciar uma etapa longa.
+- No Define de L2/L3, declare em uma linha: nível, modelo da sessão e se corresponde à recomendação do roteamento. É informação, não gate.
+
+## Requisitos
+
+- Hooks e as inclusões `` !`cat` `` usam bash. No Windows, exige Git for Windows (Git Bash). Sem bash, o hook falha sem bloquear a sessão; peça ao agente para ler `harness/roles/em-buddy.md` da raiz do plugin.
+- Node 20+ para `scripts/route.mjs`. Sem Node, aplique [routing](../policies/routing.md) manualmente.
+
+## Retomada
+
+O hook reinjeta o estado em resume e após compactação. `/sdlc:status` reconcilia o estado com git e GitHub. Procedimento completo em [handoff](../workflows/handoff.md).

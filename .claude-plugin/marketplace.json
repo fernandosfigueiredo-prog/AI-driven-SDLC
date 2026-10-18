@@ -1,0 +1,15 @@
+{
+  "name": "ai-driven-sdlc",
+  "description": "Marketplace do AI-driven SDLC: plugin sdlc com EM Buddy, Discovery interativo, refinamento, build, review e relatórios.",
+  "owner": {
+    "name": "Fernando Figueiredo"
+  },
+  "plugins": [
+    {
+      "name": "sdlc",
+      "source": "./",
+      "description": "AI-driven SDLC v2.1: EM Buddy, Discovery interativo, refinamento, build, review, initiative review e relatórios.",
+      "version": "2.1.0"
+    }
+  ]
+}
