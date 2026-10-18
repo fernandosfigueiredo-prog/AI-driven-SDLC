@@ -8,10 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: "3.12"
-      - name: Validate plugin and contracts (offline)
-        run: python scripts/validate_sdlc.py
-      - name: Test framework contracts
-        run: python -m unittest discover -s tests -v
+          node-version: "22"
+      - name: Contratos, roteamento e hook (offline, sem dependências)
+        run: npm test

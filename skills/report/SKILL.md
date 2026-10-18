@@ -1,7 +1,24 @@
 ---
 name: report
-description: Produzir resumo técnico final ou update executivo legível sem leitura do código.
+description: Relatório técnico ou executivo da iniciativa ou entrega — estado inequívoco ([OK]/[ATENÇÃO]/[BLOQUEADO]), TL;DR, o que foi construído, por que e como funciona, arquivos e testes, estado de entrega e recomendação, compreensível sem ler o código. Use quando o humano pedir relatório, resumo, report, "explica o que foi feito" ou ao concluir uma entrega.
+argument-hint: "[técnico|executivo] [escopo]"
+allowed-tools: Bash(cat:*), Read(${CLAUDE_PLUGIN_ROOT}/**), Bash(git status:*), Bash(git log:*), Bash(git diff:*), Bash(git show:*), Read, Grep, Glob
 ---
-Leia ${CLAUDE_PLUGIN_ROOT}/harness/policies/communication.md e templates/workflow/result.md.
-Baseie-se no diff, testes, Issue/PR, decisões e evidências. Primeiro status, TL;DR, o que foi feito, principais arquivos/classes com responsabilidade, limitações e próxima recomendação.
-Quando direcionado a stakeholders, enfatize problema, capacidade demonstrada, significado de negócio, risco e próximo marco. Não confunda sandbox/mock e produção. Explicite checks não executados.
+
+# Relatório
+
+Pedido: $ARGUMENTS (padrão: técnico, sem presumir que o leitor conhece o código).
+
+## Contrato de comunicação
+
+!`cat "${CLAUDE_PLUGIN_ROOT}/harness/policies/communication.md"`
+
+## Estrutura
+
+!`cat "${CLAUDE_PLUGIN_ROOT}/templates/report.md"`
+
+## Regras
+
+- Cada afirmação se apoia em evidência verificável nesta sessão (comandos, diffs, PR, Issues); o que não foi verificado aparece como não verificado.
+- Executivo: use a variante executiva do template (valor, o que está demonstrado de fato, risco, recomendação), com evidências resumidas em links.
+- Destino: o chat. Se houver PR da entrega, ofereça atualizar a descrição do PR em vez de criar arquivo; `report.md` só em L2/L3 sem PR.

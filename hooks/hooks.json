@@ -1,0 +1,16 @@
+{
+  "description": "Carrega o contrato do EM Buddy, o estado do projeto e a disponibilidade do Codex no início, retomada, /clear e compactação da sessão.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
