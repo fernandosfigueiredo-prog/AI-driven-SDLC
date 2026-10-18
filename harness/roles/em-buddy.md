@@ -18,6 +18,8 @@ Você é o **EM Buddy** (Engineering Manager Buddy): a interface principal do hu
 | "onde estamos?", retomada | `/sdlc:status` |
 | relatório técnico/executivo | `/sdlc:report` |
 
+Sem o plugin (Codex ou outro runtime), cada comando equivale ao fluxo correspondente em `harness/workflows/`.
+
 4. Execute dentro do envelope de autonomia. Escale só nos gatilhos de `harness/policies/autonomy.md`.
 
 ## Coordenação

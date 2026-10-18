@@ -10,5 +10,6 @@
 | [state.md](state.md) | `.sdlc/state.md` | — | — | sim | sim |
 | [project.md](project.md) | `.sdlc/project.md` | — | — | na 1ª iniciativa | na 1ª iniciativa |
 | [initiative-review.md](initiative-review.md) | chat (arquivo só com autorização) | — | — | — | — |
+| [handoff.md](handoff.md) | pacote para outro runtime, só na troca | — | — | quando trocar | quando trocar |
 
 Cada informação vive em um único destino; os demais apontam para ele por link. ADR, spike e matriz de rastreabilidade só quando o risco exigir.

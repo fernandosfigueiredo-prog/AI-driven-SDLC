@@ -1,29 +1,27 @@
-# Handoff
+# Continuidade e handoff
 
-Handoff existe para continuidade, não para gerar documentação periódica. É **append-only**: nenhuma rodada edita ou remove o que uma rodada anterior escreveu — só acrescenta. Para corrigir ou atualizar algo que já foi escrito, acrescente um bloco novo que diga isso; não reescreva o antigo.
+A continuidade vem de três fontes, nesta ordem: **git** (código e commits), **`.sdlc/state.md`** (retrato atual) e os **artefatos canônicos** (spec, plano, Issues, PR). O chat não é fonte de verdade.
 
-## Quando usar
+## Retrato do estado
 
-- troca Claude ↔ Codex ou outro executor;
-- cada rodada do ciclo autor↔revisor (AUT → REV → AUT → REV...) — é troca de sessão por definição (regra de independência em [verification](../policies/verification.md));
-- interrupção com WIP;
-- tarefa longa que precisa ser retomada.
+- `.sdlc/state.md` ([template](../../templates/state.md)) é reescrito nas transições de fase, ao abrir ou fechar uma decisão humana e antes de pausar — não a cada passo.
+- Contém só o necessário para retomar: iniciativa, fase, branch e HEAD, tarefa atual, próxima ação, decisões pendentes, orçamento da tarefa, atenções e links.
+- Não guarda histórico: ele está no git, nos PRs e nas Issues (e o próprio arquivo versionado tem histórico no git). Nunca copie a conversa nem registre segredos.
 
-## Cada rodada é um bloco acrescentado no final
+## Retomar (nova sessão, outra máquina, depois de compactação)
 
-Todo bloco começa com um cabeçalho curto (3-5 linhas), nessa ordem:
+1. Leia o state — no Claude Code o hook de sessão já o injeta — e a spec, o plano ou a Issue da tarefa atual.
+2. Reconcilie: branch e HEAD conferem? Há commits ou arquivos além do registrado? Issues ou PR mudaram?
+3. Divergência relevante: reporte `[ATENÇÃO]` com o que mudou e ajuste o state antes de editar.
+4. Continue pela próxima ação, com a mesma tentativa e o mesmo orçamento.
 
-- rodada/atividade, papel e veredito ou conclusão em 1 linha;
-- HEAD revisado/corrigido;
-- **Atenção humana**: use o mesmo vocabulário de severidade do Execute (ver [execution](execution.md)): `[OK]` quando não houver nada a notar; `[ATENÇÃO] <motivo em 1 linha>` para ponto a observar, não crítico; `[CRÍTICO] <motivo em 1 linha>` quando algo exigir que o humano pare e decida antes de continuar (risco crítico, achado que muda escopo, dado sensível, orçamento esgotado, gatilho de escalada — ver [budgets](../policies/budgets.md)).
-- próxima ação concreta.
+## Trocar de runtime (Claude ↔ Codex ou outro)
 
-Depois do cabeçalho, o detalhe da rodada: achados e riscos relevantes (uma linha de resumo antes do detalhe/repro, para quem lê conseguir escanear antes de entrar em evidência linha a linha), decisões e hipóteses ainda válidas, verificações executadas e resultados, abordagens que falharam quando evitam retrabalho, orçamento/tentativa restante.
+1. Deixe o state atualizado e o WIP commitado (ou descrito no state, quando não puder commitar).
+2. Gere o pacote de [handoff](../../templates/handoff.md): autocontido, com tarefa, critérios pendentes, comandos de verificação, decisões válidas, abordagens que falharam, orçamento restante e caminhos dos contratos.
+3. O runtime de destino segue a retomada acima. Handoff não renova orçamento nem reinicia tentativas.
+4. Sem runtime alternativo disponível, não há troca: a tarefa espera no state com a próxima ação clara.
 
-**Para saber o estado atual, leia o último bloco do arquivo** (o mais recente) — o cabeçalho dele já basta na maioria das vezes. Não é preciso ler o arquivo inteiro nem os blocos anteriores, só não editá-los.
+## Quando registrar
 
-Não copie o histórico da conversa. Não inclua segredos. O detalhe é proporcional ao risco — L2/L3 com achados concretos pode e deve ser detalhado.
-
-## Retomada
-
-Antes de editar, leia o cabeçalho do último bloco e o(s) arquivo(s) de contexto da tarefa (spec/plan da Issue). Reconcilie branch, diff e evidências. Handoff mantém a mesma tentativa e não renova orçamento.
+Somente com interrupção, troca de executor, WIP difícil de reconstruir ou marco de tarefa longa. L0/L1 normalmente não precisam de nada disso.
