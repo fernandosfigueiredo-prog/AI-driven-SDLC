@@ -1,23 +1,28 @@
-# Spec
+# Spec — título / versão / situação
 
-> Use principalmente em L2/L3. Em L1, registre apenas o necessário na tarefa ou Issue.
+## TL;DR
+Problema, hipótese e resultado observável.
 
-## Objective
-- Problema:
-- Resultado esperado:
+## Contexto e evidências
+- Usuário/cenário e motivo:
+- Fatos, fontes e hipóteses:
+- Valor de negócio e sinal de sucesso:
 
-## Scope
-- Incluído:
-- Fora de escopo:
+## Escopo
+- Incluído / fora do escopo:
+- Maturidade POC/MVP/produção:
+- Restrições e autorizações:
 
-## Acceptance criteria
-- [ ]
+## Critérios de aceite
+- Given ... When ... Then ...
+- Como demonstrar e medir:
 
-## Constraints
-- Técnicas:
-- Produto/negócio:
-- Autorizações:
+## Entrevista e decisões
+- Perguntas respondidas, opções, prós/contras:
+- Dependências, riscos e incertezas:
+- Pendências materiais:
 
-## Assumptions / open decisions
-- Hipóteses:
-- Decisões pendentes:
+## Aprovação humana
+- Identificador ou versão da spec:
+- Resposta explícita e decisor:
+- Escopo autorizado e data:

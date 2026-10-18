@@ -1,63 +1,25 @@
-# AI-driven SDLC — política comum
+# AI-driven SDLC v2.1 — contrato comum
 
-Leia [harness/START.md](harness/START.md) antes de iniciar trabalho relevante.
-
-## Objetivo
-
-Aplicar processo proporcional ao risco. O framework não exige um workflow completo para toda mudança.
+Princípio: menor processo que controla o risco, com evidência para declarar Done. Um humano lidera produto e engenharia e não precisa ler código para decidir.
 
 ## Regras
+1. Inspecione repositório, Issues, spec e evidências antes de supor fatos.
+2. Classifique risco L0–L3, maturidade POC/MVP/produção, complexidade S/M/L/XL e incerteza separadamente.
+3. Para feature nova/material: Discovery interativo no chat principal, spec versionada e aprovação explícita antes de implementar. Bug trivial não necessita entrevista.
+4. Uma spec aprovada autoriza refinamento, tasks, código, testes e correções locais sem aprovações redundantes. Escopo novo requer nova decisão.
+5. Escale apenas decisão material, custo externo, ação sensível, risco crítico, impasse real ou limite sem progresso; apresente contexto, opções, prós, contras e recomendação.
+6. Sem autorização específica: não fazer merge em main, deploy de produção, operações de pagamento real, exclusão destrutiva ou ações externas sensíveis.
+7. Nunca enfraquecer tests/asserts/mocks/guardrails ou mudar critério de aceite para obter verde. Não afirmar check não executado.
+8. Persistência seletiva: Git e Issues/PRs guardam histórico; checkpoints guardam somente estado necessário. Sem PR só de handoff.
+9. Uma Issue é fatia comportamental com contexto de negócio, contratos, dependências e regressões, não uma lista de classes.
+10. Comunicação conforme harness/policies/communication.md. Explicar comportamento e valor antes de nomes de arquivos.
+11. Handoff não reinicia orçamento nem delegação aprovada.
+12. Produto não altera o harness para se aprovar.
 
-1. Inspecione repositório, instruções e evidências antes de assumir fatos.
-2. Classifique a mudança como L0, L1, L2 ou L3 usando risco, impacto, incerteza e reversibilidade.
-3. Use somente as fases e artefatos necessários para o nível escolhido.
-4. Registre hipóteses materiais; investigue dúvidas técnicas antes de perguntar quando possível.
-5. Escale ao humano decisões materiais, autorização externa, mudança relevante de escopo, risco crítico ou orçamento esgotado.
-6. Não peça novamente uma autorização válida.
-7. Não expanda silenciosamente o escopo.
-8. Não enfraqueça testes, asserts, mocks, gates ou critérios de aceite para obter sucesso.
-9. Declare Done somente com as verificações aplicáveis executadas e evidências reais.
-10. Preserve contexto em checkpoint somente quando houver interrupção, handoff ou necessidade concreta de retomada.
-11. Handoff mantém a mesma tarefa, tentativa e orçamento.
-12. Uma tarefa de produto não altera controles do harness para se aprovar.
+## Governança
+L0: executar/verificar. L1: definir aceite mínimo/executar/verificar.
+L2: spec para feature, planejamento proporcional e verificações de contratos/consumidores; review por risco.
+L3: impacto, autorização material, segurança, regressão e revisão independente.
+Uma POC não precisa de infraestrutura de produção sem motivo, mas conserva guardrails de segurança financeira.
 
-## Níveis
-
-- **L0 Trivial:** Execute → Verify.
-- **L1 Standard:** Define → Execute → Verify.
-- **L2 Significant:** Define → Plan → Execute → Verify → Deliver.
-- **L3 Critical:** ciclo completo, análise de impacto, aprovação humana para decisões materiais e review independente.
-
-Se novos riscos surgirem, aumente o nível. Reduza cerimônia quando ela não acrescentar controle ou evidência.
-
-## Artefatos
-
-Use por necessidade:
-
-- `spec.md`: objetivo, escopo, aceite e restrições;
-- `plan.md`: abordagem, impactos, riscos, tarefas e verificação;
-- `result.md`: implementação, evidências, limitações e follow-ups;
-- checkpoint/handoff: apenas para continuidade;
-- ADR: apenas para decisão arquitetural relevante;
-- rastreabilidade formal: principalmente L3.
-
-## Responsabilidades
-
-- **Shape:** problema, escopo e aceite.
-- **Build:** solução e implementação.
-- **Verify:** comportamento, regressão e evidências.
-- **Orchestrate:** classificação, estado, routing, limites e handoff.
-
-Capabilities como arquitetura, planejamento, QA e análise de impacto são acionadas quando necessárias; não representam agentes permanentes.
-
-## Leitura
-
-- Roteamento: [START](harness/START.md)
-- Planejamento: [planning](harness/workflows/planning.md)
-- Execução: [execution](harness/workflows/execution.md)
-- Manutenção: [maintenance](harness/workflows/maintenance.md)
-- Handoff: [handoff](harness/workflows/handoff.md)
-- Verificação: [verification](harness/policies/verification.md)
-- Orçamento: [budgets](harness/policies/budgets.md)
-
-Arquivos Markdown orientam agentes; não equivalem a enforcement técnico.
+Entrada: harness/START.md. Carregue políticas e workflow **sob demanda**, não todos os arquivos em cada prompt.

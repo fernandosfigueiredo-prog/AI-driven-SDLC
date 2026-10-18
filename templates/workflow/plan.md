@@ -1,22 +1,23 @@
-# Plan
+# Plano técnico — spec aprovada
 
-> Obrigatório em L2/L3; opcional quando a execução for simples e previsível.
+## TL;DR
+Abordagem, valor e principal risco.
 
-## Approach
-- Solução proposta:
-- Alternativas relevantes:
+## Impacto
+- Componentes, contratos, invariantes:
+- Dependências bloqueantes e consumidores:
+- Regressão em contratos e integração:
+- Diagramas C4/sequence pertinentes (links):
 
-## Impact
-- Componentes/contratos afetados:
-- Riscos e regressões:
-- Migração/compatibilidade:
+## Fatias verticais
+| Fatia/Issue | Comportamento e aceite | Depende de | L0–L3 | S/M/L/XL | Esforço/incerteza | Harness/modelo |
+| --- | --- | --- | --- | --- | --- | --- |
+| ... | ... | ... | ... | ... | ... | ... |
 
-## Execution
-- Tarefas ou sequência:
-- Dependências:
-- Decisões humanas necessárias:
+## Verificação
+- Cenários positivos/negativos:
+- Revisão: opcional/recomendada/obrigatória
+- Condição observável de parada:
 
-## Verification
-- Critérios a demonstrar:
-- Checks/testes:
-- Review: optional | recommended | required
+## Escalonamentos
+- Trade-offs materiais e recomendação:
