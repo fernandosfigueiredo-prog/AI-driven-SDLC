@@ -23,6 +23,10 @@ L0/L1 não criam spec, plano nem Issue; deixam um registro de uma linha em `.sdl
 
 Trabalho que se divide em várias stories é um **épico** (uma spec aprovada com a lista de stories, refinadas perto da hora de construir). Feature de uma story só não precisa de épico.
 
+## Design Doc: decisão de arquitetura, não etapa obrigatória
+
+Em L2/L3, um **Design Doc é opcional** e só deve ser criado/atualizado para decisões arquiteturais materiais que atravessam componentes ou exigem análise de alternativas. Reutilize o existente antes de criar outro. O [template](../templates/design-doc.md) prioriza **objetivo, escopo e cenário observável antes da solução técnica**. Design Doc não substitui SPEC aprovada nem plano; não abre novo gate obrigatório.
+
 ## Maturidade do produto (independente do risco)
 
 | Maturidade | O que se exige além do funcional |
