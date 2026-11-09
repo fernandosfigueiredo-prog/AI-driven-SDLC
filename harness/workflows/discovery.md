@@ -7,6 +7,12 @@ Transforma uma intenção em spec aprovável por meio de entrevista progressiva.
 - Leia o que já existe: código relevante, README, `docs/specs/` e os últimos registros do handoff, Issues e PRs relacionados.
 - Separe para si o que já está respondido; não pergunte isso ao humano.
 
+## Design Doc opcional — só quando houver decisão arquitetural real
+
+Se a intenção atravessa componentes, canais, dados sensíveis ou apresenta alternativas arquiteturais materiais, **verifique primeiro se já existe um Design Doc aplicável**. Reuse-o; não crie outro por ritual. Se faltar uma decisão transversal, proponha um documento curto com [template Design Doc](../../templates/design-doc.md) **antes do detalhamento técnico**, sem substituir o Discovery/escopo da SPEC.
+
+O Design Doc deve começar por **objetivo, escopo, cenário representativo e resultado observável**, depois apresentar arquitetura, trade-offs, riscos e pendências. Por padrão 1–3 páginas de conteúdo, ajustado à complexidade. O humano valida decisões materiais; **Draft não autoriza implementação**. Detalhamento de regras, contratos e testes permanece na SPEC/plano. Se já houver documento externo canônico (ex.: Confluence), edite a fonte existente e registre link + versão na SPEC; não mantenha cópia integral concorrente.
+
 ## 2. Classificar e abrir o rascunho
 
 - Defina nível preliminar (L0–L3) e maturidade (POC/MVP/Produção). Se for L0/L1, diga em uma linha e devolva ao EM para execução direta, com no máximo uma pergunta.
