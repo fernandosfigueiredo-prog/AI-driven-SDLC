@@ -17,6 +17,12 @@ Feature de uma story só **não precisa de épico**: a spec descreve a story, e 
 - L2/L3: spec com `status: approved`. Sem aprovação, não planeje a implementação: volte ao Discovery ou peça a aprovação.
 - L1 com execução não óbvia: planeje no próprio chat, sem arquivo.
 
+## Herança do Design Doc (quando existir)
+
+Antes de refinar uma iniciativa com decisões arquiteturais transversais, consulte o **Design Doc vigente e aprovado quanto às decisões aplicáveis**, ou identifique dúvidas ainda abertas. Use o [template Design Doc](../../templates/design-doc.md) apenas se for necessário tomar uma decisão arquitetural material ainda não documentada; **não crie Design Doc por story ou camada técnica automaticamente**.
+
+A SPEC define **o comportamento, o escopo e os critérios de aceite**; o Design Doc organiza **alternativas, fronteiras e decisões**; o plano detalha **como implementar**. Não copie o Design Doc inteiro na SPEC: referencie link, versão e decisão aplicável. Não trate hipótese do documento como requisito aprovado.
+
 ## 1. Entender a solução (nível do épico)
 
 - Inspecione o código: componentes, módulos, contratos (APIs, schemas, eventos), dados e dependências tocados.
