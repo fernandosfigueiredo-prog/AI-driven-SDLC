@@ -39,6 +39,10 @@ Depois que o humano aprova a spec, refinamento, build, review e relatório segue
 
 Mais `/ai-driven-sdlc:initiative-review` (revisão estratégica somente leitura de uma iniciativa existente), `/ai-driven-sdlc:status` e `/ai-driven-sdlc:report`. Os comandos são atalhos: pedir em linguagem natural leva ao mesmo lugar. `/plan` e `/status` sem prefixo são comandos nativos do Claude Code.
 
+## Design Docs (quando necessários)
+
+O framework inclui um [template enxuto de Design Doc](templates/design-doc.md) para decisões de arquitetura relevantes. Ele começa por **resultado, escopo, cenário e critérios de sucesso**, depois trata componentes, trade-offs e riscos. **Não é obrigatório** para toda feature ou story e **não substitui** SPEC, plano nem aprovação humana. Quando existir documentação canônica externa, referencie e atualize a fonte original em vez de criar cópias divergentes.
+
 ## Comunicação
 
 Todo relatório abre com `[OK]`, `[ATENÇÃO]` ou `[BLOQUEADO]` e vem em três camadas: TL;DR, contexto e evidências. O texto distingue **implementado**, **testado**, **integrado** e **implantado**.
